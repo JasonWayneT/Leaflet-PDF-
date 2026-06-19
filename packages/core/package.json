@@ -5,5 +5,11 @@
   "main": "./src/index.ts",
   "scripts": {
     "build": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^3.0.85",
+    "@ai-sdk/google": "^3.0.83",
+    "ai": "^6.0.208",
+    "ollama-ai-provider-v2": "^3.6.0"
   }
 }

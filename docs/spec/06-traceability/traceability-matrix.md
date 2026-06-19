@@ -38,12 +38,12 @@
 | `SEC-001` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-005`, `TEST-021` | `TASK-020`, `CR-007`, `TASK-S21-01`, `TASK-S21-03`, `TASK-S21-04` | `key-store.ts` | implemented |
 | `SEC-002` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-005`, `TEST-021` | `TASK-020`, `CR-007`, `TASK-S21-02`-`TASK-S21-04` | `key-store.ts`, `settings-store.ts` | implemented |
 | `ARCH-001` | BMAD-SRC-003 §Decision 2 Addendum | `FEAT-007` | monorepo init, `VERIFY-BUG-002-01`, `VERIFY-BUG-002-02` | `CR-001`, `CR-004` | `packages/` root, `package.json`, `tsconfig.base.json`, `packages/electron-app/package.json`, `packages/electron-app/tsconfig.json` | implemented |
-| `ARCH-002` | BMAD-SRC-003 §Error Handling | all FEAT | all module tests | all TASK | all modules | accepted |
+| `ARCH-002` | BMAD-SRC-003 §Error Handling | all FEAT | `TEST-006`, all module tests | all TASK, `CR-008`, `TASK-S22-03` | all modules, `ai-client.ts` | accepted; AI client implemented |
 | `ARCH-003` | BMAD-SRC-003 §IPC Pattern | `FEAT-002` | `TEST-003`, `TEST-008` | `TASK-007`, `CR-005`, `TASK-S14-01`-`TASK-S14-04` | `ipc-bridge.ts`, `renderer/types/ipc.ts` | implemented |
 | `ARCH-004` | BMAD-SRC-003 §Types | all FEAT | `TEST-002`, all module tests | `CR-003`, `TASK-S13-01`-`TASK-S13-04` | `core/src/types/index.ts`, `core/src/index.ts` | implemented |
 | `ARCH-005` | BMAD-SRC-003 §Decision 2 | `FEAT-002` | `TEST-006` | `TASK-006`, `TASK-007` | `pipeline-orchestrator.ts`, `ipc-bridge.ts` | accepted |
 | `ARCH-006` | BMAD-SRC-003 §Test Placement | all FEAT | all module tests | all TASK | all `*.test.ts` files | accepted |
-| `INT-001` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-022`, `VERIFY-BUG-001-01` | `TASK-021`, `CR-004` | `ai-client.ts` + providers; Ollama adapter package is `ollama-ai-provider` | accepted |
+| `INT-001` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-006`, `TEST-022`, `VERIFY-BUG-001-01` | `TASK-021`, `CR-004`, `CR-008`, `TASK-S22-01`-`TASK-S22-04` | `ai-client.ts` + providers; Ollama adapter package is `ollama-ai-provider-v2` | implemented |
 | `INT-002` | BMAD-SRC-003 | `FEAT-001` | `TEST-003` | `TASK-003` | `intake.ts` (youtube-transcript) | accepted |
 | `INT-003` | BMAD-SRC-003 §Decision 4 | `FEAT-005` | `TEST-016`, `TEST-017` | `TASK-017` | `renderer.ts` (Playwright) | accepted |
 | `INT-004` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-005`, `TEST-021` | `TASK-020`, `CR-007`, `TASK-S21-02` | `key-store.ts`, `settings-store.ts` | implemented |

@@ -1,7 +1,7 @@
 # Bookit v2 — Session Handoff
 
 **Date:** 2026-06-19
-**Status:** Epic 1 complete; Epic 2 in progress — Story 2.1 complete, Story 2.2 next.
+**Status:** Epic 1 complete; Epic 2 in progress — Stories 2.1 and 2.2 complete, Story 2.3 next.
 
 ---
 
@@ -203,14 +203,26 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
 - Co-located compile tests: `key-store.test.ts`, `settings-store.test.ts`
 - Verified: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` passed; `npm run build --workspaces --if-present` passed; source greps confirmed storage boundary rules
 
-### Immediate: Story 2.2 — AI Client with Vercel AI SDK
+### Story 2.2 ✅ — AI Client with Vercel AI SDK
+**CR:** `docs/spec/05-change-requests/CR-008-ai-client.md`
+**What was built:**
+- `packages/core/src/services/ai-client/ai-client.ts` — shared `Result<T>` AI client
+- Provider adapters:
+  - `providers/anthropic.ts` using `@ai-sdk/anthropic`
+  - `providers/google.ts` using `@ai-sdk/google`
+  - `providers/ollama.ts` using `ollama-ai-provider-v2`
+- Co-located compile tests for client and all provider adapters
+- `@bookit/core` now owns AI SDK runtime dependencies and re-exports the AI client API
+- Verified: `npm run build --workspace=@bookit/core` passed; `npm run build --workspaces --if-present` passed; `rg -n "electron" packages\core` returned no matches; runtime npm audit reported zero vulnerabilities
 
-Next story is Story 2.2: shared AI client in `packages/core/src/services/ai-client/`.
+### Immediate: Story 2.3 — First-Launch Setup Wizard
 
-### Story 2.2 critical context
+Next story is Story 2.3: guided setup wizard on first launch.
 
-- Use `ollama-ai-provider`, not `@ai-sdk/ollama`.
-- Re-check `npm audit --omit=dev` for provider package status; current runtime audit shows two low-severity findings through `ollama-ai-provider` / `@ai-sdk/provider-utils` with no fix available.
+### Story 2.3 critical context
+
+- Use existing `key-store.ts`, `settings-store.ts`, and `aiClient.generateText()` surfaces.
+- Provider setup UI must not send API keys through `electron-store`.
 - AI client belongs in `packages/core/src/services/ai-client/` and must import nothing from Electron.
 
 ---

@@ -11,12 +11,8 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@bookit/core": "*",
     "@anthropic-ai/sdk": "^0.105.0",
-    "ai": "^6.0.0",
-    "@ai-sdk/anthropic": "^3.0.0",
-    "@ai-sdk/google": "^3.0.0",
-    "ollama-ai-provider": "^1.2.0",
+    "@bookit/core": "*",
     "electron-store": "^11.0.0",
     "keytar": "^7.9.0",
     "playwright": "^1.61.0",
