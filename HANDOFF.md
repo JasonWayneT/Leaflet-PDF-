@@ -1,7 +1,7 @@
 # Bookit v2 — Session Handoff
 
 **Date:** 2026-06-19
-**Status:** Epic 1 in progress — Stories 1.1 and 1.2 complete, Stories 1.3–1.5 pending.
+**Status:** Epic 1 in progress — Stories 1.1 through 1.4 complete, Story 1.5 pending.
 
 ---
 
@@ -53,7 +53,10 @@ bookit-v2/
 │   │   ├── package.json                ← name: @bookit/core
 │   │   ├── tsconfig.json               ← extends ../../tsconfig.base.json
 │   │   └── src/
-│   │       └── index.ts                ← placeholder (Story 1.3 will populate)
+│   │       ├── index.ts                ← re-exports shared types
+│   │       └── types/
+│   │           ├── index.ts            ← shared pipeline handoff contracts
+│   │           └── index.test.ts       ← compile-time type surface test
 │   ├── electron-app/
 │   │   ├── package.json                ← all forge + runtime deps installed
 │   │   ├── tsconfig.json               ← extends base + jsx: react-jsx + DOM lib
@@ -64,7 +67,11 @@ bookit-v2/
 │   │   └── src/
 │   │       ├── main/
 │   │       │   └── index.ts            ← BrowserWindow + app lifecycle
-│   │       ├── preload.ts              ← placeholder (Story 1.4 wires IPC)
+│   │       ├── preload.ts              ← placeholder for renderer bridge exposure
+│   │       ├── main/
+│   │       │   ├── index.ts            ← BrowserWindow + IPC bridge registration
+│   │       │   ├── ipc-bridge.ts       ← ONLY ipcMain import; Story 1.4 skeleton
+│   │       │   └── ipc-bridge.test.ts
 │   │       └── renderer/
 │   │           ├── index.html
 │   │           ├── index.tsx           ← React createRoot
@@ -146,6 +153,23 @@ bookit-v2/
 - `electron-store@11` is ESM-only — should be fine with Vite bundling, but verify when implementing `settings-store.ts`
 - `keytar` native module compilation — installed cleanly, verify with actual import in Story 2.1
 
+### Story 1.3 ✅ — Shared Type Definitions
+**CR:** `docs/spec/05-change-requests/CR-003-shared-type-definitions.md`
+**What was built:**
+- `packages/core/src/types/index.ts` with Story 1.3 shared pipeline handoff contracts
+- `packages/core/src/index.ts` re-exports all shared types from `@bookit/core`
+- `packages/core/src/types/index.test.ts` compile-time type surface check
+- Verified: `npm run build --workspace=@bookit/core` passed; no local redefinitions found outside canonical type file
+
+### Story 1.4 ✅ — IPC Type Definitions & Bridge Skeleton
+**CR:** `docs/spec/05-change-requests/CR-005-ipc-bridge-skeleton.md`
+**What was built:**
+- `packages/electron-app/src/renderer/types/ipc.ts` with `IPC_CHANNELS`
+- `packages/electron-app/src/main/ipc-bridge.ts` with guarded stub registration
+- `packages/electron-app/src/main/index.ts` now calls `registerIpcBridge()`
+- Compile-time IPC tests in `ipc.test.ts` and `ipc-bridge.test.ts`
+- Verified: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` passed; `npm run build --workspace=@bookit/electron-app` passed; source grep confirms only `ipc-bridge.ts` imports `ipcMain`
+
 ---
 
 ## BUG-001 — Critical Context Before Any AI Story
@@ -154,7 +178,7 @@ bookit-v2/
 **Reality:** that package does not exist on npm (404).
 **What was installed:** `ollama-ai-provider@1.2.0` (community Vercel AI SDK provider for Ollama)
 
-When implementing Story 2.2 (AI Client), the Ollama adapter must import from `ollama-ai-provider`, not `@ai-sdk/ollama`. Verify the adapter API is compatible with Vercel AI SDK's provider interface before implementing.
+Working spec-layer references now point to `ollama-ai-provider`; upstream BMAD docs still preserve the original `@ai-sdk/ollama` reference as historical input. When implementing Story 2.2 (AI Client), the Ollama adapter must import from `ollama-ai-provider`. Verify the adapter API is compatible with Vercel AI SDK's provider interface before implementing.
 
 Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
 
@@ -162,45 +186,7 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
 
 ## What's Next
 
-### Immediate: Story 1.3 — Shared Type Definitions
-
-**File:** `docs/epics-stories.md` → Story 1.3
-**Target file:** `packages/core/src/types/index.ts`
-**Also creates:** `packages/core/src/index.ts` (re-exports all types)
-
-The story defines every pipeline handoff contract type that all subsequent modules will import. These types must be defined EXACTLY as specified in Story 1.3 — do not rename, restructure, or interpret them.
-
-Types to define (verbatim from epics-stories.md):
-```typescript
-type SourceContent = { text: string; inputType: 'paste' | 'file' | 'youtube'; title?: string }
-type FactualClaim = { id: string; text: string }
-type FailedClaim = { claim: FactualClaim; reason: string }
-type TechniqueList = { always: AlwaysTechnique[]; conditional: ConditionalTechnique[] }
-type TransformedContent = { title: string; sections: ContentSection[]; techniqueAudit: TechniqueAuditRecord }
-type ContentSection = { type: SectionType; heading?: string; body: string }
-type TechniqueAuditRecord = { applied: string[]; skipped: string[]; conditionLog: Record<string, string> }
-type StageName = 'Extracting' | 'Transforming' | 'Validating' | 'Rendering'
-type PipelineError = { stage: StageName; cause: string; retryable: boolean }
-type Result<T> = { ok: true; value: T } | { ok: false; error: PipelineError }
-type TokenUsageEntry = { provider: string; model: string; in: number; out: number }
-type PipelineRunLog = { ... }
-type StyleName = 'orbital-light' | 'orbital-night'
-type StyleRegistryEntry = { specPath: string; templatePath: string }
-```
-
-Note: `AlwaysTechnique`, `ConditionalTechnique`, `SectionType` are implied by the above — define them as string literal unions based on the techniques/section types described in `docs/epics-stories.md`.
-
-**AC check before marking done:** `packages/electron-app` must import these types from `@bookit/core` — no local redefinitions anywhere. TypeScript must compile without errors.
-
-### After 1.3: Story 1.4 — IPC Type Definitions & Bridge Skeleton
-
-Creates:
-- `packages/electron-app/src/renderer/types/ipc.ts` — `IPC_CHANNELS` constants
-- `packages/electron-app/src/main/ipc-bridge.ts` — stub handlers (all return `undefined`)
-
-**Hard constraint:** `ipc-bridge.ts` must be the ONLY file in the entire project that imports `ipcMain` from `electron`. After creating it, grep the whole `packages/` tree to confirm no other file has that import.
-
-### After 1.4: Story 1.5 — GitHub Actions CI Build Workflow
+### Immediate: Story 1.5 — GitHub Actions CI Build Workflow
 
 Creates `.github/workflows/build.yml` — CI on push/PR, Node 20 LTS, `windows-latest`, fails on TypeScript errors.
 

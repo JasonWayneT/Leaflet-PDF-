@@ -39,7 +39,7 @@
 | `SEC-002` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-021` | `TASK-020` | `key-store.ts`, `settings-store.ts` | accepted |
 | `ARCH-001` | BMAD-SRC-003 §Decision 2 Addendum | `FEAT-007` | monorepo init, `VERIFY-BUG-002-01`, `VERIFY-BUG-002-02` | `CR-001`, `CR-004` | `packages/` root, `package.json`, `tsconfig.base.json`, `packages/electron-app/package.json`, `packages/electron-app/tsconfig.json` | implemented |
 | `ARCH-002` | BMAD-SRC-003 §Error Handling | all FEAT | all module tests | all TASK | all modules | accepted |
-| `ARCH-003` | BMAD-SRC-003 §IPC Pattern | `FEAT-002` | `TEST-008` | `TASK-007` | `ipc-bridge.ts` | accepted |
+| `ARCH-003` | BMAD-SRC-003 §IPC Pattern | `FEAT-002` | `TEST-003`, `TEST-008` | `TASK-007`, `CR-005`, `TASK-S14-01`-`TASK-S14-04` | `ipc-bridge.ts`, `renderer/types/ipc.ts` | implemented |
 | `ARCH-004` | BMAD-SRC-003 §Types | all FEAT | `TEST-002`, all module tests | `CR-003`, `TASK-S13-01`-`TASK-S13-04` | `core/src/types/index.ts`, `core/src/index.ts` | implemented |
 | `ARCH-005` | BMAD-SRC-003 §Decision 2 | `FEAT-002` | `TEST-006` | `TASK-006`, `TASK-007` | `pipeline-orchestrator.ts`, `ipc-bridge.ts` | accepted |
 | `ARCH-006` | BMAD-SRC-003 §Test Placement | all FEAT | all module tests | all TASK | all `*.test.ts` files | accepted |

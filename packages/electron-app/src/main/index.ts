@@ -1,12 +1,15 @@
 // Implements ARCH-001: Electron main process entry point
 import { app, BrowserWindow } from 'electron'
 import path from 'node:path'
+import { registerIpcBridge } from './ipc-bridge'
 
 // Injected by @electron-forge/plugin-vite at build time
 declare const MAIN_WINDOW_VITE_DEV_SERVER_URL: string
 declare const MAIN_WINDOW_VITE_NAME: string
 
 function createWindow(): void {
+  registerIpcBridge()
+
   const mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
