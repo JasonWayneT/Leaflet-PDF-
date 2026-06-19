@@ -3,10 +3,10 @@
 ## Metadata
 
 - Bug ID: `BUG-001`
-- Status: open
+- Status: mitigated
 - Severity: low
 - Found in: Story 1.2 (npm install)
-- Fixed in: —
+- Fixed in: `CR-004` (working spec layer and installed dependency); adapter behavior remains pending Story 2.2 verification
 - Related requirements: `INT-001` (Vercel AI SDK integration)
 - Related tests: `TEST-022`
 
@@ -16,7 +16,7 @@
 
 ## Expected behavior
 
-The BMAD architecture document should reference `ollama-ai-provider` instead of `@ai-sdk/ollama`. Story 2.2 (AI Client implementation) must use `ollama-ai-provider` when wiring the Ollama adapter.
+The working spec layer should reference `ollama-ai-provider` instead of `@ai-sdk/ollama`. Story 2.2 (AI Client implementation) must use `ollama-ai-provider` when wiring the Ollama adapter.
 
 ## Unchanged behavior
 
@@ -34,7 +34,7 @@ The ARCHITECTURE.md was authored when `@ai-sdk/ollama` may have been planned or 
 
 ## Mitigation applied
 
-Story 1.2 installed `ollama-ai-provider@^1.2.0` in `packages/electron-app/package.json`. Story 2.2 (AI Client) must import from `ollama-ai-provider` instead of `@ai-sdk/ollama` and verify the adapter interface is compatible.
+Story 1.2 installed `ollama-ai-provider@^1.2.0` in `packages/electron-app/package.json`. CR-004 normalized the working spec-layer references in the requirements registry and ADR-002. Story 2.2 (AI Client) must import from `ollama-ai-provider` and verify the adapter interface is compatible.
 
 ## Regression acceptance criteria
 
@@ -45,5 +45,5 @@ Story 1.2 installed `ollama-ai-provider@^1.2.0` in `packages/electron-app/packag
 ## Verification
 
 - Test ID: `TEST-022` (AI client — Ollama provider path, Story 2.2)
-- Result: not run (Story 2.2 pending)
-- Notes: Verify `ollama-ai-provider` API is compatible with Vercel AI SDK's provider interface before implementing Story 2.2
+- Result: package-name mismatch mitigated; adapter behavior not run (Story 2.2 pending)
+- Notes: Upstream BMAD documents still preserve the original `@ai-sdk/ollama` reference as historical source input. Follow the corrected working spec layer and verify `ollama-ai-provider` API compatibility before implementing Story 2.2.

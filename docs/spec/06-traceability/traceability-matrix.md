@@ -37,13 +37,13 @@
 | `NFR-007` | BMAD-SRC-002 §4.5 | `FEAT-005`, `FEAT-006` | `AC-051`, `AC-052`, `AC-057` | `TASK-017`, `TASK-019` | `renderer.ts`, `SuccessScreen.tsx` | accepted |
 | `SEC-001` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-021` | `TASK-020` | `key-store.ts` | accepted |
 | `SEC-002` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-021` | `TASK-020` | `key-store.ts`, `settings-store.ts` | accepted |
-| `ARCH-001` | BMAD-SRC-003 §Decision 2 Addendum | `FEAT-007` | monorepo init | `CR-001` | `packages/` root, `package.json`, `tsconfig.base.json` | implemented |
+| `ARCH-001` | BMAD-SRC-003 §Decision 2 Addendum | `FEAT-007` | monorepo init, `VERIFY-BUG-002-01`, `VERIFY-BUG-002-02` | `CR-001`, `CR-004` | `packages/` root, `package.json`, `tsconfig.base.json`, `packages/electron-app/package.json`, `packages/electron-app/tsconfig.json` | implemented |
 | `ARCH-002` | BMAD-SRC-003 §Error Handling | all FEAT | all module tests | all TASK | all modules | accepted |
 | `ARCH-003` | BMAD-SRC-003 §IPC Pattern | `FEAT-002` | `TEST-008` | `TASK-007` | `ipc-bridge.ts` | accepted |
 | `ARCH-004` | BMAD-SRC-003 §Types | all FEAT | `TEST-002`, all module tests | `CR-003`, `TASK-S13-01`-`TASK-S13-04` | `core/src/types/index.ts`, `core/src/index.ts` | implemented |
 | `ARCH-005` | BMAD-SRC-003 §Decision 2 | `FEAT-002` | `TEST-006` | `TASK-006`, `TASK-007` | `pipeline-orchestrator.ts`, `ipc-bridge.ts` | accepted |
 | `ARCH-006` | BMAD-SRC-003 §Test Placement | all FEAT | all module tests | all TASK | all `*.test.ts` files | accepted |
-| `INT-001` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-022` | `TASK-021` | `ai-client.ts` + providers; ⚠ `BUG-001`: ARCH doc names `@ai-sdk/ollama` — installed as `ollama-ai-provider` | accepted |
+| `INT-001` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-022`, `VERIFY-BUG-001-01` | `TASK-021`, `CR-004` | `ai-client.ts` + providers; Ollama adapter package is `ollama-ai-provider` | accepted |
 | `INT-002` | BMAD-SRC-003 | `FEAT-001` | `TEST-003` | `TASK-003` | `intake.ts` (youtube-transcript) | accepted |
 | `INT-003` | BMAD-SRC-003 §Decision 4 | `FEAT-005` | `TEST-016`, `TEST-017` | `TASK-017` | `renderer.ts` (Playwright) | accepted |
 | `INT-004` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-021` | `TASK-020` | `key-store.ts`, `settings-store.ts` | accepted |

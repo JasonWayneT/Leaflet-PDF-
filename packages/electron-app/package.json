@@ -2,7 +2,7 @@
   "name": "@bookit/electron-app",
   "version": "0.0.0",
   "private": true,
-  "main": ".vite/build/main.js",
+  "main": ".vite/build/index.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",

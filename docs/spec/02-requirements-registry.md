@@ -83,7 +83,7 @@ Canonical source of truth for all requirement IDs. All feature specs, tasks, tes
 
 | ID | Priority | Status | Requirement | Source |
 |---|---|---|---|---|
-| `INT-001` | P0 | accepted | AI calls route through Vercel AI SDK (`ai` + `@ai-sdk/anthropic` + `@ai-sdk/google` + `@ai-sdk/ollama`) | BMAD-SRC-003 §Decision 1 |
+| `INT-001` | P0 | accepted | AI calls route through Vercel AI SDK (`ai` + `@ai-sdk/anthropic` + `@ai-sdk/google` + `ollama-ai-provider`) | BMAD-SRC-003 §Decision 1; corrected by `BUG-001` |
 | `INT-002` | P0 | accepted | YouTube transcript extracted via `youtube-transcript` npm (no API key required) | BMAD-SRC-003 |
 | `INT-003` | P0 | accepted | PDF generated via Playwright headless Chromium (HTML/CSS → PDF, A4 portrait, print-background enabled) | BMAD-SRC-003 §Decision 4 |
 | `INT-004` | P0 | accepted | Non-sensitive config stored via `electron-store`; sensitive keys via `keytar` (OS keychain) | BMAD-SRC-003 §Decision 1 |

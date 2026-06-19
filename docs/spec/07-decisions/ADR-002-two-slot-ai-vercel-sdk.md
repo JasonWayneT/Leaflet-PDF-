@@ -10,7 +10,7 @@ The pipeline makes AI calls at three points: claim extraction, transformation, a
 
 ## Decision
 
-Two model slots with Vercel AI SDK (`ai` + `@ai-sdk/anthropic` + `@ai-sdk/google` + `@ai-sdk/ollama`):
+Two model slots with Vercel AI SDK (`ai` + `@ai-sdk/anthropic` + `@ai-sdk/google` + `ollama-ai-provider`):
 - **Transformation slot** (default: `claude-sonnet-4-6`) — quality-critical restructuring
 - **Validation/Utility slot** (default: `claude-haiku-4-5`) — claim extraction, validation, title derivation
 
