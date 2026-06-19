@@ -28,6 +28,7 @@ export type ConditionalTechnique =
 export type TechniqueList = {
   always: AlwaysTechnique[]
   conditional: ConditionalTechnique[]
+  conditionLog: Record<string, string>
 }
 
 export type SectionType =

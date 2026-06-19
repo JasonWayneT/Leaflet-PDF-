@@ -1,4 +1,4 @@
-import type { Result } from '@bookit/core'
+import type { Result, SourceContent, PipelineInput, StageName } from '@bookit/core'
 import type { ModelSlotSettings, ProviderSettings } from '../../main/settings-store'
 
 export type SettingsKey = keyof {
@@ -49,6 +49,20 @@ export type RendererApi = {
   provider: {
     saveSetup(payload: ProviderSetupPayload): Promise<Result<void>>
     testConnection(payload: ProviderTestPayload): Promise<Result<unknown>>
+    deleteKey(provider: 'anthropic' | 'google' | 'ollama'): Promise<Result<void>>
+  }
+  files: {
+    openFile(): Promise<Result<SourceContent | null>>
+    openExternal(filePath: string): Promise<Result<void>>
+    saveFile(): Promise<void>
+  }
+  pipeline: {
+    run(input: PipelineInput): void
+    onStageUpdate(callback: (payload: { stage: StageName }) => void): () => void
+    onRetry(callback: (payload: { message: string }) => void): () => void
+    onSaveCanceled(callback: () => void): () => void
+    onComplete(callback: (payload: { filePath: string }) => void): () => void
+    onError(callback: (payload: { stage: StageName; cause: string }) => void): () => void
   }
 }
 

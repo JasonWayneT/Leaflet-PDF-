@@ -37,8 +37,14 @@ Canonical source of truth for all requirement IDs. All feature specs, tasks, tes
 | `FR-020` | P0 | accepted | Both Orbital Light (default) and Orbital Night ship in v2; user selects at submission | `AC-046`, `AC-047`, `AC-048` | BMAD-SRC-002 §4.5 |
 | `FR-021` | P1 | accepted | Adding a new Visual Style requires only new spec + HTML template — no pipeline changes | `AC-049`, `AC-050` | BMAD-SRC-002 §4.5 |
 | `FR-022` | P0 | accepted | Output is a valid PDF, portrait orientation, formatted for tablet reading | `AC-051`, `AC-052` | BMAD-SRC-002 §4.5 |
-| `FR-023` | P0 | accepted | After pipeline success, native Windows save dialog opens; file written only after user confirms | `AC-053`, `AC-054`, `AC-055` | BMAD-SRC-002 §4.6 |
-| `FR-024` | P0 | accepted | User receives save confirmation with path; can open PDF directly from confirmation screen | `AC-056`, `AC-057` | BMAD-SRC-002 §4.6 |
+| `FR-023` | P0 | implemented | After pipeline success, native Windows save dialog opens; file written only after user confirms | `AC-053`, `AC-054`, `AC-055` | BMAD-SRC-002 §4.6 |
+| `FR-024` | P0 | implemented | User receives save confirmation with path; can open PDF directly from confirmation screen | `AC-056`, `AC-057` | BMAD-SRC-002 §4.6 |
+| `MCP-FR-001` | P0 | accepted | The bookit_transform tool accepts content, filePath, style, title, outputDir, and verbose inputs | `AC-058` | PRD-MCP-addendum §3 |
+| `MCP-FR-002` | P0 | accepted | The MCP server reads AI provider credentials from BOOKIT_* environment variables | `AC-059` | PRD-MCP-addendum §3 |
+| `MCP-FR-003` | P0 | accepted | On success, tool returns structured response with filePath, title, style, attempts, and tokenSummary. On failure, returns stage, cause, retryable | `AC-060` | PRD-MCP-addendum §3 |
+| `MCP-FR-004` | P0 | accepted | Server writes PDFs to deterministic location (BOOKIT_OUTPUT_DIR or default) without prompting | `AC-061` | PRD-MCP-addendum §3 |
+| `MCP-FR-005` | P1 | accepted | Tool optionally includes stage timing if verbose: true is provided | `AC-062` | PRD-MCP-addendum §3 |
+| `MCP-FR-006` | P1 | accepted | Tool appends run data with inputType="mcp" to bookit-token-log.jsonl | `AC-063` | PRD-MCP-addendum §3 |
 
 ---
 
@@ -50,10 +56,13 @@ Canonical source of truth for all requirement IDs. All feature specs, tasks, tes
 | `NFR-002` | P0 | accepted | Source Fidelity Validation passes on first attempt for ≥ 80% of documents | BMAD-SRC-002 §7 SM-3 |
 | `NFR-003` | P0 | accepted | 90% of submitted documents complete the full pipeline without terminal error | BMAD-SRC-002 §7 SM-2 |
 | `NFR-004` | P0 | accepted | Input capped at 100,000 characters; empty inputs and unsupported file types rejected before processing | BMAD-SRC-002 §4.1 FR-1 |
-| `NFR-005` | P1 | accepted | App is self-contained Windows 11 desktop app; no server; distributed via GitHub | BMAD-SRC-002 Platform |
+| `NFR-005` | P1 | implemented | App is self-contained Windows 11 desktop app; no server; distributed via GitHub | BMAD-SRC-002 Platform |
 | `NFR-006` | P0 | accepted | Token usage logged per-call to `.jsonl` in userData; logging failures never interrupt pipeline | BMAD-SRC-003 §Decision 5 |
 | `NFR-007` | P0 | accepted | PDF is portrait, tablet-readable, opens in system default PDF viewer | BMAD-SRC-002 §4.5 FR-22 |
 | `NFR-008` | P1 | accepted | Do not optimize speed at cost of fidelity rate; do not optimize token reduction at cost of quality | BMAD-SRC-002 §7 SM-C1, SM-C2 |
+| `NFR-MCP-001` | P0 | accepted | Claude Desktop config snippet provided and documented | PRD-MCP-addendum Epic 12 |
+| `NFR-MCP-002` | P0 | accepted | Cursor config snippet provided and documented | PRD-MCP-addendum Epic 12 |
+| `NFR-MCP-003` | P0 | accepted | Single setup document exists and explains installation in under 10 minutes | PRD-MCP-addendum Epic 12 |
 
 ---
 

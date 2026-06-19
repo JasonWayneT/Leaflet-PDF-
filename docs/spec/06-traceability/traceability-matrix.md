@@ -4,9 +4,9 @@
 
 | Requirement ID | Source | Feature spec | Acceptance criteria | Tasks | Module / Component | Status |
 |---|---|---|---|---|---|---|
-| `FR-001` | BMAD-SRC-002 §4.1 | `FEAT-001` | `AC-001–003` | `TASK-001`, `TASK-005` | `intake.ts`, `TextInput.tsx` | accepted |
-| `FR-002` | BMAD-SRC-002 §4.1 | `FEAT-001` | `AC-004–006` | `TASK-002`, `TASK-005` | `intake.ts`, `FileInput.tsx` | accepted |
-| `FR-003` | BMAD-SRC-002 §4.1 | `FEAT-001` | `AC-007–009` | `TASK-003`, `TASK-005` | `intake.ts`, `UrlInput.tsx` | accepted |
+| `FR-001` | BMAD-SRC-002 §4.1 | `FEAT-001` | `AC-001–003` | `TASK-001`, `TASK-005`, `CR-011` | `intake.ts`, `TextInput.tsx` | implemented |
+| `FR-002` | BMAD-SRC-002 §4.1 | `FEAT-001` | `AC-004–006` | `TASK-002`, `TASK-005`, `CR-012` | `intake.ts`, `FileInput.tsx` | implemented |
+| `FR-003` | BMAD-SRC-002 §4.1 | `FEAT-001` | `AC-007–009` | `TASK-003`, `TASK-005`, `CR-013` | `intake.ts`, `UrlInput.tsx` | implemented |
 | `FR-004` | BMAD-SRC-002 §4.1 | `FEAT-001` | `AC-010–011` | `TASK-004` | `intake.ts` | accepted |
 | `FR-005` | BMAD-SRC-002 §4.2 | `FEAT-002` | `AC-012–013` | `TASK-008` | `ProcessingScreen.tsx`, `StageProgress.tsx` | accepted |
 | `FR-006` | BMAD-SRC-002 §4.2 | `FEAT-002` | `AC-014–016` | `TASK-006`, `TASK-009` | `pipeline-orchestrator.ts`, `ErrorScreen.tsx` | accepted |
@@ -31,7 +31,7 @@
 | `NFR-001` | BMAD-SRC-002 §7 SM-4 | `FEAT-002` | manual perf test | — | all pipeline modules | accepted |
 | `NFR-002` | BMAD-SRC-002 §7 SM-3 | `FEAT-004` | `TEST-015` | `TASK-013`, `TASK-014` | `claim-extractor.ts`, `validator.ts` | accepted |
 | `NFR-003` | BMAD-SRC-002 §7 SM-2 | `FEAT-002` | `TEST-006` | `TASK-006` | `pipeline-orchestrator.ts` | accepted |
-| `NFR-004` | BMAD-SRC-002 §4.1 | `FEAT-001` | `AC-002`, `AC-003`, `AC-005`, `AC-006` | `TASK-001`, `TASK-002` | `intake.ts` | accepted |
+| `NFR-004` | BMAD-SRC-002 §4.1 FR-1 | `FEAT-001` | `AC-002`, `AC-003`, `AC-005`, `AC-006` | `TASK-001`, `TASK-002`, `CR-011` | `intake.ts` | implemented |
 | `NFR-005` | BMAD-SRC-002 Platform | Epic 9 | distribution test | — | `electron-builder` config | accepted |
 | `NFR-006` | BMAD-SRC-003 §Decision 5 | `FEAT-003` | `TEST-012` | `TASK-012` | `token-logger.ts` | accepted |
 | `NFR-007` | BMAD-SRC-002 §4.5 | `FEAT-005`, `FEAT-006` | `AC-051`, `AC-052`, `AC-057` | `TASK-017`, `TASK-019` | `renderer.ts`, `SuccessScreen.tsx` | accepted |
@@ -48,9 +48,38 @@
 | `INT-003` | BMAD-SRC-003 §Decision 4 | `FEAT-005` | `TEST-016`, `TEST-017` | `TASK-017` | `renderer.ts` (Playwright) | accepted |
 | `INT-004` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-005`, `TEST-021` | `TASK-020`, `CR-007`, `TASK-S21-02` | `key-store.ts`, `settings-store.ts` | implemented |
 | `STORY-2.3` | BMAD-SRC-006 Story 2.3 | `FEAT-007` | `TEST-007` | `CR-009`, `TASK-S23-01`-`TASK-S23-04` | `SetupWizard.tsx`, `App.tsx`, `preload.ts`, `ipc-bridge.ts` | implemented |
+| `STORY-2.4` | BMAD-SRC-006 Story 2.4 | `FEAT-007` | `UX-DR8` | `CR-010`, `TASK-S24-01`-`TASK-S24-09` | `SettingsScreen.tsx`, `App.tsx` (gear icon), `preload.ts` (deleteKey), `ipc-bridge.ts` (KEY_DELETE), `styles.css` | implemented |
+| `STORY-3.1` | BMAD-SRC-006 Story 3.1 | `FEAT-001` | `AC-001`–`AC-003` | `CR-011`, `TASK-S31-01`-`TASK-S31-06` | `core/modules/intake/intake.ts` (`processTextInput`, `SOURCE_CONTENT_CHAR_LIMIT`) | implemented |
+| `STORY-3.2` | BMAD-SRC-006 Story 3.2 | `FEAT-001` | `AC-004`–`AC-006` | `CR-012`, `TASK-S32-01`-`TASK-S32-06` | `core/modules/intake/intake.ts` (`processFileInput`) | implemented |
+| `STORY-3.3` | BMAD-SRC-006 Story 3.3 | `FEAT-001` | `AC-007`–`AC-009` | `CR-013`, `TASK-S33-01`-`TASK-S33-07` | `core/modules/intake/intake.ts` (`processYouTubeInput`, `preprocessCaptions`); `@bookit/core` +`youtube-transcript` dep | implemented |
+| `STORY-3.4` | BMAD-SRC-006 Story 3.4 | `FEAT-001` | `FR-001`–`FR-003` | `CR-014`, `TASK-S34-01`-`TASK-S34-06` | `core/modules/intake/intake.ts` (`deriveTitle`) | implemented |
+| `STORY-3.5` | BMAD-SRC-006 Story 3.5 | `FEAT-001` | `UX-DR1`, `UX-DR2`, `UX-DR3` | `CR-015`, `TASK-S35-01`-`TASK-S35-06` | `InputScreen.tsx`, `TextInput.tsx`, `FileInput.tsx`, `UrlInput.tsx`, `StyleSelector.tsx` | implemented |
+| `STORY-4.1` | BMAD-SRC-006 Story 4.1 | `FEAT-002` | `FR-017`, `FR-018` | `CR-016`, `TASK-S41-01`-`TASK-S41-05` | `core/orchestrator/pipeline-orchestrator.ts` | implemented |
+| `STORY-4.2` | BMAD-SRC-006 Story 4.2 | `FEAT-002` | `FR-005`–`FR-007` | `CR-017`, `TASK-S42-01`-`TASK-S42-09` | `ipc-bridge.ts`, `preload.ts`, `preload-api.ts` | implemented |
+| `STORY-4.3` | BMAD-SRC-006 Story 4.3 | `FEAT-002` | `UX-DR4`, `FR-5` | `CR-018`, `TASK-S43-01`-`TASK-S43-06` | `ProcessingScreen.tsx`, `App.tsx` | implemented |
+| `STORY-4.4` | BMAD-SRC-006 Story 4.4 | `FEAT-002` | `UX-DR6` | `CR-018`, `TASK-S43-01`-`TASK-S43-06` | `SuccessScreen.tsx`, `App.tsx` | implemented |
+| `STORY-4.5` | BMAD-SRC-006 Story 4.5 | `FEAT-002` | `UX-DR5`, `FR-6` | `CR-018`, `TASK-S43-01`-`TASK-S43-06` | `ErrorScreen.tsx`, `App.tsx` | implemented |
 | `INT-005` | BMAD-SRC-002 §4.6 | `FEAT-006` | `TEST-019` | `TASK-018` | `ipc-bridge.ts` (dialog + shell) | accepted |
 | `OPS-001` | BMAD-SRC-006 Story 1.5 | Epic 1 | `TEST-004` | `CR-006`, `TASK-S15-01`-`TASK-S15-03` | `.github/workflows/build.yml` | implemented |
-
+| `STORY-5.1` | BMAD-SRC-006 Story 5.1 | `FEAT-003` | `FR-008`–`FR-012` | `CR-019`, `TASK-S51-01` | `technique-selector.ts`, `rules.ts` | implemented |
+| `STORY-5.2` | BMAD-SRC-006 Story 5.2 | `FEAT-003` | `FR-013`, `FR-014` | `CR-019`, `TASK-S52-01` | `transformer.ts`, `prompts.ts` | implemented |
+| `STORY-5.3` | BMAD-SRC-006 Story 5.3 | `FEAT-003` | `NFR-006`, `FR-014` | `CR-019`, `TASK-S53-01` | `token-logger.ts`, `pipeline-orchestrator.ts` | implemented |
+| `STORY-6.1` | BMAD-SRC-006 Story 6.1 | `FEAT-004` | `FR-015` | `CR-020`, `TASK-S61-01` | `claim-extractor.ts`, `prompts.ts` | implemented |
+| `STORY-6.2` | BMAD-SRC-006 Story 6.2 | `FEAT-004` | `FR-016`, `FR-017`, `FR-018` | `CR-020`, `TASK-S62-01` | `validator.ts`, `prompts.ts` | implemented |
+| `STORY-7.1` | BMAD-SRC-006 Story 7.1 | `FEAT-005` | `FR-020`, `FR-022` | `CR-021`, `TASK-S71-01`-`TASK-S71-02` | `ORBITAL-LIGHT.md`, `orbital-light.html`, `ORBITAL-NIGHT.md`, `orbital-night.html` | implemented |
+| `STORY-7.2` | BMAD-SRC-006 Story 7.2 | `FEAT-005` | `FR-019`, `FR-021` | `CR-021`, `TASK-S72-01`-`TASK-S72-02` | `style-registry.ts`, `renderer.ts` | implemented |
+| `STORY-8.1` | BMAD-SRC-006 Story 8.1 | `FEAT-006` | `FR-023`, `FR-024` | `CR-022` | `ipc-bridge.ts`, `SuccessScreen.tsx`, `ProcessingScreen.tsx` | implemented |
+| `STORY-9.1` | BMAD-SRC-006 Story 9.1 | all | `NFR-001`, `NFR-002`, `NFR-003` | `CR-023` | `pipeline-orchestrator.test.ts` (4 runtime vitest tests), `vitest.config.ts`, `build.yml` (test step) | implemented |
+| `STORY-9.2` | BMAD-SRC-006 Story 9.2 | Epic 9 | `NFR-005` | `CR-023` | `forge.config.ts` (MakerSquirrel), `style-registry.ts` (co-located spec paths), `templates/orbital-light.md`, `templates/orbital-night.md`, `build.yml` (make job, main only) | implemented |
+| `STORY-10.1` | PRD-MCP-addendum Story 10.1 | `FEAT-007` | `MCP-FR-001`, `MCP-FR-003` | `CR-024`, `TASK-MCP-01` | `mcp-server/package.json` | implemented |
+| `STORY-10.2` | PRD-MCP-addendum Story 10.2 | `FEAT-007` | `MCP-FR-002` | `CR-024`, `TASK-MCP-02` | `env-config.ts` | implemented |
+| `STORY-11.1` | PRD-MCP-addendum Story 11.1 | `FEAT-007` | `MCP-FR-001` | `CR-024`, `TASK-MCP-03` | `bookit-transform.ts` | implemented |
+| `STORY-11.2` | PRD-MCP-addendum Story 11.2 | `FEAT-007` | `MCP-FR-003`, `MCP-FR-004` | `CR-024`, `TASK-MCP-04` | `bookit-transform.ts`, `server.ts` | implemented |
+| `STORY-11.3` | PRD-MCP-addendum Story 11.3 | `FEAT-007` | `MCP-FR-005` | `CR-024`, `TASK-MCP-05` | `bookit-transform.ts` | implemented |
+| `STORY-11.4` | PRD-MCP-addendum Story 11.4 | `FEAT-007` | `MCP-FR-006` | `CR-024`, `TASK-MCP-06` | `bookit-transform.ts` | implemented |
+| `STORY-12.1` | PRD-MCP-addendum Story 12.1 | `FEAT-007` | `NFR-MCP-001` | `CR-024`, `TASK-MCP-07` | `MCP-SETUP.md` | implemented |
+| `STORY-12.2` | PRD-MCP-addendum Story 12.2 | `FEAT-007` | `NFR-MCP-002` | `CR-024`, `TASK-MCP-07` | `MCP-SETUP.md` | implemented |
+| `STORY-12.3` | PRD-MCP-addendum Story 12.3 | `FEAT-007` | `NFR-MCP-003` | `CR-024`, `TASK-MCP-07` | `MCP-SETUP.md` | implemented |
 ---
 
 ## Coverage checklist
@@ -60,8 +89,8 @@
 - [x] Every accepted requirement maps to at least one implementation task
 - [x] Every accepted requirement maps to at least one test or manual verification note
 - [x] All ADRs map to affected requirements
-- [ ] Every task has `implemented` status — in progress (Story 1.1 complete; remaining stories pending)
-- [ ] Every requirement has `verified` status — not yet (pre-implementation)
+- [x] Every task has `implemented` status — all stories 1.1–12.3 complete
+- [ ] Every requirement has `verified` status — integration testing pending live run
 
 ## Gaps
 

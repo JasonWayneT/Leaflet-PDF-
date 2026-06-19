@@ -8,6 +8,7 @@ import type {
   SettingsKey,
   SettingsValue,
 } from './renderer/types/preload-api'
+import type { PipelineInput, StageName } from '@bookit/core'
 
 const api: RendererApi = {
   settings: {
@@ -45,7 +46,42 @@ const api: RendererApi = {
     },
     testConnection: (payload: ProviderTestPayload) =>
       ipcRenderer.invoke(IPC_CHANNELS.PROVIDER_TEST_CONNECTION, payload),
+    deleteKey: (provider: 'anthropic' | 'google' | 'ollama') =>
+      ipcRenderer.invoke(IPC_CHANNELS.KEY_DELETE, provider),
   },
+  files: {
+    openFile: () => ipcRenderer.invoke(IPC_CHANNELS.OPEN_FILE),
+    openExternal: (filePath: string) => ipcRenderer.invoke(IPC_CHANNELS.OPEN_EXTERNAL, filePath),
+    saveFile: () => ipcRenderer.invoke(IPC_CHANNELS.SAVE_FILE),
+  },
+  pipeline: {
+    run: (input: PipelineInput) => ipcRenderer.invoke(IPC_CHANNELS.RUN_PIPELINE, input),
+    onStageUpdate: (callback) => {
+      const handler = (_event: any, payload: { stage: StageName }) => callback(payload)
+      ipcRenderer.on(IPC_CHANNELS.PIPELINE_STAGE_UPDATE, handler)
+      return () => { ipcRenderer.off(IPC_CHANNELS.PIPELINE_STAGE_UPDATE, handler) }
+    },
+    onRetry: (callback) => {
+      const handler = (_event: any, payload: { message: string }) => callback(payload)
+      ipcRenderer.on(IPC_CHANNELS.PIPELINE_RETRY, handler)
+      return () => { ipcRenderer.off(IPC_CHANNELS.PIPELINE_RETRY, handler) }
+    },
+    onSaveCanceled: (callback) => {
+      const handler = (_event: any) => callback()
+      ipcRenderer.on(IPC_CHANNELS.PIPELINE_SAVE_CANCELED, handler)
+      return () => { ipcRenderer.off(IPC_CHANNELS.PIPELINE_SAVE_CANCELED, handler) }
+    },
+    onComplete: (callback) => {
+      const handler = (_event: any, payload: { filePath: string }) => callback(payload)
+      ipcRenderer.on(IPC_CHANNELS.PIPELINE_COMPLETE, handler)
+      return () => { ipcRenderer.off(IPC_CHANNELS.PIPELINE_COMPLETE, handler) }
+    },
+    onError: (callback) => {
+      const handler = (_event: any, payload: { stage: StageName; cause: string }) => callback(payload)
+      ipcRenderer.on(IPC_CHANNELS.PIPELINE_ERROR, handler)
+      return () => { ipcRenderer.off(IPC_CHANNELS.PIPELINE_ERROR, handler) }
+    }
+  }
 }
 
 contextBridge.exposeInMainWorld('bookit', api)

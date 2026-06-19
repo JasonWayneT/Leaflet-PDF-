@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: Build
+    name: Build & Test
     runs-on: windows-latest
 
     steps:
@@ -25,3 +25,44 @@ jobs:
       - name: Build workspaces
         # Implements OPS-001: CI fails when any workspace build or TypeScript check fails.
         run: npm run build --workspaces --if-present
+
+      - name: Run tests
+        # Implements STORY-9.1: integration tests run in CI on every push and PR.
+        run: npm run test --workspaces --if-present
+
+  make:
+    name: Build Windows Installer
+    runs-on: windows-latest
+    # Only run on main branch pushes — not on every PR (slow, ~10min due to Playwright binary).
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        # Playwright requires the Chromium binary to be present; it is not bundled in npm packages.
+        run: npx playwright install chromium
+        working-directory: packages/electron-app
+
+      - name: Build Windows installer
+        # Implements NFR-005 (Story 9.2): produces self-contained Windows .exe via electron-forge make.
+        run: npm run make
+        working-directory: packages/electron-app
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bookit-v2-win32-x64
+          path: packages/electron-app/out/make/squirrel.windows/x64/
+          if-no-files-found: error

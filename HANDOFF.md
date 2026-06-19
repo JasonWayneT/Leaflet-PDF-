@@ -1,7 +1,7 @@
 # Bookit v2 — Session Handoff
 
 **Date:** 2026-06-19
-**Status:** Epic 1 complete; Epic 2 in progress — Stories 2.1 through 2.3 complete, Story 2.4 next.
+**Status:** Epic 1 complete; Epic 2 complete; Epic 3 complete; Epic 4 complete; Epic 5 next.
 
 ---
 
@@ -225,15 +225,114 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
 - `vite.main.config.ts` externalizes native `keytar` so packaging succeeds
 - Verified: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` passed; full workspace build passed; API-key grep showed no API key fields in `settings-store.ts`
 
-### Immediate: Story 2.4 — Settings Screen
+### Story 2.4 ✅ — Settings Screen
+**CR:** `docs/spec/05-change-requests/CR-010-settings-screen.md`
+**What was built:**
+- `SettingsScreen.tsx` with Providers section (status card, masked credential indicator, Reconfigure Provider button) and Model Slots section (Transformation + Validation/Utility rows with inline Edit)
+- Gear icon in `App.tsx` toggles Settings; Reconfigure Provider re-enters SetupWizard cleanly
+- `KEY_DELETE` channel added to `ipc.ts`, `ipc-bridge.ts`, and `preload.ts`
+- `RendererApi.provider.deleteKey()` added to preload API types
+- `SettingsScreen.test.tsx` compile-time smoke test
+- Settings styles appended to `styles.css`
+- API keys never displayed or routed through `electron-store` (SEC-001, SEC-002 preserved)
+- Verified: `tsc --noEmit` passed; full workspace build passed; architectural grep checks passed
 
-Next story is Story 2.4: Settings screen for providers and model slots.
+### Story 3.1 ✅ — Paste Text Input
+**CR:** `docs/spec/05-change-requests/CR-011-paste-text-input.md`
+**What was built:**
+- `packages/core/src/modules/intake/intake.ts` — `processTextInput(text): Result<SourceContent>` and `SOURCE_CONTENT_CHAR_LIMIT = 100_000`
+- `packages/core/src/modules/intake/intake.test.ts` — compile-time coverage for valid, empty, oversized, and boundary inputs
+- `packages/core/src/index.ts` — exports `processTextInput` and `SOURCE_CONTENT_CHAR_LIMIT` from `@bookit/core`
+- Verified: `tsc --noEmit` (core) passed; full workspace build passed; no `electron` imports in `packages/core`
 
-### Story 2.4 critical context
+### Story 3.2 ✅ — File Import (.md and .txt)
+**CR:** `docs/spec/05-change-requests/CR-012-file-import.md`
+**What was built:**
+- Extended `packages/core/src/modules/intake/intake.ts` with `processFileInput(filePath: string): Result<SourceContent>`
+  - Uses Node.js `fs.readFileSync` + `path.extname` (no Electron imports)
+  - `SUPPORTED_EXTENSIONS = new Set(['.md', '.txt'])`
+  - AC-005: unsupported extension → "Only .md and .txt files are supported"
+  - AC-006: empty file → "File is empty"
+  - NFR-004: oversized file cap reused from `SOURCE_CONTENT_CHAR_LIMIT`
+  - AC-004: valid file → `SourceContent` with `inputType: 'file'`
+- Extended `intake.test.ts` with compile-time coverage for all four file scenarios
+- Exported `processFileInput` from `@bookit/core`
+- Verified: `tsc --noEmit` (core) passed; full workspace build passed; no `electron` imports
 
-- Use existing `key-store.ts`, `settings-store.ts`, and `aiClient.generateText()` surfaces.
-- Provider setup UI must not send API keys through `electron-store`.
-- AI client belongs in `packages/core/src/services/ai-client/` and must import nothing from Electron.
+### Story 3.3 ✅ — YouTube URL Input & Transcript Extraction
+**CR:** `docs/spec/05-change-requests/CR-013-youtube-input.md`
+**What was built:**
+- Added `youtube-transcript` to `@bookit/core` dependencies; workspace deduplication verified
+- Added to `packages/core/src/modules/intake/intake.ts`:
+  - `YOUTUBE_URL_PATTERN` regex: matches `youtube.com/watch?v=` and `youtu.be/` formats
+  - `preprocessCaptions(raw: string): string` — pure function: HTML entity decode, bracket annotation removal, timestamp removal, filler word removal, whitespace collapse, sentence capitalisation
+  - `processYouTubeInput(url: string): Promise<Result<SourceContent>>` — URL validation (AC-009), `YoutubeTranscript.fetchTranscript()` call, error class mapping (AC-008), caption preprocessing, SourceContent wrap (AC-007)
+- Extended `intake.test.ts` with `preprocessCaptions` and `processYouTubeInput` compile-time type scenarios
+- Exported both functions from `@bookit/core`
+- Verified: `tsc --noEmit` passed; full workspace build passed; zero `electron` imports
+
+### Story 3.4 ✅ — Document Title (Provided or AI-Derived)
+**CR:** `docs/spec/05-change-requests/CR-014-document-title.md`
+**What was built:**
+- Extended `packages/core/src/modules/intake/intake.ts` with `deriveTitle(text: string, aiConfig: ProviderConfig): Promise<Result<string>>`
+- Uses the AI client to generate a max-60-character title from the first 500 characters of the content
+- Extended `intake.test.ts` with type checking for the async resolution shape
+- Exported `deriveTitle` from `@bookit/core`
+- Verified: `tsc --noEmit` and full workspace build passed
+
+### Story 3.5 ✅ — InputScreen UI
+**CR:** `docs/spec/05-change-requests/CR-015-input-screen.md`
+**What was built:**
+- Created `packages/electron-app/src/renderer/InputScreen/` with `InputScreen.tsx`, `TextInput.tsx`, `FileInput.tsx`, `UrlInput.tsx`, and `StyleSelector.tsx`
+- Wired up `OPEN_FILE` IPC handler in `ipc-bridge.ts` calling `dialog.showOpenDialog` and `processFileInput` from core
+- Exposed `files.openFile()` through `preload.ts` and type-safe `preload-api.ts`
+- Wired `InputScreen` to the `App.tsx` router so it displays once configuration is complete
+- Supported settings navigation from the InputScreen topbar
+- Verified UI logic blocks submission of invalid/missing input per UX-DR1, UX-DR2, UX-DR3
+
+### Story 4.1 ✅ — Pipeline Orchestrator
+**CR:** `docs/spec/05-change-requests/CR-016-pipeline-orchestrator.md`
+**What was built:**
+- Created typed module stubs in `core` (`claim-extractor`, `technique-selector`, `transformer`, `validator`, `renderer`) to allow Orchestrator implementation before downstream modules exist.
+- Implemented `PipelineOrchestrator` in `core/orchestrator/pipeline-orchestrator.ts` using Node's `EventEmitter`.
+- Handled the 5-stage pipeline, including the `validate` -> `transform` retry loop (max 3 total attempts).
+- Exposed the `PipelineInput` type and `PipelineEvents` interface.
+- Created `pipeline-orchestrator.test.ts` as a compile-time test mapping types and logic routes.
+
+### Story 4.2 ✅ — IPC Bridge
+**CR:** `docs/spec/05-change-requests/CR-017-ipc-bridge-pipeline.md`
+**What was built:**
+- Updated `ipc.ts` with PIPELINE_ channels.
+- Added typed `pipeline` namespace to `preload-api.ts` and `preload.ts` (`run`, `onStageUpdate`, `onRetry`, `onError`, `onComplete`).
+- Modified `registerIpcBridge` to accept `PipelineOrchestrator` and `webContents`.
+- Instantiated `PipelineOrchestrator` in `main/index.ts` and passed it to the bridge.
+- Forwarded events from the Orchestrator to the renderer.
+- On `pipeline:complete`, native `dialog.showSaveDialog` prompts the user, saves the PDF, and sends the filePath back to the renderer.
+
+### Story 4.3 ✅ — Processing UI
+**CR:** `docs/spec/05-change-requests/CR-018-processing-ui.md`
+**What was built:**
+- `ProcessingScreen.tsx` listens to `window.bookit.pipeline.onStageUpdate` and displays active stages.
+- `App.tsx` routes between Input, Processing, Error, and Success states.
+- Retries append `(Retry attempt 2 of 3)` text.
+- Full workspace build passed.
+
+### Story 4.4 ✅ — Success UI
+**CR:** `docs/spec/05-change-requests/CR-018-processing-ui.md`
+**What was built:**
+- `SuccessScreen.tsx` with "Process Another" and "Open File" buttons.
+- `OPEN_EXTERNAL` channel added to `ipc.ts` and `ipc-bridge.ts` utilizing `shell.openPath`.
+- `preload-api.ts` exposing `files.openExternal`.
+
+### Story 4.5 ✅ — Error UI
+**CR:** `docs/spec/05-change-requests/CR-018-processing-ui.md`
+**What was built:**
+- `ErrorScreen.tsx` maps failed stage names and displays the string cause.
+- "Start Over" button navigates cleanly back to `InputScreen` via `App.tsx`.
+
+### Immediate: Epic 5+ — AI Modules
+Next is **Epic 5: Knowledge Extraction** (starting with `ClaimExtractor`).
+
 
 ---
 

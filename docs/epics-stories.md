@@ -943,3 +943,341 @@ Epics 1 and 2 are prerequisites for all other epics. Within each epic, stories a
 6. Story 8.1 (output delivery)
 7. Stories 9.1 → 9.2 (integration + distribution) — after all prior stories complete
 8. Stories 2.3 → 2.4 (setup wizard + settings UI) — can overlap with story 9.x
+
+---
+
+## Phase 2: MCP Server
+
+> **Source:** `docs/PRD-MCP-addendum.md`
+> **Architecture:** `docs/ARCHITECTURE.md` §Decision 2 Addendum
+> **Prerequisite:** All Phase 1 epics (1–9) complete. `@bookit/core` is the shared pipeline — no changes to core required.
+
+---
+
+## Epic 10: MCP Server Foundation
+
+**Goal:** Establish the `packages/mcp-server` package as a real, runnable Node.js MCP server that registers the `bookit_transform` tool and can be connected to by Claude Desktop or Cursor. No pipeline logic lives here — only the shell, configuration, and tool registration.
+
+**Covers:** MCP-FR-001 (inputs), MCP-FR-002 (env config), MCP-FR-003 (outputs, structure only)
+
+---
+
+### Story 10.1: Package Setup and MCP SDK Integration
+
+As a developer,
+I want `packages/mcp-server` to be a properly configured TypeScript Node.js package with `@modelcontextprotocol/sdk` installed and a running stdio MCP server,
+So that Claude Desktop and Cursor can connect to it and discover the `bookit_transform` tool.
+
+**Acceptance Criteria:**
+
+**Given** the MCP server package is built and launched via `node dist/index.js`
+**When** Claude Desktop connects using the stdio transport
+**Then** the server responds to the MCP `initialize` handshake successfully
+**And** `tools/list` returns exactly one tool: `bookit_transform` with its full input schema
+**And** the server process stays alive and does not exit on connection
+
+**And** the `packages/mcp-server/package.json` declares:
+- `"name": "@bookit/mcp-server"`
+- `"type": "module"` or `"main"` pointing to compiled output
+- A `"build"` script that compiles TypeScript to `dist/`
+- A `"start"` script: `node dist/index.js`
+- A `"postinstall"` script: `npx playwright install chromium`
+- Dependencies: `@modelcontextprotocol/sdk`, `@bookit/core`
+- No Electron dependencies
+
+**And** `tsconfig.json` extends `../../tsconfig.base.json` and compiles to `dist/`
+
+**And** the tool input schema exposes:
+```json
+{
+  "content": { "type": "string", "description": "Raw text, markdown, or YouTube URL" },
+  "filePath": { "type": "string", "description": "Absolute path to .md or .txt file" },
+  "style": { "type": "string", "enum": ["orbital-light", "orbital-night"], "default": "orbital-light" },
+  "title": { "type": "string", "description": "Optional document title" },
+  "outputDir": { "type": "string", "description": "Output directory for the PDF" },
+  "verbose": { "type": "boolean", "default": false }
+}
+```
+
+---
+
+### Story 10.2: Environment Variable Configuration
+
+As a developer,
+I want the MCP server to read all AI provider credentials and settings from `BOOKIT_*` environment variables,
+So that the server can be configured without touching the Electron keytar store and users can set API keys in their MCP host configuration.
+
+**Acceptance Criteria:**
+
+**Given** the server starts with `BOOKIT_ANTHROPIC_KEY` set in the environment
+**When** `bookit_transform` is invoked
+**Then** it uses the Anthropic provider with the configured key
+
+**And** the following environment variables are supported:
+
+| Variable | Required | Default |
+|---|---|---|
+| `BOOKIT_ANTHROPIC_KEY` | If using Anthropic | — |
+| `BOOKIT_GOOGLE_KEY` | If using Google | — |
+| `BOOKIT_OLLAMA_URL` | If using Ollama | `http://localhost:11434` |
+| `BOOKIT_TRANSFORM_PROVIDER` | No | `anthropic` |
+| `BOOKIT_TRANSFORM_MODEL` | No | `claude-sonnet-4-5` |
+| `BOOKIT_VALIDATE_PROVIDER` | No | same as transform |
+| `BOOKIT_VALIDATE_MODEL` | No | `claude-haiku-4-5` |
+| `BOOKIT_OUTPUT_DIR` | No | `~/Documents/Bookit/` |
+
+**And** if the configured provider has no API key set, `bookit_transform` returns an error response with `error.stage: "Configuration"` and `error.cause: "No API key found for provider: anthropic"` — the pipeline does not start
+
+**And** environment variables are read at each tool invocation (not cached at startup)
+
+**And** `src/config/env-config.ts` exports a `readConfig()` function that returns a typed `McpConfig` object and throws a structured config error if required variables are missing
+
+---
+
+## Epic 11: Pipeline Integration and Tool Execution
+
+**Goal:** The `bookit_transform` tool invokes the real `PipelineOrchestrator` from `@bookit/core`, subscribes to its events, runs the full pipeline, saves the PDF, and returns a structured result to the MCP host.
+
+**Covers:** MCP-FR-001 (full), MCP-FR-003 (full), MCP-FR-004, MCP-FR-005, MCP-FR-006
+
+---
+
+### Story 11.1: Input Validation and Intake
+
+As a developer,
+I want the `bookit_transform` tool to validate its inputs and route content through the correct `@bookit/core` intake function before the pipeline starts,
+So that bad inputs fail fast with clear errors before any AI calls are made.
+
+**Acceptance Criteria:**
+
+**Given** `bookit_transform` is called with `content: "some text"` and `filePath: "/path/to/file.md"` simultaneously
+**When** the tool handler runs
+**Then** it returns `{ error: { stage: "Configuration", cause: "Provide either content or filePath, not both", retryable: false } }` — no pipeline call is made
+
+**Given** `bookit_transform` is called with neither `content` nor `filePath`
+**Then** it returns `{ error: { stage: "Configuration", cause: "content or filePath is required", retryable: false } }`
+
+**Given** `bookit_transform` is called with `content: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"`
+**Then** it routes the content through `processYouTubeInput()` from `@bookit/core`
+
+**Given** `bookit_transform` is called with `content: "some plain text"`
+**Then** it routes through `processTextInput()` from `@bookit/core`
+
+**Given** `bookit_transform` is called with `filePath: "/path/to/doc.md"`
+**Then** it routes through `processFileInput()` from `@bookit/core`
+
+**And** all intake errors (`Result.ok === false`) are mapped to an MCP tool error response with the stage and cause from the `PipelineError` — the pipeline does not continue
+
+---
+
+### Story 11.2: Pipeline Orchestration and PDF Save
+
+As a developer,
+I want the `bookit_transform` tool to run the full `PipelineOrchestrator` pipeline from `@bookit/core`, collect its result, save the PDF to the output directory, and return the file path to the caller,
+So that a successful tool call always produces a real PDF on disk.
+
+**Acceptance Criteria:**
+
+**Given** a valid source content input and a configured provider
+**When** `bookit_transform` runs the pipeline
+**Then** `PipelineOrchestrator.runPipeline()` is called with the correct `PipelineInput`
+**And** the orchestrator subscribes to `pipeline:complete`, `pipeline:error`, and `pipeline:retry` events
+**And** on `pipeline:complete`, the PDF buffer is written to `<outputDir>/<sanitizedTitle>.pdf`
+**And** if the output file already exists, a numeric suffix is appended (`<title> (2).pdf`, `<title> (3).pdf`, etc.)
+**And** the tool returns:
+```json
+{
+  "filePath": "/Users/jason/Documents/Bookit/My Article.pdf",
+  "title": "My Article",
+  "style": "orbital-light",
+  "attempts": 1,
+  "tokenSummary": { "totalIn": 12400, "totalOut": 3800 }
+}
+```
+
+**And** on `pipeline:error`, the tool returns:
+```json
+{
+  "error": {
+    "stage": "Transforming",
+    "cause": "AI API rate limit exceeded",
+    "retryable": true
+  }
+}
+```
+
+**And** the output directory is created if it does not exist (recursive `mkdir`)
+
+**And** the sanitized filename strips characters illegal on Windows and macOS filesystems (`/ \ : * ? " < > |`) and trims to 100 characters max
+
+---
+
+### Story 11.3: Verbose Mode and Stage Timing
+
+As a developer,
+I want the `bookit_transform` tool to optionally return per-stage timing information when `verbose: true` is set,
+So that the user can see how long each pipeline stage took in the tool response.
+
+**Acceptance Criteria:**
+
+**Given** `bookit_transform` is called with `verbose: false` (or `verbose` not provided)
+**When** the pipeline completes
+**Then** the response does not include `stages` timing data
+
+**Given** `bookit_transform` is called with `verbose: true`
+**When** the pipeline completes
+**Then** the response includes:
+```json
+{
+  "stages": {
+    "extracting": "1.2s",
+    "transforming": "18.4s",
+    "validating": "3.1s",
+    "rendering": "4.7s"
+  }
+}
+```
+**And** stage timings are measured wall-clock time from the start of each `pipeline:stage-update` event to the next
+
+---
+
+### Story 11.4: Token Logging
+
+As a developer,
+I want every `bookit_transform` call to append a structured entry to `bookit-token-log.jsonl`,
+So that all pipeline runs — both Electron and MCP — are tracked in a single log.
+
+**Acceptance Criteria:**
+
+**Given** a `bookit_transform` call completes (success or failure)
+**When** the pipeline finishes
+**Then** a log entry is appended to `~/Documents/Bookit/bookit-token-log.jsonl`
+**And** the entry's `inputType` field is `"mcp"` (not `"paste"` / `"file"` / `"youtube"`) to distinguish MCP runs
+**And** the log schema is otherwise identical to the Electron app's token log format
+**And** if the log write fails, the failure is caught silently — it must never cause the tool to return an error or throw
+
+---
+
+## Epic 12: Distribution and Host Configuration
+
+**Goal:** The MCP server is runnable from Claude Desktop and Cursor via a simple configuration entry, and the setup process is documented. The CI workflow optionally builds the MCP server.
+
+**Covers:** NFR-MCP-001 (Claude Desktop config), NFR-MCP-002 (Cursor config), NFR-MCP-003 (documentation)
+
+---
+
+### Story 12.1: Claude Desktop Configuration
+
+As a user,
+I want a documented, copy-paste Claude Desktop config entry that launches the Bookit MCP server,
+So that I can add Bookit to Claude Desktop without reading source code.
+
+**Acceptance Criteria:**
+
+**Given** the MCP server is built (`npm run build` in `packages/mcp-server`)
+**When** the following entry is added to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+```json
+{
+  "mcpServers": {
+    "bookit": {
+      "command": "node",
+      "args": ["/absolute/path/to/packages/mcp-server/dist/index.js"],
+      "env": {
+        "BOOKIT_ANTHROPIC_KEY": "sk-ant-...",
+        "BOOKIT_OUTPUT_DIR": "C:\\Users\\Jason\\Documents\\Bookit"
+      }
+    }
+  }
+}
+```
+**Then** Claude Desktop connects to the Bookit MCP server on startup
+**And** the `bookit_transform` tool appears in Claude's tool list
+**And** a message like "Transform this article: [text]" causes Claude to invoke `bookit_transform` and return the PDF path
+
+**And** the configuration snippet is documented in `docs/MCP-SETUP.md` with path placeholders and inline comments
+
+---
+
+### Story 12.2: Cursor Configuration
+
+As a user,
+I want a documented Cursor MCP configuration that launches the Bookit MCP server,
+So that I can call `bookit_transform` from within Cursor without switching to another app.
+
+**Acceptance Criteria:**
+
+**Given** the MCP server is built
+**When** the following is added to `.cursor/mcp.json` in the workspace root (or the global Cursor MCP config):
+```json
+{
+  "mcpServers": {
+    "bookit": {
+      "command": "node",
+      "args": ["/absolute/path/to/packages/mcp-server/dist/index.js"],
+      "env": {
+        "BOOKIT_ANTHROPIC_KEY": "sk-ant-..."
+      }
+    }
+  }
+}
+```
+**Then** Cursor can invoke `bookit_transform` from the assistant panel
+**And** the configuration is documented in `docs/MCP-SETUP.md`
+
+---
+
+### Story 12.3: MCP Setup Documentation
+
+As a user,
+I want a single setup document that explains how to install, configure, and use the Bookit MCP server,
+So that setup takes under 10 minutes from a fresh install.
+
+**Acceptance Criteria:**
+
+**Given** `docs/MCP-SETUP.md` exists
+**Then** it contains:
+1. **Prerequisites** — Node.js 20+, built MCP server (`npm run build`)
+2. **Step 1** — Install Playwright Chromium: `npm install` runs `postinstall` automatically
+3. **Step 2** — Claude Desktop config snippet with all env vars documented
+4. **Step 3** — Cursor config snippet
+5. **Step 4** — Example tool invocations:
+   - "Bookit this YouTube video: https://..."
+   - "Transform this file: /path/to/article.md with orbital-night style"
+6. **Environment variable reference** table (all `BOOKIT_*` vars, purpose, required/optional, default)
+7. **Troubleshooting** — common errors (missing API key, missing Chromium, output dir not writable)
+
+---
+
+## Implementation Notes for Developer Agent (Phase 2)
+
+### Package Structure
+```
+packages/mcp-server/
+  package.json           ← @bookit/mcp-server; deps: @modelcontextprotocol/sdk, @bookit/core
+  tsconfig.json          ← extends ../../tsconfig.base.json; outDir: dist/
+  src/
+    index.ts             ← server entry: create McpServer, register tools, start stdio transport
+    server.ts            ← McpServer construction and tool registration
+    config/
+      env-config.ts      ← readConfig(): validates BOOKIT_* env vars, returns McpConfig
+    tools/
+      bookit-transform.ts  ← tool handler: validation, intake, pipeline, file write, response
+```
+
+### Key Constraints
+- **Zero Electron dependencies** — `packages/mcp-server` imports only `@bookit/core`, `@modelcontextprotocol/sdk`, and Node.js builtins
+- **`@bookit/core` is not modified** — the MCP server is a consumer, not a modifier
+- **Same `Result<T>` contract** — all errors from core modules flow through `Result<T>`, mapped to MCP tool error responses at the shell boundary
+- **No `ipcMain` or `ipcRenderer`** — those live exclusively in `packages/electron-app`
+- **Token log path** — `~/Documents/Bookit/bookit-token-log.jsonl` (uses `os.homedir()`, not Electron's `app.getPath()`)
+
+### Naming Conventions
+Same as the rest of the project (from ARCHITECTURE.md). Tool name: `bookit_transform` (snake_case per MCP convention).
+
+### Story Sequencing
+1. Story 10.1 → 10.2 (foundation — package setup, env config)
+2. Story 11.1 (input validation — can be built and unit-tested before pipeline wiring)
+3. Story 11.2 (pipeline + file save — core functional story)
+4. Story 11.3 (verbose mode — additive, can be done last)
+5. Story 11.4 (token logging — additive, low risk)
+6. Story 12.1 → 12.2 → 12.3 (distribution + docs — after pipeline works end-to-end)

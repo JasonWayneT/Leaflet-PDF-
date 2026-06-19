@@ -8,7 +8,8 @@
   "scripts": {
     "start": "npm run start --workspace=@bookit/electron-app",
     "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present"
+    "test": "npm run test --workspaces --if-present",
+    "make": "npm run make --workspace=@bookit/electron-app"
   },
   "devDependencies": {
     "typescript": "^5.4.0"

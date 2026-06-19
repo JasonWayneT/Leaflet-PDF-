@@ -4,12 +4,17 @@
   "private": true,
   "main": "./src/index.ts",
   "scripts": {
-    "build": "tsc --noEmit"
+    "build": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^3.0.85",
     "@ai-sdk/google": "^3.0.83",
     "ai": "^6.0.208",
-    "ollama-ai-provider-v2": "^3.6.0"
+    "ollama-ai-provider-v2": "^3.6.0",
+    "youtube-transcript": "^1.3.0"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.9"
   }
 }

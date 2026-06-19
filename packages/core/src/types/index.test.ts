@@ -42,6 +42,7 @@ const sectionType: SectionType = 'body'
 const techniqueList: TechniqueList = {
   always: [alwaysTechnique, 'teach-not-label-headings', '60-second-cheat-sheet'],
   conditional: [conditionalTechnique, 'jargon-translation', 'facts-implications'],
+  conditionLog: { 'mental-buckets': 'test' }
 }
 
 const contentSection: ContentSection = {
