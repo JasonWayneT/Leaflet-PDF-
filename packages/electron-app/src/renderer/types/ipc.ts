@@ -11,6 +11,7 @@ export const IPC_CHANNELS = {
   SETTINGS_SET: 'settings:set',
   KEY_GET: 'key:get',
   KEY_SET: 'key:set',
+  PROVIDER_TEST_CONNECTION: 'provider:test-connection',
 } as const
 
 export type IpcChannelName = (typeof IPC_CHANNELS)[keyof typeof IPC_CHANNELS]

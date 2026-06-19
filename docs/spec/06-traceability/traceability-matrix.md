@@ -47,6 +47,7 @@
 | `INT-002` | BMAD-SRC-003 | `FEAT-001` | `TEST-003` | `TASK-003` | `intake.ts` (youtube-transcript) | accepted |
 | `INT-003` | BMAD-SRC-003 §Decision 4 | `FEAT-005` | `TEST-016`, `TEST-017` | `TASK-017` | `renderer.ts` (Playwright) | accepted |
 | `INT-004` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-005`, `TEST-021` | `TASK-020`, `CR-007`, `TASK-S21-02` | `key-store.ts`, `settings-store.ts` | implemented |
+| `STORY-2.3` | BMAD-SRC-006 Story 2.3 | `FEAT-007` | `TEST-007` | `CR-009`, `TASK-S23-01`-`TASK-S23-04` | `SetupWizard.tsx`, `App.tsx`, `preload.ts`, `ipc-bridge.ts` | implemented |
 | `INT-005` | BMAD-SRC-002 §4.6 | `FEAT-006` | `TEST-019` | `TASK-018` | `ipc-bridge.ts` (dialog + shell) | accepted |
 | `OPS-001` | BMAD-SRC-006 Story 1.5 | Epic 1 | `TEST-004` | `CR-006`, `TASK-S15-01`-`TASK-S15-03` | `.github/workflows/build.yml` | implemented |
 

@@ -1,7 +1,7 @@
 # Bookit v2 — Session Handoff
 
 **Date:** 2026-06-19
-**Status:** Epic 1 complete; Epic 2 in progress — Stories 2.1 and 2.2 complete, Story 2.3 next.
+**Status:** Epic 1 complete; Epic 2 in progress — Stories 2.1 through 2.3 complete, Story 2.4 next.
 
 ---
 
@@ -215,11 +215,21 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
 - `@bookit/core` now owns AI SDK runtime dependencies and re-exports the AI client API
 - Verified: `npm run build --workspace=@bookit/core` passed; `npm run build --workspaces --if-present` passed; `rg -n "electron" packages\core` returned no matches; runtime npm audit reported zero vulnerabilities
 
-### Immediate: Story 2.3 — First-Launch Setup Wizard
+### Story 2.3 ✅ — First-Launch Setup Wizard
+**CR:** `docs/spec/05-change-requests/CR-009-setup-wizard.md`
+**What was built:**
+- `SetupWizard.tsx` with provider choice, credential/base URL input, connection test, and model-slot confirmation
+- `App.tsx` first-launch check using `providerConfig` from settings
+- `preload.ts` exposes renderer API for settings, provider setup, and provider test connection
+- `ipc-bridge.ts` routes setup calls to `settingsStore`, `keyStore`, and `aiClient`
+- `vite.main.config.ts` externalizes native `keytar` so packaging succeeds
+- Verified: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` passed; full workspace build passed; API-key grep showed no API key fields in `settings-store.ts`
 
-Next story is Story 2.3: guided setup wizard on first launch.
+### Immediate: Story 2.4 — Settings Screen
 
-### Story 2.3 critical context
+Next story is Story 2.4: Settings screen for providers and model slots.
+
+### Story 2.4 critical context
 
 - Use existing `key-store.ts`, `settings-store.ts`, and `aiClient.generateText()` surfaces.
 - Provider setup UI must not send API keys through `electron-store`.

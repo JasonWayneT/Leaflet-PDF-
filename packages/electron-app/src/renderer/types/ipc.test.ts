@@ -13,6 +13,7 @@ const expectedChannels = {
   SETTINGS_SET: 'settings:set',
   KEY_GET: 'key:get',
   KEY_SET: 'key:set',
+  PROVIDER_TEST_CONNECTION: 'provider:test-connection',
 } as const
 
 const channelContract: typeof expectedChannels = IPC_CHANNELS

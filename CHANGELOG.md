@@ -14,10 +14,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - [DRAFT] Epic 1 foundation: npm workspaces monorepo, Electron/React app shell, shared core type contracts, IPC bridge skeleton, and GitHub Actions CI build workflow
 - [DRAFT] Secure settings storage foundation: keytar-backed API key wrapper and typed electron-store wrapper for non-sensitive provider settings
 - [DRAFT] Shared AI client foundation: Anthropic, Google, and Ollama provider adapters with Result-based error handling
+- [DRAFT] First-launch setup wizard: provider selection, secure credential save, connection test, and model-slot confirmation
 
 ### Fixed
 - [DRAFT] BUG-002: Electron Forge packaging now uses the emitted Vite main bundle path and electron-app TypeScript checks include package-level config files
 - [DRAFT] BUG-001: Ollama support now uses AI SDK v6-compatible `ollama-ai-provider-v2`
+- [DRAFT] Electron main build now externalizes native `keytar` so setup IPC packaging succeeds
 
 ### Developer
 - [DRAFT] CR-004: Working specs now reference `ollama-ai-provider` for Ollama integration; adapter behavior remains to be verified in Story 2.2
