@@ -48,6 +48,7 @@
 | `INT-003` | BMAD-SRC-003 §Decision 4 | `FEAT-005` | `TEST-016`, `TEST-017` | `TASK-017` | `renderer.ts` (Playwright) | accepted |
 | `INT-004` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-021` | `TASK-020` | `key-store.ts`, `settings-store.ts` | accepted |
 | `INT-005` | BMAD-SRC-002 §4.6 | `FEAT-006` | `TEST-019` | `TASK-018` | `ipc-bridge.ts` (dialog + shell) | accepted |
+| `OPS-001` | BMAD-SRC-006 Story 1.5 | Epic 1 | `TEST-004` | `CR-006`, `TASK-S15-01`-`TASK-S15-03` | `.github/workflows/build.yml` | implemented |
 
 ---
 

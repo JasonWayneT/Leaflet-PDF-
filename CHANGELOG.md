@@ -10,6 +10,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 > Entries accumulate here during active development. Move them into a versioned release when you ship.
 
+### Added
+- [DRAFT] Epic 1 foundation: npm workspaces monorepo, Electron/React app shell, shared core type contracts, IPC bridge skeleton, and GitHub Actions CI build workflow
+
+### Fixed
+- [DRAFT] BUG-002: Electron Forge packaging now uses the emitted Vite main bundle path and electron-app TypeScript checks include package-level config files
+
+### Developer
+- [DRAFT] CR-004: Working specs now reference `ollama-ai-provider` for Ollama integration; adapter behavior remains to be verified in Story 2.2
+
 ---
 
 ## [0.1.0] — YYYY-MM-DD

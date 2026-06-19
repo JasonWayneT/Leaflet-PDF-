@@ -1,7 +1,7 @@
 # Bookit v2 — Session Handoff
 
 **Date:** 2026-06-19
-**Status:** Epic 1 in progress — Stories 1.1 through 1.4 complete, Story 1.5 pending.
+**Status:** Epic 1 complete — Stories 1.1 through 1.5 complete. Next stage is Epic 2.
 
 ---
 
@@ -186,9 +186,18 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
 
 ## What's Next
 
-### Immediate: Story 1.5 — GitHub Actions CI Build Workflow
+### Story 1.5 ✅ — GitHub Actions CI Build Workflow
+**CR:** `docs/spec/05-change-requests/CR-006-ci-build-workflow.md`
+**What was built:**
+- `.github/workflows/build.yml` named `CI Build`
+- Runs on `push` and `pull_request`
+- Uses Node.js 20 on `windows-latest`
+- Runs `npm ci` then `npm run build --workspaces --if-present`
+- Verified: `npm ci` passed; full workspace build passed
 
-Creates `.github/workflows/build.yml` — CI on push/PR, Node 20 LTS, `windows-latest`, fails on TypeScript errors.
+### Immediate: Epic 2 — BYOA Settings & AI Client
+
+Next story is Story 2.1: Secure Settings Storage (`key-store.ts` + `settings-store.ts`).
 
 ### After Epic 1: Epic 2 Stories (2.1 → 2.2)
 

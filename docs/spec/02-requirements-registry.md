@@ -91,6 +91,14 @@ Canonical source of truth for all requirement IDs. All feature specs, tasks, tes
 
 ---
 
+## Operations Requirements
+
+| ID | Priority | Status | Requirement | Source |
+|---|---|---|---|---|
+| `OPS-001` | P0 | implemented | GitHub Actions CI build runs on push and pull request using Node.js 20 on `windows-latest`; fails on workspace build or TypeScript errors | BMAD-SRC-006 Story 1.5 |
+
+---
+
 ## Acceptance Criteria
 
 ### Content Intake (FR-001 to FR-004)
