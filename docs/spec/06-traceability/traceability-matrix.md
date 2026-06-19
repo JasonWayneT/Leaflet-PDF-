@@ -35,8 +35,8 @@
 | `NFR-005` | BMAD-SRC-002 Platform | Epic 9 | distribution test | — | `electron-builder` config | accepted |
 | `NFR-006` | BMAD-SRC-003 §Decision 5 | `FEAT-003` | `TEST-012` | `TASK-012` | `token-logger.ts` | accepted |
 | `NFR-007` | BMAD-SRC-002 §4.5 | `FEAT-005`, `FEAT-006` | `AC-051`, `AC-052`, `AC-057` | `TASK-017`, `TASK-019` | `renderer.ts`, `SuccessScreen.tsx` | accepted |
-| `SEC-001` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-021` | `TASK-020` | `key-store.ts` | accepted |
-| `SEC-002` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-021` | `TASK-020` | `key-store.ts`, `settings-store.ts` | accepted |
+| `SEC-001` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-005`, `TEST-021` | `TASK-020`, `CR-007`, `TASK-S21-01`, `TASK-S21-03`, `TASK-S21-04` | `key-store.ts` | implemented |
+| `SEC-002` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-005`, `TEST-021` | `TASK-020`, `CR-007`, `TASK-S21-02`-`TASK-S21-04` | `key-store.ts`, `settings-store.ts` | implemented |
 | `ARCH-001` | BMAD-SRC-003 §Decision 2 Addendum | `FEAT-007` | monorepo init, `VERIFY-BUG-002-01`, `VERIFY-BUG-002-02` | `CR-001`, `CR-004` | `packages/` root, `package.json`, `tsconfig.base.json`, `packages/electron-app/package.json`, `packages/electron-app/tsconfig.json` | implemented |
 | `ARCH-002` | BMAD-SRC-003 §Error Handling | all FEAT | all module tests | all TASK | all modules | accepted |
 | `ARCH-003` | BMAD-SRC-003 §IPC Pattern | `FEAT-002` | `TEST-003`, `TEST-008` | `TASK-007`, `CR-005`, `TASK-S14-01`-`TASK-S14-04` | `ipc-bridge.ts`, `renderer/types/ipc.ts` | implemented |
@@ -46,7 +46,7 @@
 | `INT-001` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-022`, `VERIFY-BUG-001-01` | `TASK-021`, `CR-004` | `ai-client.ts` + providers; Ollama adapter package is `ollama-ai-provider` | accepted |
 | `INT-002` | BMAD-SRC-003 | `FEAT-001` | `TEST-003` | `TASK-003` | `intake.ts` (youtube-transcript) | accepted |
 | `INT-003` | BMAD-SRC-003 §Decision 4 | `FEAT-005` | `TEST-016`, `TEST-017` | `TASK-017` | `renderer.ts` (Playwright) | accepted |
-| `INT-004` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-021` | `TASK-020` | `key-store.ts`, `settings-store.ts` | accepted |
+| `INT-004` | BMAD-SRC-003 §Decision 1 | `FEAT-007` | `TEST-005`, `TEST-021` | `TASK-020`, `CR-007`, `TASK-S21-02` | `key-store.ts`, `settings-store.ts` | implemented |
 | `INT-005` | BMAD-SRC-002 §4.6 | `FEAT-006` | `TEST-019` | `TASK-018` | `ipc-bridge.ts` (dialog + shell) | accepted |
 | `OPS-001` | BMAD-SRC-006 Story 1.5 | Epic 1 | `TEST-004` | `CR-006`, `TASK-S15-01`-`TASK-S15-03` | `.github/workflows/build.yml` | implemented |
 

@@ -12,6 +12,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 - [DRAFT] Epic 1 foundation: npm workspaces monorepo, Electron/React app shell, shared core type contracts, IPC bridge skeleton, and GitHub Actions CI build workflow
+- [DRAFT] Secure settings storage foundation: keytar-backed API key wrapper and typed electron-store wrapper for non-sensitive provider settings
 
 ### Fixed
 - [DRAFT] BUG-002: Electron Forge packaging now uses the emitted Vite main bundle path and electron-app TypeScript checks include package-level config files

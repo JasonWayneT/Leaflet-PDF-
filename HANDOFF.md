@@ -1,7 +1,7 @@
 # Bookit v2 — Session Handoff
 
 **Date:** 2026-06-19
-**Status:** Epic 1 complete — Stories 1.1 through 1.5 complete. Next stage is Epic 2.
+**Status:** Epic 1 complete; Epic 2 in progress — Story 2.1 complete, Story 2.2 next.
 
 ---
 
@@ -195,13 +195,23 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
 - Runs `npm ci` then `npm run build --workspaces --if-present`
 - Verified: `npm ci` passed; full workspace build passed
 
-### Immediate: Epic 2 — BYOA Settings & AI Client
+### Story 2.1 ✅ — Secure Settings Storage
+**CR:** `docs/spec/05-change-requests/CR-007-secure-settings-storage.md`
+**What was built:**
+- `packages/electron-app/src/main/key-store.ts` — only file that imports/calls `keytar`; service name `bookit-v2`
+- `packages/electron-app/src/main/settings-store.ts` — only file that instantiates `electron-store`; typed non-sensitive settings schema
+- Co-located compile tests: `key-store.test.ts`, `settings-store.test.ts`
+- Verified: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` passed; `npm run build --workspaces --if-present` passed; source greps confirmed storage boundary rules
 
-Next story is Story 2.1: Secure Settings Storage (`key-store.ts` + `settings-store.ts`).
+### Immediate: Story 2.2 — AI Client with Vercel AI SDK
 
-### After Epic 1: Epic 2 Stories (2.1 → 2.2)
+Next story is Story 2.2: shared AI client in `packages/core/src/services/ai-client/`.
 
-Story 2.1 is the first story that will actually exercise `electron-store` and `keytar`. That's where BUG-001's open risks get resolved.
+### Story 2.2 critical context
+
+- Use `ollama-ai-provider`, not `@ai-sdk/ollama`.
+- Re-check `npm audit --omit=dev` for provider package status; current runtime audit shows two low-severity findings through `ollama-ai-provider` / `@ai-sdk/provider-utils` with no fix available.
+- AI client belongs in `packages/core/src/services/ai-client/` and must import nothing from Electron.
 
 ---
 

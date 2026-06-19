@@ -103,7 +103,7 @@ Bookit makes AI calls on the user's behalf using the user's own API key. The key
 
 | Task ID | Requirement IDs | Description | Status |
 |---|---|---|---|
-| `TASK-020` | `SEC-001`, `SEC-002`, `INT-004` | `key-store.ts`: keytar wrapper (get/set/delete); `settings-store.ts`: electron-store wrapper | todo |
+| `TASK-020` | `SEC-001`, `SEC-002`, `INT-004` | `key-store.ts`: keytar wrapper (get/set/delete); `settings-store.ts`: electron-store wrapper | completed |
 | `TASK-021` | `INT-001`, `ARCH-002` | `ai-client.ts` + `providers/`: unified generateText(), all 3 adapters, Result<T> errors | todo |
 | `TASK-022` | `SEC-001`, `INT-001` | `SetupWizard.tsx`: 5-step wizard, test connection, model auto-assignment | todo |
 | `TASK-023` | `INT-001`, `INT-004` | `Settings.tsx` + `ProviderCard.tsx` + `ModelSlot.tsx`: view/edit provider + slots | todo |

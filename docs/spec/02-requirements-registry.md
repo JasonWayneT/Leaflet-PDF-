@@ -61,8 +61,8 @@ Canonical source of truth for all requirement IDs. All feature specs, tasks, tes
 
 | ID | Priority | Status | Requirement | Source |
 |---|---|---|---|---|
-| `SEC-001` | P0 | accepted | API keys stored in Windows Credential Manager via `keytar` — never in electron-store or on disk in plaintext | BMAD-SRC-003 §Decision 1 |
-| `SEC-002` | P1 | accepted | No API key string ever passes through `electron-store` | BMAD-SRC-003 §Decision 1 |
+| `SEC-001` | P0 | implemented | API keys stored in Windows Credential Manager via `keytar` — never in electron-store or on disk in plaintext | BMAD-SRC-003 §Decision 1 |
+| `SEC-002` | P1 | implemented | No API key string ever passes through `electron-store` | BMAD-SRC-003 §Decision 1 |
 
 ---
 
@@ -86,7 +86,7 @@ Canonical source of truth for all requirement IDs. All feature specs, tasks, tes
 | `INT-001` | P0 | accepted | AI calls route through Vercel AI SDK (`ai` + `@ai-sdk/anthropic` + `@ai-sdk/google` + `ollama-ai-provider`) | BMAD-SRC-003 §Decision 1; corrected by `BUG-001` |
 | `INT-002` | P0 | accepted | YouTube transcript extracted via `youtube-transcript` npm (no API key required) | BMAD-SRC-003 |
 | `INT-003` | P0 | accepted | PDF generated via Playwright headless Chromium (HTML/CSS → PDF, A4 portrait, print-background enabled) | BMAD-SRC-003 §Decision 4 |
-| `INT-004` | P0 | accepted | Non-sensitive config stored via `electron-store`; sensitive keys via `keytar` (OS keychain) | BMAD-SRC-003 §Decision 1 |
+| `INT-004` | P0 | implemented | Non-sensitive config stored via `electron-store`; sensitive keys via `keytar` (OS keychain) | BMAD-SRC-003 §Decision 1 |
 | `INT-005` | P0 | accepted | Windows native save dialog via `electron.dialog.showSaveDialog`; file open via `electron.shell.openPath` | BMAD-SRC-002 §4.6 |
 
 ---
