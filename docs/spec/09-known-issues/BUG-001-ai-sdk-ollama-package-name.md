@@ -3,10 +3,10 @@
 ## Metadata
 
 - Bug ID: `BUG-001`
-- Status: mitigated
+- Status: blocking Story 2.2 decision
 - Severity: low
 - Found in: Story 1.2 (npm install)
-- Fixed in: `CR-004` (working spec layer and installed dependency); adapter behavior remains pending Story 2.2 verification
+- Fixed in: pending provider decision
 - Related requirements: `INT-001` (Vercel AI SDK integration)
 - Related tests: `TEST-022`
 
@@ -34,7 +34,14 @@ The ARCHITECTURE.md was authored when `@ai-sdk/ollama` may have been planned or 
 
 ## Mitigation applied
 
-Story 1.2 installed `ollama-ai-provider@^1.2.0` in `packages/electron-app/package.json`. CR-004 normalized the working spec-layer references in the requirements registry and ADR-002. Story 2.2 (AI Client) must import from `ollama-ai-provider` and verify the adapter interface is compatible.
+Story 1.2 installed `ollama-ai-provider@^1.2.0` in `packages/electron-app/package.json`. CR-004 normalized the working spec-layer references in the requirements registry and ADR-002. Story 2.2 compatibility investigation found that this package targets `@ai-sdk/provider` v1 and returns `LanguageModelV1`, while the installed `ai@6.0.208` expects `LanguageModelV2` or `LanguageModelV3`.
+
+## Story 2.2 compatibility evidence
+
+- `npm view @ai-sdk/ollama version` still returns 404.
+- `npm view ollama-ai-provider version dependencies peerDependencies` reports `ollama-ai-provider@1.2.0` with `@ai-sdk/provider: ^1.0.0`.
+- A core-local TypeScript compatibility probe failed on `generateText({ model: createOllama(...)('llama3.2'), prompt })` with: `Type 'LanguageModelV1' is not assignable to type 'LanguageModel'`.
+- `npm search "ollama ai sdk provider" --json` shows currently published alternatives that claim AI SDK v6 support, including `ollama-ai-provider-v2@3.6.0` and `ai-sdk-ollama@3.8.8`.
 
 ## Regression acceptance criteria
 
@@ -45,5 +52,5 @@ Story 1.2 installed `ollama-ai-provider@^1.2.0` in `packages/electron-app/packag
 ## Verification
 
 - Test ID: `TEST-022` (AI client — Ollama provider path, Story 2.2)
-- Result: package-name mismatch mitigated; adapter behavior not run (Story 2.2 pending)
-- Notes: Upstream BMAD documents still preserve the original `@ai-sdk/ollama` reference as historical source input. Follow the corrected working spec layer and verify `ollama-ai-provider` API compatibility before implementing Story 2.2.
+- Result: blocked for Story 2.2 provider selection
+- Notes: Upstream BMAD documents still preserve the original `@ai-sdk/ollama` reference as historical source input. The currently installed `ollama-ai-provider@1.2.0` is not compatible with `ai@6`; choose a compatible provider package before implementing the Ollama adapter.
