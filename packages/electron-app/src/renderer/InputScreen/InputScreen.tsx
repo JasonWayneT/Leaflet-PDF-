@@ -57,82 +57,59 @@ export default function InputScreen({ onOpenSettings, onSubmitPipeline }: InputS
     }
   }
 
-  const validateInput = async (): Promise<boolean> => {
+  const validateInput = async (): Promise<SourceContent | null> => {
     setError(undefined)
-    
+
     if (activeMode === 'paste') {
       const result = await window.leafletpdf.intake.processText(text)
       if (!result.ok) {
         setError(result.error.cause)
-        return false
+        return null
       }
-      setSourceContent(result.value)
-      return true
+      return result.value
     }
-    
+
     if (activeMode === 'file') {
       if (!sourceContent) {
         setError("File is empty")
-        return false
+        return null
       }
-      return true
+      return sourceContent
     }
-    
+
     if (activeMode === 'youtube') {
       if (!url.trim()) {
         setError("Please enter a valid YouTube URL")
-        return false
+        return null
       }
       setIsProcessingYoutube(true)
       try {
         const result = await window.leafletpdf.intake.processYouTube(url)
         if (!result.ok) {
           setError(result.error.cause)
-          return false
+          return null
         }
-        setSourceContent(result.value)
-        return true
+        return result.value
       } catch (err) {
         setError(String(err))
-        return false
+        return null
       } finally {
         setIsProcessingYoutube(false)
       }
     }
-    
-    return false
+
+    return null
   }
 
   const handleSubmit = async () => {
-    const isValid = await validateInput()
-    if (!isValid) return
-    
-    // We expect validateInput to update sourceContent, but because React state updates are async,
-    // we need to rely on the latest result. Actually, validateInput updates state but we can't read it
-    // synchronously here. So let's re-evaluate here instead of reading from state.
-    
-    let finalSourceContent: SourceContent | undefined = undefined
-    
-    if (activeMode === 'paste') {
-      const result = await window.leafletpdf.intake.processText(text)
-      if (result.ok) finalSourceContent = result.value
-    } else if (activeMode === 'file') {
-      finalSourceContent = sourceContent
-    } else if (activeMode === 'youtube') {
-      // already processed by validateInput, but wait, if it just processed it, sourceContent state isn't updated yet.
-      // So validateInput should return it. Let's refactor inline for now.
-      const result = await window.leafletpdf.intake.processYouTube(url)
-      if (result.ok) finalSourceContent = result.value
-    }
-    
-    if (!finalSourceContent) return
+    const validatedContent = await validateInput()
+    if (!validatedContent) return
 
-    const submissionContent = { ...finalSourceContent }
+    const submissionContent = { ...validatedContent }
     if (title.trim()) {
       submissionContent.title = title.trim()
     }
-    
-    // Retrieve provider settings from the main process
+
     const settingsResult = await window.leafletpdf.settings.get('providerConfig')
     if (!settingsResult.ok || !settingsResult.value) {
       setError('Provider configuration is missing. Please check your settings.')
@@ -141,7 +118,6 @@ export default function InputScreen({ onOpenSettings, onSubmitPipeline }: InputS
 
     const providerConfig = settingsResult.value
 
-    console.log("Submitting Pipeline:", { sourceContent: submissionContent, style })
     window.leafletpdf.pipeline.run({
       sourceContent: submissionContent,
       styleSelection: style,

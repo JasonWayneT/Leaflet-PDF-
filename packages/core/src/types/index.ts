@@ -1,7 +1,7 @@
 // Implements ARCH-004: shared pipeline handoff contracts live in one core module.
 export type SourceContent = {
   text: string
-  inputType: 'paste' | 'file' | 'youtube'
+  inputType: 'paste' | 'file' | 'youtube' | 'mcp'
   title?: string
 }
 

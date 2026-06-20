@@ -48,11 +48,11 @@ export function readConfig(): McpConfig {
 
   const transformModel =
     process.env.LEAFLETPDF_TRANSFORM_MODEL ||
-    (resolvedTransformProvider === 'anthropic' ? 'claude-3-5-sonnet-20241022' : 'default')
+    (resolvedTransformProvider === 'anthropic' ? 'claude-sonnet-4-6' : 'default')
 
   const validateModel =
     process.env.LEAFLETPDF_VALIDATE_MODEL ||
-    (resolvedValidateProvider === 'anthropic' ? 'claude-3-haiku-20240307' : 'default')
+    (resolvedValidateProvider === 'anthropic' ? 'claude-haiku-4-5' : 'default')
 
   const getProviderConfig = (provider: 'anthropic' | 'google' | 'ollama', model: string): ProviderConfig => {
     if (provider === 'anthropic') {

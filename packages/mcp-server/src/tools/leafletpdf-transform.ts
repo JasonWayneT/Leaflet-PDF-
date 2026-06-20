@@ -7,7 +7,7 @@ import {
   processFileInput,
   processYouTubeInput
 } from '@leafletpdf/core'
-import type { ProviderConfig, SourceContent, StageName, StyleName } from '@leafletpdf/core'
+import type { ProviderConfig, Result, SourceContent, StageName, StyleName } from '@leafletpdf/core'
 import type { ResolvedProviderConfig } from '../config/env-config'
 
 export type TransformArgs = {
@@ -68,7 +68,7 @@ export async function handleTransform(
 
   let sourceContent: SourceContent
   try {
-    let result: any
+    let result: Result<SourceContent>
     if (args.filePath) {
       result = await processFileInput(args.filePath)
     } else if (args.content) {
@@ -125,12 +125,7 @@ export async function handleTransform(
       const savedPath = await getNextFilename(outDir, title)
       await fs.writeFile(savedPath, pdfBuffer)
 
-      // We don't have exact token metrics from the events directly easily,
-      // but they are logged to leafletpdf-token-log.jsonl.
-      // The requirement says: return structured JSON response. We'll return 0 for now as it's not emitted by the orchestrator directly in the event.
-      // Actually, wait, does orchestrator return token usage? `runPipeline` is async and returns void. 
-      // We'll leave tokenSummary empty or 0 if we can't get it from the event.
-      // Let's resolve with what we have.
+      // Token counts are logged to leafletpdf-token-log.jsonl but not surfaced via pipeline events.
       const result: TransformResult = {
         filePath: savedPath,
         title,
@@ -159,12 +154,7 @@ export async function handleTransform(
       })
     })
 
-    // Override the input type for logging. The orchestrator's runPipeline creates a log.
-    // Wait, runPipeline accepts input. We can modify `sourceContent.inputType` to 'mcp' but it's typed as 'paste' | 'file' | 'youtube'.
-    // The requirement says: append run data with inputType="mcp".
-    // We can cast it or let the orchestrator log whatever inputType it is, but PRD says "inputType: mcp".
-    // Let's modify the orchestrator or just cast it.
-    ;(sourceContent as any).inputType = 'mcp'
+    sourceContent.inputType = 'mcp'
 
     orchestrator.runPipeline({
       sourceContent,

@@ -53,9 +53,10 @@ The PDF is saved locally. No data leaves your machine except the AI inference ca
 ### Setup
 
 ```bash
-git clone https://github.com/[your-username]/Leaflet PDF-v2.git
-cd Leaflet PDF-v2
+git clone https://github.com/JasonWayneT/Leaflet-PDF-.git
+cd Leaflet-PDF-
 npm install
+npx playwright install chromium --with-deps
 ```
 
 ### Build the MCP server
@@ -83,7 +84,7 @@ Add to your MCP client config — no API key required if you have a Claude Deskt
   "mcpServers": {
     "Leaflet PDF": {
       "command": "node",
-      "args": ["/absolute/path/to/Leaflet PDF-v2/packages/mcp-server/dist/index.js"]
+      "args": ["/absolute/path/to/Leaflet-PDF-/packages/mcp-server/dist/index.js"]
     }
   }
 }
@@ -122,7 +123,7 @@ Launch the Electron app, paste content or drop a file, choose a visual style, an
 ## Project Structure
 
 ```
-Leaflet PDF-v2/
+Leaflet-PDF-/
 ├── packages/
 │   ├── core/               # Shared pipeline logic — zero Electron dependencies
 │   │   └── src/
@@ -155,6 +156,12 @@ Leaflet PDF-v2/
 | [docs/MCP-SETUP.md](./docs/MCP-SETUP.md) | Step-by-step MCP setup for Claude Desktop and Cursor |
 | [docs/.decision-log.md](./docs/.decision-log.md) | Every product and architecture decision with context and rationale |
 | [PRODUCT_CAPABILITIES_AND_RELEASE_NOTES.md](./PRODUCT_CAPABILITIES_AND_RELEASE_NOTES.md) | Release history and capability changelog |
+
+---
+
+## Process Documentation
+
+The `docs/spec/` directory contains the full specification layer used during development: 8 feature specs, 6 architecture decision records (ADRs), 25 change requests, a requirements traceability matrix, test specs, and known issues. This is where the product process lives — if you want to understand _why_ a specific technical decision was made, the ADRs in `docs/spec/07-decisions/` are the right starting point.
 
 ---
 

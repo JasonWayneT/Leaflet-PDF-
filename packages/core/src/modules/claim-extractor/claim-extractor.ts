@@ -1,5 +1,5 @@
 import type { SourceContent, FactualClaim, Result } from '../../types/index'
-import type { ProviderConfig } from '../../services/ai-client/ai-client'
+import type { ProviderConfig, AiTextResponse } from '../../services/ai-client/ai-client'
 import { aiClient } from '../../services/ai-client/ai-client'
 import { buildClaimExtractorPrompt } from './prompts'
 import { randomUUID } from 'crypto'
@@ -7,7 +7,7 @@ import { randomUUID } from 'crypto'
 export async function extractClaims(
   sourceContent: SourceContent,
   providerConfig: ProviderConfig
-): Promise<Result<{ claims: FactualClaim[], tokenUsage: any }>> {
+): Promise<Result<{ claims: FactualClaim[], tokenUsage: AiTextResponse['usage'] }>> {
   if (!sourceContent.text.trim()) {
     return { ok: true, value: { claims: [], tokenUsage: { inputTokens: 0, outputTokens: 0 } } }
   }

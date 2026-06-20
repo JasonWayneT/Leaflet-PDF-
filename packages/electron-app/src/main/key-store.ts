@@ -2,7 +2,7 @@
 import type { Result } from '@leafletpdf/core'
 import * as keytar from 'keytar'
 
-export const KEY_STORE_SERVICE_NAME = 'Leaflet PDF-v2'
+export const KEY_STORE_SERVICE_NAME = 'Leaflet PDF'
 
 export type ProviderName = 'anthropic' | 'google' | 'ollama'
 

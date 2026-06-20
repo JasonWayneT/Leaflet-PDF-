@@ -8,7 +8,7 @@ inputDocuments:
   - docs/PRD.md
   - docs/addendum.md
   - docs/.decision-log.md
-  - C:/Users/Jason/Desktop/Jason/Projects/Leaflet PDFV2/ORBITAL-LIGHT.md
+  - docs/spec/04-design-specs/ORBITAL-LIGHT.md
 workflowType: architecture
 project_name: Leaflet PDF
 user_name: Jason

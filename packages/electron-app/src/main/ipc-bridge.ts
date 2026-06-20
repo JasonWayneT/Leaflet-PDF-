@@ -1,5 +1,7 @@
 ﻿// Implements ARCH-003: this is the only file that imports ipcMain from Electron.
 import { ipcMain, dialog, shell, app } from 'electron'
+import path from 'path'
+import fs from 'fs'
 import type { WebContents } from 'electron'
 import { aiClient, processFileInput, processTextInput, processYouTubeInput, type ProviderConfig, PipelineOrchestrator, type PipelineInput } from '@leafletpdf/core'
 import { keyStore } from './key-store'
@@ -34,8 +36,7 @@ export const registerIpcBridge: IpcBridgeRegistration = (orchestrator, webConten
 
     const lastSaveDirRes = settingsStore.get('lastSaveDirectory')
     const lastSaveDir = lastSaveDirRes.ok ? lastSaveDirRes.value : undefined
-    const path = require('path')
-    const defaultPath = lastSaveDir 
+    const defaultPath = lastSaveDir
       ? path.join(lastSaveDir, `${latestPipelineResult.title}.pdf`) 
       : path.join(app.getPath('documents'), `${latestPipelineResult.title}.pdf`)
 
@@ -48,7 +49,6 @@ export const registerIpcBridge: IpcBridgeRegistration = (orchestrator, webConten
     if (canceled || !filePath) {
       webContentToUse.send(IPC_CHANNELS.PIPELINE_SAVE_CANCELED)
     } else {
-      const fs = require('fs')
       fs.writeFileSync(filePath, latestPipelineResult.pdfBuffer)
       settingsStore.set('lastSaveDirectory', path.dirname(filePath))
       webContentToUse.send(IPC_CHANNELS.PIPELINE_COMPLETE, { filePath })

@@ -1,5 +1,5 @@
 import type { TransformedContent, FactualClaim, FailedClaim, Result } from '../../types/index'
-import type { ProviderConfig } from '../../services/ai-client/ai-client'
+import type { ProviderConfig, AiTextResponse } from '../../services/ai-client/ai-client'
 import { aiClient } from '../../services/ai-client/ai-client'
 import { buildValidatorPrompt } from './prompts'
 
@@ -12,7 +12,7 @@ export async function validate(
   transformed: TransformedContent,
   claims: FactualClaim[],
   providerConfig: ProviderConfig
-): Promise<Result<{ result: ValidationResult, tokenUsage: any }>> {
+): Promise<Result<{ result: ValidationResult, tokenUsage: AiTextResponse['usage'] }>> {
   if (claims.length === 0) {
     return {
       ok: true,
