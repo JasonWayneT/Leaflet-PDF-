@@ -19,26 +19,26 @@ export default function ProcessingScreen({ onComplete, onError }: ProcessingScre
   const [isSaveCanceled, setIsSaveCanceled] = useState<boolean>(false)
 
   useEffect(() => {
-    const unsubStage = window.Leaflet PDF.pipeline.onStageUpdate((payload) => {
+    const unsubStage = window.leafletpdf.pipeline.onStageUpdate((payload) => {
       setStage(payload.stage)
       if (payload.stage !== 'Validating' && payload.stage !== 'Transforming') {
         setRetryMessage('')
       }
     })
 
-    const unsubRetry = window.Leaflet PDF.pipeline.onRetry((payload) => {
+    const unsubRetry = window.leafletpdf.pipeline.onRetry((payload) => {
       setRetryMessage(payload.message)
     })
 
-    const unsubComplete = window.Leaflet PDF.pipeline.onComplete((payload) => {
+    const unsubComplete = window.leafletpdf.pipeline.onComplete((payload) => {
       onComplete(payload.filePath)
     })
 
-    const unsubError = window.Leaflet PDF.pipeline.onError((payload) => {
+    const unsubError = window.leafletpdf.pipeline.onError((payload) => {
       onError(payload.stage, payload.cause)
     })
 
-    const unsubSaveCanceled = window.Leaflet PDF.pipeline.onSaveCanceled(() => {
+    const unsubSaveCanceled = window.leafletpdf.pipeline.onSaveCanceled(() => {
       setIsSaveCanceled(true)
     })
 
@@ -58,7 +58,7 @@ export default function ProcessingScreen({ onComplete, onError }: ProcessingScre
 
   const handleRetrySave = () => {
     setIsSaveCanceled(false)
-    window.Leaflet PDF.files.saveFile()
+    window.leafletpdf.files.saveFile()
   }
 
   return (

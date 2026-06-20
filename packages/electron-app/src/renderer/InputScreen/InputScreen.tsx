@@ -42,7 +42,7 @@ export default function InputScreen({ onOpenSettings, onSubmitPipeline }: InputS
 
   const handleFileSelect = async () => {
     try {
-      const result = await window.Leaflet PDF.files.openFile()
+      const result = await window.leafletpdf.files.openFile()
       if (!result.ok) {
         setError(result.error.cause)
         return
@@ -61,7 +61,7 @@ export default function InputScreen({ onOpenSettings, onSubmitPipeline }: InputS
     setError(undefined)
     
     if (activeMode === 'paste') {
-      const result = await window.Leaflet PDF.intake.processText(text)
+      const result = await window.leafletpdf.intake.processText(text)
       if (!result.ok) {
         setError(result.error.cause)
         return false
@@ -85,7 +85,7 @@ export default function InputScreen({ onOpenSettings, onSubmitPipeline }: InputS
       }
       setIsProcessingYoutube(true)
       try {
-        const result = await window.Leaflet PDF.intake.processYouTube(url)
+        const result = await window.leafletpdf.intake.processYouTube(url)
         if (!result.ok) {
           setError(result.error.cause)
           return false
@@ -114,14 +114,14 @@ export default function InputScreen({ onOpenSettings, onSubmitPipeline }: InputS
     let finalSourceContent: SourceContent | undefined = undefined
     
     if (activeMode === 'paste') {
-      const result = await window.Leaflet PDF.intake.processText(text)
+      const result = await window.leafletpdf.intake.processText(text)
       if (result.ok) finalSourceContent = result.value
     } else if (activeMode === 'file') {
       finalSourceContent = sourceContent
     } else if (activeMode === 'youtube') {
       // already processed by validateInput, but wait, if it just processed it, sourceContent state isn't updated yet.
       // So validateInput should return it. Let's refactor inline for now.
-      const result = await window.Leaflet PDF.intake.processYouTube(url)
+      const result = await window.leafletpdf.intake.processYouTube(url)
       if (result.ok) finalSourceContent = result.value
     }
     
@@ -133,7 +133,7 @@ export default function InputScreen({ onOpenSettings, onSubmitPipeline }: InputS
     }
     
     // Retrieve provider settings from the main process
-    const settingsResult = await window.Leaflet PDF.settings.get('providerConfig')
+    const settingsResult = await window.leafletpdf.settings.get('providerConfig')
     if (!settingsResult.ok || !settingsResult.value) {
       setError('Provider configuration is missing. Please check your settings.')
       return
@@ -142,7 +142,7 @@ export default function InputScreen({ onOpenSettings, onSubmitPipeline }: InputS
     const providerConfig = settingsResult.value
 
     console.log("Submitting Pipeline:", { sourceContent: submissionContent, style })
-    window.Leaflet PDF.pipeline.run({
+    window.leafletpdf.pipeline.run({
       sourceContent: submissionContent,
       styleSelection: style,
       providerConfig: {

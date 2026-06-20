@@ -72,6 +72,6 @@ export type RendererApi = {
 
 declare global {
   interface Window {
-    Leaflet PDF: RendererApi
+    leafletpdf: RendererApi
   }
 }

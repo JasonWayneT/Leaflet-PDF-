@@ -24,7 +24,7 @@ function App(): React.ReactElement {
   React.useEffect(() => {
     let active = true
 
-    window.Leaflet PDF.settings.get('providerConfig').then((result) => {
+    window.leafletpdf.settings.get('providerConfig').then((result) => {
       if (!active) {
         return
       }

@@ -177,8 +177,8 @@ function SettingsScreen({ onReconfigureProvider }: SettingsScreenProps): React.R
     let active = true
 
     void Promise.all([
-      window.Leaflet PDF.settings.get('providerConfig'),
-      window.Leaflet PDF.settings.get('modelSlots'),
+      window.leafletpdf.settings.get('providerConfig'),
+      window.leafletpdf.settings.get('modelSlots'),
     ]).then(([configResult, slotsResult]) => {
       if (!active) {
         return
@@ -217,7 +217,7 @@ function SettingsScreen({ onReconfigureProvider }: SettingsScreenProps): React.R
         },
       }
 
-      const result = await window.Leaflet PDF.settings.set('modelSlots', updatedSlots)
+      const result = await window.leafletpdf.settings.set('modelSlots', updatedSlots)
 
       if (!result.ok) {
         setSaveError(result.error.cause)

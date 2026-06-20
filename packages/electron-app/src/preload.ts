@@ -88,4 +88,4 @@ const api: RendererApi = {
   }
 }
 
-contextBridge.exposeInMainWorld('Leaflet PDF', api)
+contextBridge.exposeInMainWorld('leafletpdf', api)

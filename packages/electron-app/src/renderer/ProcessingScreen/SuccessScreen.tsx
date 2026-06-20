@@ -10,7 +10,7 @@ export default function SuccessScreen({ filePath, onStartOver }: SuccessScreenPr
 
   const handleOpenFile = async () => {
     setOpenError(null)
-    const result = await window.Leaflet PDF.files.openExternal(filePath)
+    const result = await window.leafletpdf.files.openExternal(filePath)
     if (!result.ok) {
       setOpenError(result.error.cause)
     }

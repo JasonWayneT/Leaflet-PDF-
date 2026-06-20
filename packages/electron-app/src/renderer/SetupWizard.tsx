@@ -118,7 +118,7 @@ function SetupWizard({ onComplete }: SetupWizardProps): React.ReactElement {
     setError(null)
     setIsTesting(true)
 
-    const result = await window.Leaflet PDF.provider.testConnection(
+    const result = await window.leafletpdf.provider.testConnection(
       testPayloadFor(provider, apiKey.trim(), baseUrl.trim(), modelSlots)
     )
 
@@ -137,7 +137,7 @@ function SetupWizard({ onComplete }: SetupWizardProps): React.ReactElement {
   async function completeSetup(): Promise<void> {
     setError(null)
 
-    const result = await window.Leaflet PDF.provider.saveSetup(
+    const result = await window.leafletpdf.provider.saveSetup(
       setupPayloadFor(provider, apiKey.trim(), baseUrl.trim(), modelSlots)
     )
 
