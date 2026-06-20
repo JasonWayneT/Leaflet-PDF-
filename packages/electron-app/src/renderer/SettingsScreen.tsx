@@ -14,9 +14,6 @@ const PROVIDER_LABELS: Record<ProviderName, string> = {
 
 type EditingSlot = 'transformation' | 'validation' | null
 
-type SlotEditorState = {
-  model: string
-}
 
 export type SettingsScreenProps = {
   onReconfigureProvider: () => void

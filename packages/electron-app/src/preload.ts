@@ -1,5 +1,5 @@
 ﻿// Implements INT-004: renderer-to-main bridge for setup/settings workflows.
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge, ipcRenderer, type IpcRendererEvent } from 'electron'
 import { IPC_CHANNELS } from './renderer/types/ipc'
 import type {
   ProviderSetupPayload,
@@ -61,27 +61,27 @@ const api: RendererApi = {
   pipeline: {
     run: (input: PipelineInput) => ipcRenderer.invoke(IPC_CHANNELS.RUN_PIPELINE, input),
     onStageUpdate: (callback) => {
-      const handler = (_event: any, payload: { stage: StageName }) => callback(payload)
+      const handler = (_event: IpcRendererEvent, payload: { stage: StageName }) => callback(payload)
       ipcRenderer.on(IPC_CHANNELS.PIPELINE_STAGE_UPDATE, handler)
       return () => { ipcRenderer.off(IPC_CHANNELS.PIPELINE_STAGE_UPDATE, handler) }
     },
     onRetry: (callback) => {
-      const handler = (_event: any, payload: { message: string }) => callback(payload)
+      const handler = (_event: IpcRendererEvent, payload: { message: string }) => callback(payload)
       ipcRenderer.on(IPC_CHANNELS.PIPELINE_RETRY, handler)
       return () => { ipcRenderer.off(IPC_CHANNELS.PIPELINE_RETRY, handler) }
     },
     onSaveCanceled: (callback) => {
-      const handler = (_event: any) => callback()
+      const handler = (_event: IpcRendererEvent) => callback()
       ipcRenderer.on(IPC_CHANNELS.PIPELINE_SAVE_CANCELED, handler)
       return () => { ipcRenderer.off(IPC_CHANNELS.PIPELINE_SAVE_CANCELED, handler) }
     },
     onComplete: (callback) => {
-      const handler = (_event: any, payload: { filePath: string }) => callback(payload)
+      const handler = (_event: IpcRendererEvent, payload: { filePath: string }) => callback(payload)
       ipcRenderer.on(IPC_CHANNELS.PIPELINE_COMPLETE, handler)
       return () => { ipcRenderer.off(IPC_CHANNELS.PIPELINE_COMPLETE, handler) }
     },
     onError: (callback) => {
-      const handler = (_event: any, payload: { stage: StageName; cause: string }) => callback(payload)
+      const handler = (_event: IpcRendererEvent, payload: { stage: StageName; cause: string }) => callback(payload)
       ipcRenderer.on(IPC_CHANNELS.PIPELINE_ERROR, handler)
       return () => { ipcRenderer.off(IPC_CHANNELS.PIPELINE_ERROR, handler) }
     }
