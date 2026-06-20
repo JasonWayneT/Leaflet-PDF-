@@ -19,7 +19,7 @@ Implement Phase 2 of Leaflet PDF: the `packages/mcp-server` workspace. This will
 - `docs/PRD-MCP-addendum.md` (Created)
 - `docs/epics-stories.md` (Appended Phase 2 epics)
 - `docs/spec/02-requirements-registry.md`
-- `docs/spec/03-feature-specs/FEAT-007-mcp-server.md` (Created)
+- `docs/spec/03-feature-specs/FEAT-008-mcp-server.md` (Created)
 - `docs/spec/06-traceability/traceability-matrix.md`
 
 ## Implementation Tasks

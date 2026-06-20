@@ -13,7 +13,7 @@ This addendum captures roadmap context, design decisions, and parked ideas that 
 ## Visual Style System
 
 ### Orbital Light (v2 Primary)
-The primary output style for v2. Defined in `C:\Users\Jason\Desktop\Jason\Projects\Leaflet PDFV2\ORBITAL-LIGHT.md` (renamed from DESIGN.md) under the name "Orbital Surveillance // Tactical Sci-Fi." Each Visual Style will have its own named spec file in this folder.
+The primary output style for v2. Defined in `docs/spec/04-design-specs/ORBITAL-LIGHT.md` under the name "Orbital Surveillance // Tactical Sci-Fi." Each Visual Style will have its own named spec file in that folder.
 
 Key characteristics:
 - **Ground:** Light/white base (not dark terminal)
@@ -24,10 +24,10 @@ Key characteristics:
 - **Tone:** Classified document printed on paper — military-precision structure, light ground, deliberate ink colors
 - **Reference:** Pragmata (Capcom) and Marathon (Bungie) websites — structural language and contrast, not their dark color palettes
 
-The Google Stitch mockup at `C:\Users\Jason\Desktop\Jason\Projects\Leaflet PDFV2\screen.png` is the directional prototype for this style.
+The Google Stitch mockup referenced during design is the directional prototype for this style.
 
 ### Strategyzer Style (Future — Phase 3)
-Carried over from v1 (Leaflet PDF at `C:\Users\Jason\Desktop\Jason\Resource\CodeProjects\Leaflet PDF`). Warm off-white paper (#f7f4ef), clean editorial, Strategyzer-style color coding.
+Carried over from v1. Warm off-white paper (#f7f4ef), clean editorial, Strategyzer-style color coding.
 
 **Modification from v1:** Remove the illustrated characters that were part of v1's design direction. Keep the warm paper, color coding (electric blue, bold red, amber, teal), and editorial structure.
 
@@ -74,15 +74,14 @@ The idea that a Leaflet PDF document could be annotated and amended as you learn
 
 ## Source Material Available for Reuse
 
-V1 project at `C:\Users\Jason\Desktop\Jason\Resource\CodeProjects\Leaflet PDF` contains:
-- `docs/BOOK_ARCHITECTURE.md` — book structure model (parts/chapters/sections)
-- `docs/PEDAGOGY_RULES.md` — teaching methodology (useful for defining the transformation framework)
-- `docs/VALIDATION_CHECKLISTS.md` — quality gate framework
-- `docs/CONTENT_MODELS.md` — metadata schemas
-- `docs/VOCABULARY_AND_GLOSSARY_MODEL.md` — term definition rules
-- `docs/TRANSFORMATION_RULES.md` — input type transformation logic
-- `docs/Art Direction/` — HTML prototype and design reference images
+V1 project documentation contains:
+- `BOOK_ARCHITECTURE.md` — book structure model (parts/chapters/sections)
+- `PEDAGOGY_RULES.md` — teaching methodology (useful for defining the transformation framework)
+- `VALIDATION_CHECKLISTS.md` — quality gate framework
+- `CONTENT_MODELS.md` — metadata schemas
+- `VOCABULARY_AND_GLOSSARY_MODEL.md` — term definition rules
+- `TRANSFORMATION_RULES.md` — input type transformation logic
 
 The v1 architecture was over-engineered for the problem. Do not port the 6-stage pipeline or the PostgreSQL/Redis/Celery stack into v2 without explicit scope justification. Start simpler.
 
-The Learning Document Playbook at `C:\Users\Jason\Desktop\Jason\Projects\Leaflet PDFV2\The Learning Document Playbook  Turning Dense Material Into Guided Paths.md` defines the 10-technique pedagogical framework Leaflet PDF should apply during transformation. This is the canonical reference for the restructuring logic.
+The Learning Document Playbook (10-technique pedagogical framework) defines how Leaflet PDF restructures transformation input. This is the canonical reference for the restructuring logic.
