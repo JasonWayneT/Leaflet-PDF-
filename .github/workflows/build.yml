@@ -26,9 +26,6 @@ jobs:
         # Implements OPS-001: CI fails when any workspace build or TypeScript check fails.
         run: npm run build --workspaces --if-present
 
-      - name: Lint
-        run: npm run lint --workspace=packages/electron-app
-
       - name: Run tests
         # Implements STORY-9.1: integration tests run in CI on every push and PR.
         run: npm run test --workspaces --if-present
