@@ -1,10 +1,10 @@
-# UX Design Specification — Bookit v2
+﻿# UX Design Specification — Leaflet PDF
 
-**Source:** Google Stitch design files at `C:\Users\Jason\Downloads\stitch_bookit_saas_interface_design\`
-**Design system name:** Bookit Indigo
+**Source:** Google Stitch design files at `C:\Users\Jason\Downloads\stitch_LEAFLETPDF_saas_interface_design\`
+**Design system name:** Leaflet PDF Indigo
 **Status:** accepted — pre-implementation reference
 
-> **Note on two style systems:** This document covers the **app UI** (Bookit Indigo — the Electron interface). The **PDF output** is styled by the Orbital Light / Orbital Night system in `ORBITAL-LIGHT.md` and `ORBITAL-NIGHT.md`. These are separate concerns. Do not conflate them.
+> **Note on two style systems:** This document covers the **app UI** (Leaflet PDF Indigo — the Electron interface). The **PDF output** is styled by the Orbital Light / Orbital Night system in `ORBITAL-LIGHT.md` and `ORBITAL-NIGHT.md`. These are separate concerns. Do not conflate them.
 
 ---
 
@@ -92,7 +92,7 @@ Absent on: SetupWizard (full-screen centered flow).
 **Structure:**
 - Width: 56px, fixed left, full height, `border-right: 1px solid #C7C4D8`, `background: #F9F9FF`
 - Hover expand: grows to 240px, shows nav labels (opacity 0 → 1, `white-space: nowrap`)
-- Top: `auto_fix_high` Material Symbol in primary (28px, FILL:1) — the Bookit logo mark
+- Top: `auto_fix_high` Material Symbol in primary (28px, FILL:1) — the Leaflet PDF logo mark
 - Nav items: 40×40px, rounded-lg, icon centered; active = `bg-active-indicator (#E2DFFF)` + `color: primary`; inactive = `color: on-surface-variant`, hover shifts to primary
 - Bottom (pinned): Settings gear icon
 
@@ -262,7 +262,7 @@ No sidebar. Full-screen centered flex column. Background: `#F9F9FF`.
 
 #### Header (above card)
 
-- Bookit logo: `auto_fix_high` Material Symbol (FILL:1, 32px, primary) + `"Bookit"` h1 in primary
+- Leaflet PDF logo: `auto_fix_high` Material Symbol (FILL:1, 32px, primary) + `"Leaflet PDF"` h1 in primary
 - Step indicator: `"SETUP · STEP 2 OF 4"` — `label-md`, JetBrains Mono, `outline`, uppercase, `margin-top: 8px`
 
 #### Card (900px, `rounded-xl`)
@@ -288,7 +288,7 @@ Card content per option:
 - H3: provider name
 - Body-sm: one-line description
 
-Provider specs for Bookit:
+Provider specs for Leaflet PDF:
 - **Cloud:** icon `cloud`, label `"Cloud"`, description `"Connect via Anthropic API. No local setup required."`
 - **Local:** icon `database`, label `"Local"`, description `"Connect via Ollama. 100% data residency and maximum privacy control."`
 
@@ -303,10 +303,10 @@ Provider specs for Bookit:
 
 | Step | Title | Content |
 |---|---|---|
-| 1 | Welcome | Intro screen — what Bookit is, what setup requires |
+| 1 | Welcome | Intro screen — what Leaflet PDF is, what setup requires |
 | 2 | Connect Provider | Cloud (Anthropic) or Local (Ollama) — **designed** |
 | 3 | API Key / Connection | API key input (cloud) or Ollama base URL (local) + Test Connection |
-| 4 | Confirm | Model slot assignments shown; "Start Using Bookit" CTA |
+| 4 | Confirm | Model slot assignments shown; "Start Using Leaflet PDF" CTA |
 
 > Steps 1, 3, 4 are not designed in Stitch. Derive from the design system. Step 3 uses the same input field styling as the InputScreen. "Test Connection" is a secondary button alongside Continue.
 
@@ -536,6 +536,6 @@ Transition: border-color, background-color, 300ms
 | SuccessScreen | `success_artifact_ready_final/code.html` | `success_artifact_ready_final/screen.png` |
 | Settings | — (no HTML) | `settings_corrected/screen.png` |
 | ErrorScreen | — (not designed) | — |
-| Design system | `bookit_design_system/DESIGN.md` | — |
+| Design system | `LEAFLETPDF_design_system/DESIGN.md` | — |
 
-All source files: `C:\Users\Jason\Downloads\stitch_bookit_saas_interface_design\`
+All source files: `C:\Users\Jason\Downloads\stitch_LEAFLETPDF_saas_interface_design\`

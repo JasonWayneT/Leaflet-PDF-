@@ -13,18 +13,28 @@ export type ProviderConfig =
       model: string
       apiKey: string
       baseUrl?: never
+      createMessage?: never
     }
   | {
       provider: 'google'
       model: string
       apiKey: string
       baseUrl?: never
+      createMessage?: never
     }
   | {
       provider: 'ollama'
       model: string
       apiKey?: never
       baseUrl: string
+      createMessage?: never
+    }
+  | {
+      provider: 'mcp-sampling'
+      model?: never
+      apiKey?: never
+      baseUrl?: never
+      createMessage: (prompt: string) => Promise<AiTextResponse>
     }
 
 export type AiTextResponse = {
@@ -44,6 +54,8 @@ export type AiProviderAdapters = {
   google: ProviderAdapter<Extract<ProviderConfig, { provider: 'google' }>>
   ollama: ProviderAdapter<Extract<ProviderConfig, { provider: 'ollama' }>>
 }
+
+export type DirectProviderConfig = Extract<ProviderConfig, { provider: 'anthropic' | 'google' | 'ollama' }>
 
 export type AiGenerateText = (input: {
   model: GenerateTextModel
@@ -96,12 +108,18 @@ export function createAiClient({
   return {
     async generateText(prompt, providerConfig) {
       try {
+        if (providerConfig.provider === 'mcp-sampling') {
+          const result = await providerConfig.createMessage(prompt)
+          return { ok: true, value: result }
+        }
+
+        const directConfig = providerConfig as DirectProviderConfig
         const model =
-          providerConfig.provider === 'anthropic'
-            ? adapters.anthropic.createModel(providerConfig)
-            : providerConfig.provider === 'google'
-              ? adapters.google.createModel(providerConfig)
-              : adapters.ollama.createModel(providerConfig)
+          directConfig.provider === 'anthropic'
+            ? adapters.anthropic.createModel(directConfig)
+            : directConfig.provider === 'google'
+              ? adapters.google.createModel(directConfig)
+              : adapters.ollama.createModel(directConfig)
 
         const response = await generator({ model, prompt })
 

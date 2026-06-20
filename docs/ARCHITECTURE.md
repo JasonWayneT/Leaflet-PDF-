@@ -1,4 +1,4 @@
----
+﻿---
 stepsCompleted: [1, 2, 3, 4, 5, 6, 7, 8]
 lastStep: 8
 status: complete
@@ -8,14 +8,14 @@ inputDocuments:
   - docs/PRD.md
   - docs/addendum.md
   - docs/.decision-log.md
-  - C:/Users/Jason/Desktop/Jason/Projects/BookitV2/ORBITAL-LIGHT.md
+  - C:/Users/Jason/Desktop/Jason/Projects/Leaflet PDFV2/ORBITAL-LIGHT.md
 workflowType: architecture
-project_name: Bookit v2
+project_name: Leaflet PDF
 user_name: Jason
 date: 2026-06-18
 ---
 
-# Architecture Decision Document — Bookit v2
+# Architecture Decision Document — Leaflet PDF
 
 _This document builds collaboratively through step-by-step discovery. Sections are appended as we work through each architectural decision together._
 
@@ -34,7 +34,7 @@ Windows desktop application — Electron with TypeScript.
 **Initialization Command:**
 
 ```bash
-npm create electron-app@latest bookit-v2 -- --template=vite-typescript
+npm create electron-app@latest Leaflet PDF-v2 -- --template=vite-typescript
 ```
 
 Then add:
@@ -64,7 +64,7 @@ npm install playwright
 
 **Decision:** Two-tier model slots (Transformation / Validation+Utility) with BYOA multi-provider support.
 
-**Providers in scope for v2:** Anthropic (Claude), Google (Gemini), Ollama (local).
+**Providers in scope for v2:** Anthropic (Claude), Google (Gemini), Ollama (local), MCP Sampling (host-delegated — see Decision 1 Addendum).
 
 **Default assignments:**
 - Transformation slot: `claude-sonnet-4-6` — quality-critical restructuring
@@ -138,14 +138,14 @@ Renderer subscribes to events; no polling, no shared state.
 **Decision:** Monorepo from day one using npm workspaces.
 
 ```
-bookit-v2/
+Leaflet PDF-v2/
   packages/
     core/           ← all pipeline logic, zero Electron dependencies
     electron-app/   ← portfolio app; imports from core
     mcp-server/     ← (Phase 2 roadmap); also imports from core
 ```
 
-**Rationale:** Jason's primary day-to-day use case is Bookit as an MCP server (via Cursor, Claude Desktop, or any MCP-compatible host). The Electron app is the GitHub portfolio piece and a working demo of `core`. Both are valid hosts for the same pipeline.
+**Rationale:** Jason's primary day-to-day use case is Leaflet PDF as an MCP server (via Cursor, Claude Desktop, or any MCP-compatible host). The Electron app is the GitHub portfolio piece and a working demo of `core`. Both are valid hosts for the same pipeline.
 
 **EventEmitter abstraction:** The Orchestrator in `core` emits events via Node.js built-in `EventEmitter` — never Electron's `ipcMain`. The Electron shell subscribes and bridges to IPC. The MCP server shell subscribes and handles differently. `core` never imports from Electron.
 
@@ -159,11 +159,39 @@ core/orchestrator → emits to Node EventEmitter
 
 ---
 
+### Decision 1 Addendum: MCP Sampling Provider
+
+**Decision:** Add `'mcp-sampling'` as a fourth provider mode in `ProviderConfig`. When active, AI inference is delegated to the MCP host via `sampling/createMessage` rather than to an external API.
+
+**When it activates:**
+- Explicit: `LEAFLETPDF_TRANSFORM_PROVIDER=mcp-sampling`
+- Auto-detect: no API key present and no `LEAFLETPDF_OLLAMA_URL` set
+
+**How it works:** The MCP server builds a `ProviderConfig` object whose `createMessage` callback calls `server.request('sampling/createMessage', ...)`. The MCP SDK routes this request to the connected client (Claude Desktop, Cursor, etc.), which fulfills it using the user's active session. The response comes back through the same stdio transport. From the pipeline's perspective, this is indistinguishable from any other provider — `aiClient.generateText()` receives the same `Result<AiTextResponse>` shape.
+
+**Provider resolution order (MCP server only):**
+```
+LEAFLETPDF_TRANSFORM_PROVIDER=mcp-sampling  → sampling (explicit)
+No API keys + no LEAFLETPDF_OLLAMA_URL       → sampling (auto-detect)
+LEAFLETPDF_ANTHROPIC_KEY present             → Anthropic (direct)
+LEAFLETPDF_GOOGLE_KEY present                → Google (direct)
+LEAFLETPDF_OLLAMA_URL present                → Ollama (direct)
+```
+
+**Constraints:**
+- Token counts are unavailable in sampling mode — `tokenSummary` reports `{ input: 0, output: 0 }`
+- The host controls model selection; Leaflet PDF cannot guarantee which model is used
+- Requires a sampling-capable MCP host (Claude Desktop, recent Cursor)
+
+**Implemented in:** CR-003. Decision logged as DEC-023.
+
+---
+
 ### Decision 3: Factual Claim Extraction Method
 
 **Decision:** Dedicated AI call using the Validation/Utility model slot (Option A).
 
-**Rationale:** Highest accuracy for the kinds of content Bookit handles — YouTube transcripts, technical articles, dense non-fiction where factual claims aren't always in clean declarative sentences. Token cost at Haiku/Flash pricing is negligible for a personal tool (~$0.001–0.003 per run on a 2,000-word document). Rule-based NLP risks brittle extraction that produces false validation failures — the wrong trade for a tool where fidelity is the core trust signal.
+**Rationale:** Highest accuracy for the kinds of content Leaflet PDF handles — YouTube transcripts, technical articles, dense non-fiction where factual claims aren't always in clean declarative sentences. Token cost at Haiku/Flash pricing is negligible for a personal tool (~$0.001–0.003 per run on a 2,000-word document). Rule-based NLP risks brittle extraction that produces false validation failures — the wrong trade for a tool where fidelity is the core trust signal.
 
 **Local/Ollama mode:** Claim Extractor uses the Validation/Utility slot regardless of provider. Local models increase fidelity failure rate; the retry loop (up to 3 attempts) absorbs variance. Settings screen surfaces a guidance note when Ollama is configured for either slot.
 
@@ -302,7 +330,7 @@ Not in a separate `/tests` directory. Each module is responsible for its own tes
 
 ### Token Log
 
-- Path: `app.getPath('userData')/bookit-token-log.jsonl`
+- Path: `app.getPath('userData')/leafletpdf-token-log.jsonl`
 - Always append, never overwrite
 - Errors during log write are caught silently — a logging failure must never interrupt or crash the pipeline
 
@@ -325,7 +353,7 @@ All agents working on this codebase must:
 ### Complete Project Directory Structure
 
 ```
-bookit-v2/
+Leaflet PDF-v2/
 ├── package.json                        ← workspace root (npm workspaces)
 ├── tsconfig.base.json
 ├── .gitignore
@@ -529,7 +557,7 @@ Open Question #6 (raw captions vs. clean first) is closed. The Intake module run
 
 **First Implementation Step:**
 ```bash
-npm create electron-app@latest bookit-v2 -- --template=vite-typescript
+npm create electron-app@latest Leaflet PDF-v2 -- --template=vite-typescript
 ```
 
 ---

@@ -1,4 +1,4 @@
-# CR-015 — InputScreen UI (Story 3.5)
+﻿# CR-015 — InputScreen UI (Story 3.5)
 
 ## Summary
 
@@ -19,7 +19,7 @@ Feature — builds out the UI layer for the core Intake module completed in Stor
 
 ### Components (`electron-app/src/renderer/InputScreen/`)
 - **`InputScreen`**: Manages state for the active tab, the current input data (`SourceContent` partial or raw text/URL/file path), the optional title, and the selected style.
-- **`TextInput`**: Renders a textarea. Uses `processTextInput` from `@bookit/core` to validate on blur or submit.
+- **`TextInput`**: Renders a textarea. Uses `processTextInput` from `@leafletpdf/core` to validate on blur or submit.
 - **`FileInput`**: Renders an "Import File" button. Calls `window.electron.openFile()` which triggers the IPC handler.
 - **`UrlInput`**: Renders a URL input field. Uses `processYouTubeInput` on blur or submit.
 - **`StyleSelector`**: Renders a toggle between Orbital Light and Orbital Night.

@@ -1,4 +1,4 @@
-# CR-014 — Document Title Derivation (Story 3.4)
+﻿# CR-014 — Document Title Derivation (Story 3.4)
 
 ## Summary
 
@@ -18,7 +18,7 @@ Feature — extends existing core module with an AI-driven title generation func
 
 ### deriveTitle(text: string, aiConfig: ProviderConfig): Promise<Result<string>>
 - Takes the first 500 characters of the input text to save context window and latency.
-- Uses `aiClient.generateText` from `@bookit/core` with a prompt asking for a short title (max 60 chars) without quotes.
+- Uses `aiClient.generateText` from `@leafletpdf/core` with a prompt asking for a short title (max 60 chars) without quotes.
 - Returns `Result<string>`. Any AI client error is propagated as a `Result<never>` using the standard pipeline error shape.
 - Caller is responsible for bypassing this if a title is user-provided.
 - Token usage recording is deferred to the pipeline orchestrator story.

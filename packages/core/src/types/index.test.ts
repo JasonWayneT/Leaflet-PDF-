@@ -1,4 +1,4 @@
-import type {
+﻿import type {
   AlwaysTechnique,
   ConditionalTechnique,
   ContentSection,
@@ -16,18 +16,18 @@ import type {
   TechniqueList,
   TokenUsageEntry,
   TransformedContent,
-} from '@bookit/core'
+} from '@leafletpdf/core'
 
 // Implements ARCH-004: compile-time coverage for the public shared type surface.
 const sourceContent: SourceContent = {
-  text: 'Bookit preserves source fidelity.',
+  text: 'Leaflet PDF preserves source fidelity.',
   inputType: 'paste',
   title: 'Source Fidelity',
 }
 
 const claim: FactualClaim = {
   id: 'claim-1',
-  text: 'Bookit preserves source fidelity.',
+  text: 'Leaflet PDF preserves source fidelity.',
 }
 
 const failedClaim: FailedClaim = {

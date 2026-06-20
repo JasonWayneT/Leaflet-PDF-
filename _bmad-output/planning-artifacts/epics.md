@@ -1,4 +1,4 @@
----
+﻿---
 stepsCompleted: [1, 2, 3, 4]
 inputDocuments:
   - docs/PRD.md
@@ -7,10 +7,10 @@ inputDocuments:
   - docs/addendum.md
 status: complete
 completedAt: '2026-06-18'
-project_name: Bookit v2
+project_name: Leaflet PDF
 ---
 
-# Bookit v2 — Epic Breakdown
+# Leaflet PDF — Epic Breakdown
 
 ## Overview
 
@@ -69,13 +69,13 @@ NFR-8: PDF output is portrait, tablet-readable, and opens in the system default 
 ### Additional Requirements (Architecture)
 
 - **Monorepo with npm workspaces:** Three packages — `core` (zero Electron deps), `electron-app`, `mcp-server` (Phase 2 placeholder)
-- **Starter template:** `npm create electron-app@latest bookit-v2 -- --template=vite-typescript` is the Electron bootstrap; add React, Vercel AI SDK, youtube-transcript, Playwright, electron-store, keytar
+- **Starter template:** `npm create electron-app@latest Leaflet PDF-v2 -- --template=vite-typescript` is the Electron bootstrap; add React, Vercel AI SDK, youtube-transcript, Playwright, electron-store, keytar
 - **EventEmitter abstraction:** Orchestrator in `core` emits via Node EventEmitter; `electron-app/main/ipc-bridge.ts` subscribes and bridges to Electron IPC; `core` never imports from Electron
 - **Vercel AI SDK:** `ai` + `@ai-sdk/anthropic` + `@ai-sdk/google` + `@ai-sdk/ollama` for unified `generateText()` interface
 - **Two model slots:** Transformation slot (default: `claude-sonnet-4-6`) + Validation/Utility slot (default: `claude-haiku-4-5`)
 - **Style registry:** Maps style names to spec paths + HTML template paths; new style = new spec + new template + one registry entry
 - **Playwright PDF:** Headless Chromium in main process; A4 portrait, print-background enabled; fonts bundled as static assets
-- **Token log schema:** `.jsonl` in `app.getPath('userData')/bookit-token-log.jsonl`; per-call token counts + build-time cost estimates
+- **Token log schema:** `.jsonl` in `app.getPath('userData')/leafletpdf-token-log.jsonl`; per-call token counts + build-time cost estimates
 - **YouTube caption pre-processing:** `preprocessCaptions()` in Intake — deterministic, strips timestamps/speaker labels/filler before SourceContent is formed
 - **Mental bucket threshold:** 1,500 words config constant in `technique-selector/rules.ts`
 - **Technique audit persistence:** Session-only for v2 (no storage design needed)
@@ -147,7 +147,7 @@ So that all packages share a single build toolchain with correct workspace resol
 **And** each package's `tsconfig.json` extends `../../tsconfig.base.json` at the root
 **And** `tsconfig.base.json` sets `strict: true`, `moduleResolution: bundler`, `target: ES2022`
 **And** `packages/mcp-server/src/index.ts` is a scaffold placeholder (exports nothing, single comment: `// Phase 2 — MCP server`)
-**And** `packages/core/package.json` has name `@bookit/core` and is importable from `electron-app`
+**And** `packages/core/package.json` has name `@leafletpdf/core` and is importable from `electron-app`
 **And** `.gitignore` excludes `node_modules/`, `out/`, `.vite/`, `dist/`
 
 ---
@@ -162,7 +162,7 @@ So that `npm run start` opens an Electron window rendering a blank React page wi
 
 **Given** `packages/electron-app` is initialized via `npm create electron-app@latest` with `--template=vite-typescript`
 **When** `npm run start` is run from the workspace root (or from `packages/electron-app`)
-**Then** an Electron window opens displaying a blank React page (no content required — just `<h1>Bookit v2</h1>`)
+**Then** an Electron window opens displaying a blank React page (no content required — just `<h1>Leaflet PDF</h1>`)
 **And** both main process (`src/main/index.ts`) and renderer process (`src/renderer/index.tsx`) compile without TypeScript errors
 **And** `forge.config.ts`, `vite.main.config.ts`, and `vite.renderer.config.ts` are present and functional
 **And** React and ReactDOM are installed (`react`, `react-dom`, `@types/react`, `@types/react-dom`)
@@ -205,7 +205,7 @@ type StyleName = 'orbital-light' | 'orbital-night'
 type StyleRegistryEntry = { specPath: string; templatePath: string }
 ```
 
-**And** `packages/electron-app` imports these types from `@bookit/core` — no local redefinitions
+**And** `packages/electron-app` imports these types from `@leafletpdf/core` — no local redefinitions
 **And** `packages/core/src/index.ts` re-exports all types from `types/index.ts`
 **And** the file compiles without errors
 
@@ -279,7 +279,7 @@ So that sensitive credentials never appear on disk in plaintext.
 
 **Given** I provide an API key
 **When** `keyStore.set(provider, apiKey)` is called
-**Then** the key is stored via `keytar` to Windows Credential Manager under the service name `bookit-v2`
+**Then** the key is stored via `keytar` to Windows Credential Manager under the service name `Leaflet PDF-v2`
 **And** `keyStore.get(provider)` retrieves the key from Credential Manager
 **And** `keyStore.delete(provider)` removes the key
 
@@ -545,7 +545,7 @@ So that the renderer receives pipeline progress without any coupling to `core`.
 
 As a user,
 I want to see the active pipeline stage update in real time while my content is being processed,
-So that I know Bookit is working and can see where it is in the pipeline.
+So that I know Leaflet PDF is working and can see where it is in the pipeline.
 
 **Acceptance Criteria:**
 
@@ -642,7 +642,7 @@ So that per-call token usage is tracked for analysis and never lost, without any
 **Acceptance Criteria:**
 
 **Given** a pipeline run completes (success, fidelity failure, or error)
-**Then** a JSON object is appended to `{app.getPath('userData')}/bookit-token-log.jsonl` conforming to this schema:
+**Then** a JSON object is appended to `{app.getPath('userData')}/leafletpdf-token-log.jsonl` conforming to this schema:
 
 ```json
 {
@@ -861,7 +861,7 @@ So that all module handoff contracts are exercised in their real execution conte
 **Then** all 5 modules execute in sequence: title derivation → ClaimExtractor → TechniqueSelector → Transformer → Validator → Renderer
 **And** the ProcessingScreen updates stage labels in real time (Extracting → Transforming → Validating → Rendering)
 **And** the SuccessScreen appears and "Open File" opens a valid, visually styled PDF
-**And** `bookit-token-log.jsonl` is written with a correctly structured entry
+**And** `leafletpdf-token-log.jsonl` is written with a correctly structured entry
 **And** no module throws an unhandled exception (all errors route through `Result<T>` to `pipeline:error`)
 
 **And** a fidelity failure scenario is tested: if the Validator mock returns `passed: false` on attempt 1 and `passed: true` on attempt 2, the ProcessingScreen shows the retry label and the pipeline eventually succeeds
@@ -876,7 +876,7 @@ So that all module handoff contracts are exercised in their real execution conte
 
 As a developer,
 I want the app to build into a self-contained Windows `.exe` via electron-builder,
-So that Bookit can be downloaded from GitHub and run on any Windows 11 machine without additional installs.
+So that Leaflet PDF can be downloaded from GitHub and run on any Windows 11 machine without additional installs.
 
 **Acceptance Criteria:**
 
@@ -887,7 +887,7 @@ So that Bookit can be downloaded from GitHub and run on any Windows 11 machine w
 **And** running the `.exe` on a fresh Windows 11 machine with no Node.js installed launches the app successfully
 **And** the first launch triggers the SetupWizard (no pre-existing settings)
 **And** the GitHub Actions `build.yml` adds a `make` job that produces the `.exe` as a workflow artifact
-**And** the artifact is named `bookit-v2-win32-x64.exe` (or equivalent) for GitHub Release use
+**And** the artifact is named `Leaflet PDF-v2-win32-x64.exe` (or equivalent) for GitHub Release use
 
 ---
 

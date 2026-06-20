@@ -1,7 +1,7 @@
----
+﻿---
 name: Orbital Light
 type: visual-style
-author: Bookit
+author: Leaflet PDF
 colors:
   bg: "#ffffff"
   text: "#131313"
@@ -16,4 +16,4 @@ fonts:
 
 # Orbital Light
 
-The default visual style for Bookit v2. Emphasizes stark contrast, sharp corners, and highly readable typography for technical and non-technical content alike.
+The default visual style for Leaflet PDF. Emphasizes stark contrast, sharp corners, and highly readable typography for technical and non-technical content alike.

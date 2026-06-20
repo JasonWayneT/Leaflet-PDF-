@@ -53,7 +53,7 @@ export class PipelineOrchestrator extends EventEmitter {
       if (!usage) return
       tokenUsage[step] = {
         provider: config.provider,
-        model: config.model,
+        model: config.model ?? 'host-model',
         in: usage.inputTokens,
         out: usage.outputTokens
       }

@@ -1,4 +1,4 @@
-import type { Result, SourceContent, PipelineInput, StageName } from '@bookit/core'
+﻿import type { Result, SourceContent, PipelineInput, StageName } from '@leafletpdf/core'
 import type { ModelSlotSettings, ProviderSettings } from '../../main/settings-store'
 
 export type SettingsKey = keyof {
@@ -56,6 +56,10 @@ export type RendererApi = {
     openExternal(filePath: string): Promise<Result<void>>
     saveFile(): Promise<void>
   }
+  intake: {
+    processText(text: string): Promise<Result<SourceContent>>
+    processYouTube(url: string): Promise<Result<SourceContent>>
+  }
   pipeline: {
     run(input: PipelineInput): void
     onStageUpdate(callback: (payload: { stage: StageName }) => void): () => void
@@ -68,6 +72,6 @@ export type RendererApi = {
 
 declare global {
   interface Window {
-    bookit: RendererApi
+    Leaflet PDF: RendererApi
   }
 }

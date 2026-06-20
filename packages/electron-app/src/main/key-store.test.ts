@@ -1,4 +1,4 @@
-import type { Result } from '@bookit/core'
+﻿import type { Result } from '@leafletpdf/core'
 import {
   KEY_STORE_SERVICE_NAME,
   createKeyStore,

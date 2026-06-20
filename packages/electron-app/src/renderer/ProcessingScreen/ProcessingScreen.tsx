@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import type { StageName } from '@bookit/core'
+﻿import React, { useEffect, useState } from 'react'
+import type { StageName } from '@leafletpdf/core'
 
 export interface ProcessingScreenProps {
   onComplete: (filePath: string) => void
@@ -19,26 +19,26 @@ export default function ProcessingScreen({ onComplete, onError }: ProcessingScre
   const [isSaveCanceled, setIsSaveCanceled] = useState<boolean>(false)
 
   useEffect(() => {
-    const unsubStage = window.bookit.pipeline.onStageUpdate((payload) => {
+    const unsubStage = window.Leaflet PDF.pipeline.onStageUpdate((payload) => {
       setStage(payload.stage)
       if (payload.stage !== 'Validating' && payload.stage !== 'Transforming') {
         setRetryMessage('')
       }
     })
 
-    const unsubRetry = window.bookit.pipeline.onRetry((payload) => {
+    const unsubRetry = window.Leaflet PDF.pipeline.onRetry((payload) => {
       setRetryMessage(payload.message)
     })
 
-    const unsubComplete = window.bookit.pipeline.onComplete((payload) => {
+    const unsubComplete = window.Leaflet PDF.pipeline.onComplete((payload) => {
       onComplete(payload.filePath)
     })
 
-    const unsubError = window.bookit.pipeline.onError((payload) => {
+    const unsubError = window.Leaflet PDF.pipeline.onError((payload) => {
       onError(payload.stage, payload.cause)
     })
 
-    const unsubSaveCanceled = window.bookit.pipeline.onSaveCanceled(() => {
+    const unsubSaveCanceled = window.Leaflet PDF.pipeline.onSaveCanceled(() => {
       setIsSaveCanceled(true)
     })
 
@@ -58,7 +58,7 @@ export default function ProcessingScreen({ onComplete, onError }: ProcessingScre
 
   const handleRetrySave = () => {
     setIsSaveCanceled(false)
-    window.bookit.files.saveFile()
+    window.Leaflet PDF.files.saveFile()
   }
 
   return (

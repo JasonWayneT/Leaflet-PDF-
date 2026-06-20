@@ -1,4 +1,4 @@
-# CR-018 — Processing UI (Story 4.3, 4.4, 4.5)
+﻿# CR-018 — Processing UI (Story 4.3, 4.4, 4.5)
 
 ## Summary
 
@@ -19,7 +19,7 @@ Feature — Frontend components and state machine logic for the rendering portio
 ## Design
 
 - `App.tsx` will manage the overall pipeline state: `input` -> `processing` -> `success` | `error`.
-- `InputScreen` uses `window.bookit.pipeline.run` to trigger the pipeline and transitions to `ProcessingScreen`.
+- `InputScreen` uses `window.Leaflet PDF.pipeline.run` to trigger the pipeline and transitions to `ProcessingScreen`.
 - `ProcessingScreen` listens to `onStageUpdate`, `onRetry`, `onComplete`, and `onError` using `useEffect` hooks.
 - `ProcessingScreen` has a `StageProgress` component that displays the text mapping:
   - Extracting -> "Reading and extracting facts..."

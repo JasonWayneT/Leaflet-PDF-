@@ -1,4 +1,4 @@
-# ADR-004 — keytar for API Key Storage (Windows Credential Manager)
+﻿# ADR-004 — keytar for API Key Storage (Windows Credential Manager)
 
 ## Status
 
@@ -6,7 +6,7 @@ accepted
 
 ## Context
 
-Bookit stores the user's AI API key locally. The key grants access to external AI APIs and must not appear on disk in plaintext. The app targets Windows 11. The storage solution must be compatible with Electron and integrate with the OS-native keychain.
+Leaflet PDF stores the user's AI API key locally. The key grants access to external AI APIs and must not appear on disk in plaintext. The app targets Windows 11. The storage solution must be compatible with Electron and integrate with the OS-native keychain.
 
 ## Decision
 
@@ -33,7 +33,7 @@ Bookit stores the user's AI API key locally. The key grants access to external A
 
 ### Neutral
 
-- Service name in Credential Manager: `bookit-v2`
+- Service name in Credential Manager: `Leaflet PDF-v2`
 - `key-store.ts` is the only file that imports `keytar`; `settings-store.ts` is the only file that instantiates `electron-store`
 
 ## Alternatives considered

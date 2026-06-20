@@ -1,4 +1,4 @@
-# CR-011 — Paste Text Input Module (Story 3.1)
+﻿# CR-011 — Paste Text Input Module (Story 3.1)
 
 ## Summary
 
@@ -16,7 +16,7 @@ Feature — new core module
 - `AC-002`: Empty paste — rejected with `Result<never>` (cause: "Content required")
 - `AC-003`: Oversized paste — rejected with `Result<never>` (cause includes character count)
 - `ARCH-002`: Module returns `Result<T>` — no raw throws across boundary
-- `ARCH-004`: `SourceContent` type imported from `@bookit/core/types`, never redefined locally
+- `ARCH-004`: `SourceContent` type imported from `@leafletpdf/core/types`, never redefined locally
 - `ARCH-006`: Test co-located with source (`intake.ts` / `intake.test.ts`)
 
 ## Rationale
@@ -43,7 +43,7 @@ This is the first implementation in Epic 3. `intake.ts` will grow to cover FR-00
 - [x] TASK-S31-01: Create CR-011 document
 - [x] TASK-S31-02: Create `packages/core/src/modules/intake/intake.ts` with `processTextInput`
 - [x] TASK-S31-03: Create co-located `intake.test.ts` covering valid, empty, oversized inputs
-- [x] TASK-S31-04: Export `processTextInput` and `SOURCE_CONTENT_CHAR_LIMIT` from `@bookit/core`
+- [x] TASK-S31-04: Export `processTextInput` and `SOURCE_CONTENT_CHAR_LIMIT` from `@leafletpdf/core`
 - [x] TASK-S31-05: Verify `tsc --noEmit` and full workspace build pass
 - [x] TASK-S31-06: Update traceability matrix
 

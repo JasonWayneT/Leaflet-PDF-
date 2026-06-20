@@ -1,62 +1,121 @@
-# Bookit v2: MCP Server Setup
+﻿# Leaflet PDF: MCP Server Setup
 
-The Bookit MCP Server allows you to use the Bookit pipeline directly from your favorite AI assistants without leaving your editor or desktop client.
+The Leaflet PDF MCP Server allows you to use the Leaflet PDF pipeline directly from Claude Desktop, Cursor, or any MCP-compatible AI assistant without leaving your editor.
 
 ## Requirements
-- Node.js 18+ installed
 
-## Configuration
+- Node.js 18+
+- A compatible MCP host: Claude Desktop, Cursor, or any host that supports MCP Sampling
 
-Since the MCP server doesn't have a graphical interface, you must configure it using environment variables in your MCP client's configuration file.
+---
 
-### Required Environment Variables
-- `BOOKIT_ANTHROPIC_KEY` (if using Anthropic for transformation/validation)
-- `BOOKIT_GOOGLE_KEY` (if using Google for transformation/validation)
+## Inference Modes
 
-### Optional Environment Variables
-- `BOOKIT_OUTPUT_DIR` - Where PDFs are saved. Defaults to `~/Documents/Bookit/`
-- `BOOKIT_TRANSFORM_PROVIDER` - `anthropic` (default), `google`, or `ollama`
-- `BOOKIT_VALIDATE_PROVIDER` - `anthropic` (default), `google`, or `ollama`
-- `BOOKIT_TRANSFORM_MODEL` - E.g. `claude-3-5-sonnet-20240620`
-- `BOOKIT_VALIDATE_MODEL` - E.g. `claude-3-haiku-20240307`
+Leaflet PDF supports two ways to run AI inference. You do not need to choose — it auto-detects based on your configuration.
+
+| Mode | When it activates | What it uses |
+|---|---|---|
+| **MCP Sampling** (default) | No API key configured | Your Claude Desktop or Cursor subscription |
+| **Direct API** | API key present in env | Anthropic, Google, or Ollama |
+
+Most users should start with MCP Sampling — no API key, no extra cost.
+
+---
 
 ## Claude Desktop Setup
 
-Open your Claude Desktop configuration file:
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+### Option A: MCP Sampling (no API key required)
 
-Add the following to the `mcpServers` object (replace `<PATH_TO_BOOKIT>` with your actual path):
+Open your Claude Desktop configuration file:
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+
+Add the following to the `mcpServers` object:
 
 ```json
 {
   "mcpServers": {
-    "bookit": {
+    "Leaflet PDF": {
       "command": "node",
-      "args": ["<PATH_TO_BOOKIT>/packages/mcp-server/dist/index.js"],
+      "args": ["<PATH_TO_Leaflet PDF>/packages/mcp-server/dist/index.js"]
+    }
+  }
+}
+```
+
+Replace `<PATH_TO_Leaflet PDF>` with the absolute path to your Leaflet PDF folder. No `env` block needed — Leaflet PDF detects sampling mode automatically.
+
+### Option B: Direct API (Anthropic, Google, or Ollama)
+
+Use this if you want to specify a particular model or provider.
+
+```json
+{
+  "mcpServers": {
+    "Leaflet PDF": {
+      "command": "node",
+      "args": ["<PATH_TO_Leaflet PDF>/packages/mcp-server/dist/index.js"],
       "env": {
-        "BOOKIT_ANTHROPIC_KEY": "sk-ant-your-key-here"
+        "LEAFLETPDF_ANTHROPIC_KEY": "sk-ant-your-key-here"
       }
     }
   }
 }
 ```
 
-Restart Claude Desktop. You can now type: "Bookit this YouTube video: [URL]"
+Restart Claude Desktop after editing. Confirm the tool loaded by clicking the hammer (🔨) icon — `leafletpdf_transform` should appear.
+
+---
 
 ## Cursor Setup
 
-In Cursor:
-1. Go to **Settings > Features > MCP Servers**
+1. Go to **Settings → Features → MCP Servers**
 2. Click **+ Add new MCP server**
-3. Name: `bookit`
-4. Type: `command`
-5. Command: `node <PATH_TO_BOOKIT>/packages/mcp-server/dist/index.js`
-6. Add your environment variables in the Cursor UI or ensure they are present in your global environment.
+3. Set:
+   - **Name:** `Leaflet PDF`
+   - **Type:** `command`
+   - **Command:** `node <PATH_TO_Leaflet PDF>/packages/mcp-server/dist/index.js`
+4. Leave the environment block empty to use MCP Sampling, or add your API key if using Direct API mode.
 
-You can now use `@bookit_transform` or ask Cursor to run text through Bookit.
+---
+
+## Environment Variables (Direct API mode)
+
+| Variable | Purpose | Default |
+|---|---|---|
+| `LEAFLETPDF_ANTHROPIC_KEY` | Anthropic API key | — |
+| `LEAFLETPDF_GOOGLE_KEY` | Google API key | — |
+| `LEAFLETPDF_OLLAMA_URL` | Ollama base URL | `http://localhost:11434` |
+| `LEAFLETPDF_TRANSFORM_PROVIDER` | `anthropic` / `google` / `ollama` / `mcp-sampling` | auto-detect |
+| `LEAFLETPDF_TRANSFORM_MODEL` | Model for transformation slot | `claude-3-5-sonnet-20241022` |
+| `LEAFLETPDF_VALIDATE_PROVIDER` | Provider for validation slot | same as transform |
+| `LEAFLETPDF_VALIDATE_MODEL` | Model for validation slot | `claude-3-haiku-20240307` |
+| `LEAFLETPDF_OUTPUT_DIR` | Where PDFs are saved | `~/Documents/LeafletPDF/` |
+
+---
+
+## Usage
+
+Once configured, ask your assistant naturally:
+
+- *"Leaflet PDF this article: [paste text]"*
+- *"Transform this file into a reading artifact: C:\path\to\notes.md"*
+- *"Leaflet PDF this YouTube video: https://youtube.com/..."*
+
+The tool runs the full pipeline and saves a PDF to `~/Documents/LeafletPDF/` (or your configured output directory). It returns the saved file path when complete.
+
+---
 
 ## Troubleshooting
 
-- **Server starts but tool returns an error:** Ensure your API key has credits and is valid. Check `~/Documents/Bookit/bookit-token-log.jsonl` for the token logging.
-- **Playwright errors:** The server needs Chromium. Run `npx playwright install chromium` in the `packages/mcp-server` directory.
+**Tool loads but returns a sampling error:**
+Your MCP host may not support the `sampling/createMessage` protocol. Add an API key to switch to Direct API mode (see Option B above).
+
+**Playwright / PDF rendering errors:**
+The server needs Chromium. Run the following in the `packages/mcp-server` directory:
+```
+npx playwright install chromium
+```
+
+**Token log:**
+All runs are logged to `~/Documents/LeafletPDF/leafletpdf-token-log.jsonl`. In MCP Sampling mode, token counts will show `0` — this is expected, as the sampling protocol does not return token usage.

@@ -1,4 +1,4 @@
-# TEST-006 AI Client
+﻿# TEST-006 AI Client
 
 ## Requirement links
 
@@ -23,7 +23,7 @@ Prove that Story 2.2 routes AI generation through the selected provider adapter,
 ## Commands
 
 ```powershell
-npm run build --workspace=@bookit/core
+npm run build --workspace=@leafletpdf/core
 npm run build --workspaces --if-present
 rg -n "from 'electron'|from \"electron\"" packages\core
 ```

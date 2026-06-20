@@ -1,4 +1,4 @@
-# Feature Spec: FEAT-005 — PDF Rendering
+﻿# Feature Spec: FEAT-005 — PDF Rendering
 
 ## Metadata
 
@@ -55,8 +55,8 @@ See `02-requirements-registry.md` AC-044 through AC-052.
 
 ## UX and design notes
 
-- Orbital Light: white/off-white base, ink-black body (Hanken Grotesk), Anton display headings, JetBrains Mono labels, accent-blue for key terms, acid-yellow for action badges. Spec: `Projects/BookitV2/ORBITAL-LIGHT.md`
-- Orbital Night: Terminal Black (#131313) base, acid-yellow + white accents, same typography and structural elements. Spec: `Projects/BookitV2/ORBITAL-NIGHT.md`
+- Orbital Light: white/off-white base, ink-black body (Hanken Grotesk), Anton display headings, JetBrains Mono labels, accent-blue for key terms, acid-yellow for action badges. Spec: `Projects/Leaflet PDFV2/ORBITAL-LIGHT.md`
+- Orbital Night: Terminal Black (#131313) base, acid-yellow + white accents, same typography and structural elements. Spec: `Projects/Leaflet PDFV2/ORBITAL-NIGHT.md`
 - Both styles: sharp corners, thick borders, corner bracket decorative elements
 - PDF margins: tablet-reading margins (top/bottom 24mm, left/right 20mm per ARCHITECTURE.md)
 - Fonts bundled: Anton-Regular.ttf, HankenGrotesk-Regular.ttf (+ weight variants), JetBrainsMono-Medium.ttf

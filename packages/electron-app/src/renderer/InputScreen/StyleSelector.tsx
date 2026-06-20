@@ -1,5 +1,5 @@
-import React from 'react'
-import type { StyleName } from '@bookit/core'
+﻿import React from 'react'
+import type { StyleName } from '@leafletpdf/core'
 
 interface StyleSelectorProps {
   value: StyleName

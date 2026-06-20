@@ -1,5 +1,5 @@
-import React from 'react'
-import type { StageName } from '@bookit/core'
+﻿import React from 'react'
+import type { StageName } from '@leafletpdf/core'
 
 export interface ErrorScreenProps {
   stage: StageName

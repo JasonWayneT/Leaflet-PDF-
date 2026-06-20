@@ -1,7 +1,7 @@
-// Implements ARCH-001: Electron main process entry point
+﻿// Implements ARCH-001: Electron main process entry point
 import { app, BrowserWindow } from 'electron'
 import path from 'node:path'
-import { PipelineOrchestrator } from '@bookit/core'
+import { PipelineOrchestrator } from '@leafletpdf/core'
 import { registerIpcBridge } from './ipc-bridge'
 
 // Injected by @electron-forge/plugin-vite at build time
@@ -21,6 +21,12 @@ function createWindow(): void {
     userDataPath: app.getPath('userData')
   })
   registerIpcBridge(orchestrator, mainWindow.webContents)
+
+  mainWindow.webContents.on('console-message', (event, level, message, line, sourceId) => {
+    console.log(`[Renderer] ${message} (${sourceId}:${line})`)
+  })
+  
+  mainWindow.webContents.openDevTools()
 
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
     mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL)

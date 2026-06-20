@@ -1,4 +1,4 @@
-# BMAD Intake — Bookit v2
+﻿# BMAD Intake — Leaflet PDF
 
 ## Source artifacts
 

@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+﻿import * as fs from 'fs'
 import * as path from 'path'
 import type { PipelineRunLog } from '../types/index'
 
@@ -7,7 +7,7 @@ export function logTokenUsage(
   logEntry: PipelineRunLog
 ): void {
   try {
-    const logFilePath = path.join(userDataPath, 'bookit-token-log.jsonl')
+    const logFilePath = path.join(userDataPath, 'leafletpdf-token-log.jsonl')
     const logLine = JSON.stringify(logEntry) + '\\n'
     fs.appendFileSync(logFilePath, logLine, 'utf8')
   } catch (error) {

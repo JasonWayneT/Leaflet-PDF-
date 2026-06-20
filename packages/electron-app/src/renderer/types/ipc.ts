@@ -9,6 +9,8 @@ export const IPC_CHANNELS = {
   SAVE_FILE: 'file:save',
   OPEN_FILE: 'file:open',
   OPEN_EXTERNAL: 'file:open-external',
+  PROCESS_TEXT: 'intake:process-text',
+  PROCESS_YOUTUBE: 'intake:process-youtube',
   SETTINGS_GET: 'settings:get',
   SETTINGS_SET: 'settings:set',
   KEY_GET: 'key:get',

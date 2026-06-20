@@ -1,4 +1,4 @@
-# Change Request: CR-009 First-Launch Setup Wizard
+﻿# Change Request: CR-009 First-Launch Setup Wizard
 
 ## Metadata
 
@@ -51,11 +51,11 @@ Implement Story 2.3 by adding a first-launch setup wizard that appears when no p
 | Test ID | What it proves | Result |
 |---|---|---|
 | `TEST-007` | Setup wizard contracts compile and storage/IPC boundaries remain intact | passed |
-| `VERIFY-S23-01` | `npm run build --workspace=@bookit/electron-app` passes | passed |
+| `VERIFY-S23-01` | `npm run build --workspace=@leafletpdf/electron-app` passes | passed |
 | `VERIFY-S23-02` | Source grep confirms API keys do not pass through settings store | passed |
 
 ## Final notes
 
 - Implementation summary: Added renderer preload API types, exposed setup/settings/provider-test methods from preload, wired IPC handlers to `settingsStore`, `keyStore`, and `aiClient`, and built a first-launch `SetupWizard.tsx` flow with provider choice, credential/base URL input, connection test, model-slot confirmation, persistence, and skip logic in `App.tsx`. Added `keytar` to Vite main externals so native module packaging works when the IPC bridge imports the key store.
-- Tests run: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` failed before implementation on missing setup modules, then passed; `npm run build --workspace=@bookit/electron-app` initially exposed the native `keytar` bundling issue, then passed after externalization; `npm run build --workspaces --if-present` passed; source greps confirmed storage boundary ownership and no API key fields in `settings-store.ts`.
+- Tests run: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` failed before implementation on missing setup modules, then passed; `npm run build --workspace=@leafletpdf/electron-app` initially exposed the native `keytar` bundling issue, then passed after externalization; `npm run build --workspaces --if-present` passed; source greps confirmed storage boundary ownership and no API key fields in `settings-store.ts`.
 - Open risks: Visual/manual Electron launch verification has not been performed in this environment; real provider test calls require configured credentials or a running Ollama server.

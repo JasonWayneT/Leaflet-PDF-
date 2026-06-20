@@ -1,7 +1,7 @@
----
+﻿---
 name: Orbital Night
 type: visual-style
-author: Bookit
+author: Leaflet PDF
 colors:
   bg: "#131313"
   text: "#ffffff"
@@ -16,4 +16,4 @@ fonts:
 
 # Orbital Night
 
-The dark mode visual style for Bookit v2. Emphasizes stark contrast, sharp corners, and highly readable typography for screen-optimized reading in dark environments.
+The dark mode visual style for Leaflet PDF. Emphasizes stark contrast, sharp corners, and highly readable typography for screen-optimized reading in dark environments.

@@ -1,4 +1,4 @@
-import fs from 'fs/promises'
+﻿import fs from 'fs/promises'
 import path from 'path'
 import os from 'os'
 import {
@@ -6,9 +6,9 @@ import {
   processTextInput,
   processFileInput,
   processYouTubeInput
-} from '@bookit/core'
-import type { SourceContent, StageName, StyleName } from '@bookit/core'
-import type { McpConfig } from '../config/env-config'
+} from '@leafletpdf/core'
+import type { ProviderConfig, SourceContent, StageName, StyleName } from '@leafletpdf/core'
+import type { ResolvedProviderConfig } from '../config/env-config'
 
 export type TransformArgs = {
   content?: string
@@ -52,7 +52,11 @@ async function getNextFilename(dir: string, title: string): Promise<string> {
   }
 }
 
-export async function handleTransform(args: TransformArgs, config: McpConfig): Promise<TransformResult> {
+export async function handleTransform(
+  args: TransformArgs,
+  outputDir: string,
+  providerConfig: ResolvedProviderConfig
+): Promise<TransformResult> {
   if (args.content && args.filePath) {
     return { error: { stage: 'Configuration', cause: 'content and filePath are mutually exclusive', retryable: false } }
   }
@@ -91,7 +95,7 @@ export async function handleTransform(args: TransformArgs, config: McpConfig): P
 
   const orchestrator = new PipelineOrchestrator({
     // We override userDataPath for MCP to write to the outputDir or Documents
-    userDataPath: path.join(os.homedir(), 'Documents', 'Bookit')
+    userDataPath: path.join(os.homedir(), 'Documents', 'LeafletPDF')
   })
 
   let attempts = 0
@@ -117,12 +121,12 @@ export async function handleTransform(args: TransformArgs, config: McpConfig): P
         stageTimings[currentStage] = (stageTimings[currentStage] || 0) + (Date.now() - currentStageStart)
       }
 
-      const outDir = args.outputDir || config.outputDir
+      const outDir = args.outputDir || outputDir
       const savedPath = await getNextFilename(outDir, title)
       await fs.writeFile(savedPath, pdfBuffer)
 
       // We don't have exact token metrics from the events directly easily,
-      // but they are logged to bookit-token-log.jsonl.
+      // but they are logged to leafletpdf-token-log.jsonl.
       // The requirement says: return structured JSON response. We'll return 0 for now as it's not emitted by the orchestrator directly in the event.
       // Actually, wait, does orchestrator return token usage? `runPipeline` is async and returns void. 
       // We'll leave tokenSummary empty or 0 if we can't get it from the event.
@@ -165,7 +169,7 @@ export async function handleTransform(args: TransformArgs, config: McpConfig): P
     orchestrator.runPipeline({
       sourceContent,
       styleSelection,
-      providerConfig: config.providerConfig
+      providerConfig
     }).catch(err => {
       resolve({ error: { stage: 'Execution', cause: err.message, retryable: false } })
     })

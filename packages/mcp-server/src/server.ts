@@ -1,30 +1,66 @@
-import { Server } from '@modelcontextprotocol/sdk/server/index.js'
+﻿import { Server } from '@modelcontextprotocol/sdk/server/index.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
-import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js'
+import {
+  CallToolRequestSchema,
+  CreateMessageResultSchema,
+  ListToolsRequestSchema,
+} from '@modelcontextprotocol/sdk/types.js'
+import type { AiTextResponse, ProviderConfig } from '@leafletpdf/core'
 import { readConfig } from './config/env-config.js'
-import { handleTransform, TransformArgs } from './tools/bookit-transform.js'
+import type { ResolvedProviderConfig } from './config/env-config.js'
+import { handleTransform, TransformArgs } from './tools/leafletpdf-transform.js'
+
+function buildSamplingProvider(server: Server): ProviderConfig {
+  return {
+    provider: 'mcp-sampling',
+    createMessage: async (prompt: string): Promise<AiTextResponse> => {
+      const result = await server.request(
+        {
+          method: 'sampling/createMessage',
+          params: {
+            messages: [{ role: 'user', content: { type: 'text', text: prompt } }],
+            maxTokens: 8192,
+          },
+        },
+        CreateMessageResultSchema
+      )
+
+      const text = result.content.type === 'text' ? result.content.text : ''
+      return { text, usage: { inputTokens: 0, outputTokens: 0 } }
+    },
+  }
+}
 
 export async function runServer() {
   const config = readConfig()
 
   const server = new Server(
     {
-      name: 'bookit-mcp',
+      name: 'leafletpdf-mcp',
       version: '1.0.0',
     },
     {
       capabilities: {
         tools: {},
+        experimental: { sampling: {} },
       },
     }
   )
+
+  // Resolve the provider config — either direct (API key / Ollama) or MCP sampling
+  const providerConfig: ResolvedProviderConfig = config.useSampling
+    ? {
+        transformation: buildSamplingProvider(server),
+        validation: buildSamplingProvider(server),
+      }
+    : config.providerConfig!
 
   server.setRequestHandler(ListToolsRequestSchema, async () => {
     return {
       tools: [
         {
-          name: 'bookit_transform',
-          description: 'Run the Bookit pipeline to transform text, files, or YouTube videos into an educational reading artifact (PDF).',
+          name: 'leafletpdf_transform',
+          description: 'Run the Leaflet PDF pipeline to transform text, files, or YouTube videos into an educational reading artifact (PDF).',
           inputSchema: {
             type: 'object',
             properties: {
@@ -47,7 +83,7 @@ export async function runServer() {
               },
               outputDir: {
                 type: 'string',
-                description: 'Directory to save the PDF. Defaults to BOOKIT_OUTPUT_DIR env var or ~/Documents/Bookit/.'
+                description: 'Directory to save the PDF. Defaults to LEAFLETPDF_OUTPUT_DIR env var or ~/Documents/LeafletPDF/.'
               },
               verbose: {
                 type: 'boolean',
@@ -61,9 +97,9 @@ export async function runServer() {
   })
 
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
-    if (request.params.name === 'bookit_transform') {
+    if (request.params.name === 'leafletpdf_transform') {
       const args = request.params.arguments as TransformArgs
-      const result = await handleTransform(args, config)
+      const result = await handleTransform(args, config.outputDir, providerConfig)
 
       return {
         content: [

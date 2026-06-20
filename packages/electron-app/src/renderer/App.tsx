@@ -1,11 +1,11 @@
-import React from 'react'
+﻿import React from 'react'
 import SetupWizard from './SetupWizard'
 import SettingsScreen from './SettingsScreen'
 import InputScreen from './InputScreen/InputScreen'
 import ProcessingScreen from './ProcessingScreen/ProcessingScreen'
 import ErrorScreen from './ProcessingScreen/ErrorScreen'
 import SuccessScreen from './ProcessingScreen/SuccessScreen'
-import type { StageName } from '@bookit/core'
+import type { StageName } from '@leafletpdf/core'
 import './styles.css'
 
 // Implements INT-004: first launch checks persisted provider configuration.
@@ -24,7 +24,7 @@ function App(): React.ReactElement {
   React.useEffect(() => {
     let active = true
 
-    window.bookit.settings.get('providerConfig').then((result) => {
+    window.Leaflet PDF.settings.get('providerConfig').then((result) => {
       if (!active) {
         return
       }
@@ -76,7 +76,7 @@ function App(): React.ReactElement {
     return (
       <main className="app-shell">
         <section className="placeholder-card">
-          <h1>Bookit v2</h1>
+          <h1>Leaflet PDF</h1>
         </section>
       </main>
     )

@@ -1,4 +1,4 @@
-# Change Request: CR-004 Build Bug Cleanup
+﻿# Change Request: CR-004 Build Bug Cleanup
 
 ## Metadata
 
@@ -49,12 +49,12 @@ Address fixable known issues before continuing to the next foundation story: rep
 
 | Test ID | What it proves | Result |
 |---|---|---|
-| `VERIFY-BUG-002-01` | `npm run build --workspace=@bookit/electron-app` packages successfully | passed |
+| `VERIFY-BUG-002-01` | `npm run build --workspace=@leafletpdf/electron-app` packages successfully | passed |
 | `VERIFY-BUG-002-02` | Direct electron-app TypeScript verification does not fail on rootDir/config layout | passed |
 | `VERIFY-BUG-001-01` | Installed package tree contains `ollama-ai-provider` and not `@ai-sdk/ollama` | passed: `ollama-ai-provider@1.2.0` present; `@ai-sdk/ollama` absent |
 
 ## Final notes
 
 - Implementation summary: Updated `packages/electron-app/package.json` main entry from `.vite/build/main.js` to `.vite/build/index.js`, matching the actual Forge Vite output. Updated `packages/electron-app/tsconfig.json` rootDir from `./src` to `.` so included Forge/Vite config files are inside the TypeScript project root. Normalized working spec-layer Ollama references to `ollama-ai-provider`.
-- Tests run: `npm run build --workspace=@bookit/electron-app` passed; `npx tsc --noEmit --project packages\electron-app\tsconfig.json` passed; `npm run build --workspaces --if-present` passed; `npm ls ollama-ai-provider --workspace=@bookit/electron-app` found `ollama-ai-provider@1.2.0`; `npm ls @ai-sdk/ollama --workspace=@bookit/electron-app` returned empty as expected.
+- Tests run: `npm run build --workspace=@leafletpdf/electron-app` passed; `npx tsc --noEmit --project packages\electron-app\tsconfig.json` passed; `npm run build --workspaces --if-present` passed; `npm ls ollama-ai-provider --workspace=@leafletpdf/electron-app` found `ollama-ai-provider@1.2.0`; `npm ls @ai-sdk/ollama --workspace=@leafletpdf/electron-app` returned empty as expected.
 - Open risks: Story 2.2 still must verify the actual `ollama-ai-provider` adapter API during AI client implementation.

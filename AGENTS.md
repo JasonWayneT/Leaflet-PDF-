@@ -205,7 +205,22 @@ If not explicitly documented below, discover conventions from the existing codeb
 
 ### Language-specific
 
-> Discover from the codebase on first run (package.json, tsconfig.json, pyproject.toml, .eslintrc, etc.) and document here. If starting greenfield, Superpowers spec elicitation will establish these before code begins.
+**Stack:** TypeScript 5.4, Node.js 18+, npm workspaces monorepo (3 packages)
+
+| Package | Purpose |
+|---|---|
+| `@leafletpdf/core` | Shared pipeline logic — all AI, PDF, and intake modules |
+| `@leafletpdf/electron-app` | Desktop UI — Electron + React + Vite + Forge |
+| `@leafletpdf/mcp-server` | MCP integration — stdio transport, `leafletpdf_transform` tool |
+
+**Rules:**
+- `tsconfig.base.json` at root; each package extends it. Strict mode is on.
+- All cross-package imports use the workspace package name (`@leafletpdf/core`), not relative paths.
+- `src/index.ts` is the public export surface for `@leafletpdf/core` — add new exports there or they are invisible to other packages.
+- The AI client (`packages/core/src/services/ai-client/`) accepts a `ProviderConfig` union type — add new providers as a new variant, do not branch on strings ad-hoc.
+- No `any` types. If TypeScript requires `any`, use `unknown` and narrow it.
+- Electron IPC contract is defined in `packages/electron-app/src/renderer/types/ipc.ts` — change shape there first, then update both sides.
+- PDF rendering uses Playwright Chromium — do not swap renderer without an ADR.
 
 ---
 
@@ -222,7 +237,24 @@ Tests are not optional and are not written after the fact.
 
 ### Test runner and commands
 
-> Discover from the codebase on first run (package.json scripts, Makefile, pytest.ini, etc.) and document here. If starting greenfield, Superpowers spec elicitation will establish these before code begins.
+**Runner:** Vitest (configured via `vitest.config.ts` in each package that has tests)
+
+```bash
+# Run all tests across the monorepo
+npm test
+
+# Run tests for a specific package
+npm test --workspace=packages/core
+npm test --workspace=packages/electron-app
+
+# Type-check without emitting (all packages)
+npm run build
+
+# Type-check a specific package
+npm run build --workspace=packages/mcp-server
+```
+
+Test files live alongside their source (`*.test.ts` / `*.test.tsx`). Vitest is not installed in `@leafletpdf/mcp-server` — MCP server logic is kept minimal and integration-tested via the core package.
 
 ### Done criteria (per component)
 

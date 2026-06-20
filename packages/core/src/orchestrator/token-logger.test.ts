@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, afterEach } from 'vitest'
+﻿import { describe, it, expect, vi, afterEach } from 'vitest'
 import { logTokenUsage } from './token-logger'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -15,7 +15,7 @@ describe('Token Logger', () => {
     logTokenUsage('/fake/path', mockLog)
 
     expect(fs.appendFileSync).toHaveBeenCalledWith(
-      path.join('/fake/path', 'bookit-token-log.jsonl'),
+      path.join('/fake/path', 'leafletpdf-token-log.jsonl'),
       JSON.stringify(mockLog) + '\\n',
       'utf8'
     )

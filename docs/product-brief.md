@@ -1,20 +1,20 @@
----
-title: "Product Brief: Bookit v2"
+﻿---
+title: "Product Brief: Leaflet PDF"
 status: draft
 created: 2026-06-18
 updated: 2026-06-18
 version: 0.1
 ---
 
-# Product Brief: Bookit v2
+# Product Brief: Leaflet PDF
 
 ## Executive Summary
 
-Bookit is a personal content transformation tool that takes raw non-fiction content — articles, transcripts, notes, markdown files, YouTube videos — and produces structured, visually designed PDFs built for reading away from a screen.
+Leaflet PDF is a personal content transformation tool that takes raw non-fiction content — articles, transcripts, notes, markdown files, YouTube videos — and produces structured, visually designed PDFs built for reading away from a screen.
 
-Most digital content is written to be indexed, not learned from. Bookit applies cognitive science-backed learning design principles to reorganize any content for comprehension, then renders it in a visual style designed for immersion. The result is a portable, publication-quality reading artifact the user actually wants to open — something to take to a coffee shop, a park bench, or anywhere away from a desk.
+Most digital content is written to be indexed, not learned from. Leaflet PDF applies cognitive science-backed learning design principles to reorganize any content for comprehension, then renders it in a visual style designed for immersion. The result is a portable, publication-quality reading artifact the user actually wants to open — something to take to a coffee shop, a park bench, or anywhere away from a desk.
 
-The core constraint that makes this trustworthy: Bookit restructures how information is presented, not what the information says. Every factual claim in the output is validated against the source. It is not summarization — it is editorial design applied systematically.
+The core constraint that makes this trustworthy: Leaflet PDF restructures how information is presented, not what the information says. Every factual claim in the output is validated against the source. It is not summarization — it is editorial design applied systematically.
 
 ---
 
@@ -32,7 +32,7 @@ The reading experience shapes whether you actually learn. When something is plea
 
 ## The Solution
 
-Bookit takes any piece of raw non-fiction content and produces a structured, visually designed PDF built for reading away from a screen. It does two things in sequence.
+Leaflet PDF takes any piece of raw non-fiction content and produces a structured, visually designed PDF built for reading away from a screen. It does two things in sequence.
 
 **First, it restructures.** The content is reorganized according to learning design principles — not rewritten, reorganized. The author's words and facts stay intact. The structure changes to serve the reader:
 
@@ -53,7 +53,7 @@ The experience is closer to reading a well-produced industry report than parsing
 
 ## What Makes This Different
 
-**Not summarization — reorganization.** Bookit preserves every factual claim from the source. It restructures how information is presented, not what the information says. A source fidelity validation pass prevents factual drift — the classic failure mode of AI content tools.
+**Not summarization — reorganization.** Leaflet PDF preserves every factual claim from the source. It restructures how information is presented, not what the information says. A source fidelity validation pass prevents factual drift — the classic failure mode of AI content tools.
 
 **Learning design, not just formatting.** The transformation applies a pedagogical framework rooted in cognitive science (BLUF, progressive disclosure, mental chunking, dual coding). This isn't a template applied to existing structure; it's a structural change that makes the content more learnable.
 
@@ -67,7 +67,7 @@ The experience is closer to reading a well-produced industry report than parsing
 
 **Primary (v2 MVP):** A product professional who consumes large amounts of technical and professional content daily — articles, transcripts, documentation, YouTube explainers. Content he wants to learn deeply, not just skim. He reads on a tablet, often away from his desk, and values aesthetic experience as part of how he engages with material.
 
-**Future users:** Any knowledge professional who wants to transform content they encounter into a format they actually prefer to read. The signal that Bookit has reached them: they start asking "how do I automate this so everything I want to learn goes through here first?"
+**Future users:** Any knowledge professional who wants to transform content they encounter into a format they actually prefer to read. The signal that Leaflet PDF has reached them: they start asking "how do I automate this so everything I want to learn goes through here first?"
 
 ---
 
@@ -80,8 +80,8 @@ The experience is closer to reading a well-produced industry report than parsing
 - The reading experience feels immersive, not just legible
 
 **The broader signal (future):**
-- Users begin asking how to automate Bookit into their content intake workflows
-- Bookit becomes the default layer between discovered content and personal learning — not an occasional tool, but a content funnel
+- Users begin asking how to automate Leaflet PDF into their content intake workflows
+- Leaflet PDF becomes the default layer between discovered content and personal learning — not an occasional tool, but a content funnel
 
 ---
 
@@ -106,6 +106,6 @@ The experience is closer to reading a well-produced industry report than parsing
 
 ## Vision
 
-Bookit becomes the layer between the internet and how you learn from it. You don't consume raw content anymore — you Bookit it first. Every article, transcript, or document you care about becomes a personal reading artifact, structured for your comprehension and styled for your taste.
+Leaflet PDF becomes the layer between the internet and how you learn from it. You don't consume raw content anymore — you Leaflet PDF it first. Every article, transcript, or document you care about becomes a personal reading artifact, structured for your comprehension and styled for your taste.
 
 Over time, the platform supports multiple visual styles, automated content streams, and integration with tools like Hermes and Gmail. But its core value is always the same: raw content in, intentional reading experience out.

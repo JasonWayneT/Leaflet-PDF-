@@ -1,4 +1,4 @@
-# TEST-003 IPC Bridge Boundary
+﻿# TEST-003 IPC Bridge Boundary
 
 ## Requirement links
 
@@ -21,7 +21,7 @@ Prove that Story 1.4 defines the IPC channel contract once and keeps Electron `i
 
 ```powershell
 npx tsc --noEmit --project packages\electron-app\tsconfig.json
-npm run build --workspace=@bookit/electron-app
+npm run build --workspace=@leafletpdf/electron-app
 rg -n "ipcMain" packages
 ```
 

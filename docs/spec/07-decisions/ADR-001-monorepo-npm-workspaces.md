@@ -1,4 +1,4 @@
-# ADR-001 — Monorepo with npm Workspaces
+﻿# ADR-001 — Monorepo with npm Workspaces
 
 ## Status
 
@@ -6,13 +6,13 @@ accepted
 
 ## Context
 
-Bookit v2 has two confirmed execution hosts: the Electron desktop app (portfolio piece) and a future MCP server (Jason's primary day-to-day use case). Both need to run the same pipeline logic. The question is whether to build them as a monorepo from day one or start with a single package and extract later.
+Leaflet PDF has two confirmed execution hosts: the Electron desktop app (portfolio piece) and a future MCP server (Jason's primary day-to-day use case). Both need to run the same pipeline logic. The question is whether to build them as a monorepo from day one or start with a single package and extract later.
 
 ## Decision
 
 Monorepo from day one using npm workspaces, with three packages:
 - `packages/core` — all pipeline logic, zero Electron dependencies
-- `packages/electron-app` — Electron shell; imports from `@bookit/core`
+- `packages/electron-app` — Electron shell; imports from `@leafletpdf/core`
 - `packages/mcp-server` — Phase 2 placeholder; scaffold only
 
 ## Requirement links

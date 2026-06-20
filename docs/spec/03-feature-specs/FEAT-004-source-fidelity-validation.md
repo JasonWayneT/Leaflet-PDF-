@@ -1,4 +1,4 @@
-# Feature Spec: FEAT-004 — Source Fidelity Validation
+﻿# Feature Spec: FEAT-004 — Source Fidelity Validation
 
 ## Metadata
 
@@ -10,7 +10,7 @@
 
 ## Problem statement
 
-Bookit's core promise is that it restructures — not rewrites — content. This promise must be enforced mechanically. If Transformed Content drops, alters, or contradicts any factual claim from the source, the pipeline must catch it and retry before the user ever sees the output.
+Leaflet PDF's core promise is that it restructures — not rewrites — content. This promise must be enforced mechanically. If Transformed Content drops, alters, or contradicts any factual claim from the source, the pipeline must catch it and retry before the user ever sees the output.
 
 ## Goals
 

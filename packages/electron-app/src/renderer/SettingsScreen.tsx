@@ -1,4 +1,4 @@
-// Implements UX-DR8: Settings screen with Providers + Model Slots sections.
+﻿// Implements UX-DR8: Settings screen with Providers + Model Slots sections.
 // Implements SEC-001, SEC-002: API keys never displayed or routed through electron-store.
 import React, { useCallback, useEffect, useState } from 'react'
 import type { ModelSlotSettings, ProviderSettings } from '../main/settings-store'
@@ -177,8 +177,8 @@ function SettingsScreen({ onReconfigureProvider }: SettingsScreenProps): React.R
     let active = true
 
     void Promise.all([
-      window.bookit.settings.get('providerConfig'),
-      window.bookit.settings.get('modelSlots'),
+      window.Leaflet PDF.settings.get('providerConfig'),
+      window.Leaflet PDF.settings.get('modelSlots'),
     ]).then(([configResult, slotsResult]) => {
       if (!active) {
         return
@@ -217,7 +217,7 @@ function SettingsScreen({ onReconfigureProvider }: SettingsScreenProps): React.R
         },
       }
 
-      const result = await window.bookit.settings.set('modelSlots', updatedSlots)
+      const result = await window.Leaflet PDF.settings.set('modelSlots', updatedSlots)
 
       if (!result.ok) {
         setSaveError(result.error.cause)

@@ -1,4 +1,4 @@
-# CR-017 — IPC Bridge for Pipeline (Story 4.2)
+﻿# CR-017 — IPC Bridge for Pipeline (Story 4.2)
 
 ## Summary
 
@@ -20,7 +20,7 @@ Feature — Electron IPC boundary.
 - Added `pipeline:run` handle that accepts `PipelineInput` and calls `orchestrator.runPipeline`.
 - Hooked up `pipeline:stage-update`, `pipeline:retry`, `pipeline:complete`, and `pipeline:error` to `webContents.send`.
 - On `pipeline:complete`, trigger `dialog.showSaveDialog`, save the PDF buffer directly via Node `fs`, and then send the completed filepath to the renderer so it can display the success UI.
-- Updated `preload.ts` and `preload-api.ts` to expose `window.bookit.pipeline.run`, `onStageUpdate`, `onRetry`, `onError`, and `onComplete`.
+- Updated `preload.ts` and `preload-api.ts` to expose `window.Leaflet PDF.pipeline.run`, `onStageUpdate`, `onRetry`, `onError`, and `onComplete`.
 
 ## Files affected
 

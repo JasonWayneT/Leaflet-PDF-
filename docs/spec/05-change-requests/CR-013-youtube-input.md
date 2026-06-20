@@ -1,4 +1,4 @@
-# CR-013 — YouTube URL Input & Transcript Extraction (Story 3.3)
+﻿# CR-013 — YouTube URL Input & Transcript Extraction (Story 3.3)
 
 ## Summary
 
@@ -6,11 +6,11 @@ Extend `packages/core/src/modules/intake/intake.ts` with:
 1. `preprocessCaptions(raw: string): string` — pure function that strips timestamps, speaker labels, and filler tokens from raw YouTube transcript segments and restores sentence boundaries
 2. `processYouTubeInput(url: string): Promise<Result<SourceContent>>` — validates the URL, calls `youtube-transcript`, preprocesses the result, and returns `SourceContent` with `inputType: 'youtube'`
 
-`youtube-transcript` must be added to `@bookit/core`'s dependencies (currently in `electron-app` only).
+`youtube-transcript` must be added to `@leafletpdf/core`'s dependencies (currently in `electron-app` only).
 
 ## Change type
 
-Feature — extends existing core module; adds one dependency to `@bookit/core`
+Feature — extends existing core module; adds one dependency to `@leafletpdf/core`
 
 ## Requirements addressed
 
@@ -50,16 +50,16 @@ Receives `TranscriptResponse[]` joined with spaces. Cleans:
 ## Implementation tasks
 
 - [x] TASK-S33-01: Create CR-013 document
-- [x] TASK-S33-02: Add `youtube-transcript` to `@bookit/core` package.json
+- [x] TASK-S33-02: Add `youtube-transcript` to `@leafletpdf/core` package.json
 - [x] TASK-S33-03: Add `preprocessCaptions` and `processYouTubeInput` to `intake.ts`
 - [x] TASK-S33-04: Extend `intake.test.ts` with YouTube scenarios
-- [x] TASK-S33-05: Export new functions from `@bookit/core`
+- [x] TASK-S33-05: Export new functions from `@leafletpdf/core`
 - [x] TASK-S33-06: Run `npm install` + verify `tsc --noEmit` + full workspace build
 - [x] TASK-S33-07: Update traceability matrix
 
 ## Verification
 
-- `npm install` resolved `youtube-transcript@1.3.1` in `@bookit/core` (workspace deduplicated) ✅
+- `npm install` resolved `youtube-transcript@1.3.1` in `@leafletpdf/core` (workspace deduplicated) ✅
 - `npx tsc --noEmit --project packages\core\tsconfig.json` ✅ passes
 - `npm run build --workspaces --if-present` ✅ passes
 - Source grep confirms `packages/core` has no `electron` import ✅

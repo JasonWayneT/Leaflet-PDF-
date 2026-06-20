@@ -1,8 +1,8 @@
-// Implements SEC-001: API keys are stored via keytar under the Bookit service name.
-import type { Result } from '@bookit/core'
+﻿// Implements SEC-001: API keys are stored via keytar under the Leaflet PDF service name.
+import type { Result } from '@leafletpdf/core'
 import * as keytar from 'keytar'
 
-export const KEY_STORE_SERVICE_NAME = 'bookit-v2'
+export const KEY_STORE_SERVICE_NAME = 'Leaflet PDF-v2'
 
 export type ProviderName = 'anthropic' | 'google' | 'ollama'
 

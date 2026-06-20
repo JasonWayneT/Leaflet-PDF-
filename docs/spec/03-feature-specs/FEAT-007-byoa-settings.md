@@ -1,4 +1,4 @@
-# Feature Spec: FEAT-007 — BYOA Settings & AI Client
+﻿# Feature Spec: FEAT-007 — BYOA Settings & AI Client
 
 ## Metadata
 
@@ -10,7 +10,7 @@
 
 ## Problem statement
 
-Bookit makes AI calls on the user's behalf using the user's own API key. The key must be stored securely in the OS keychain — never on disk in plaintext. The app needs a first-launch wizard and ongoing settings screen so the user can configure and reconfigure their provider without friction.
+Leaflet PDF makes AI calls on the user's behalf using the user's own API key. The key must be stored securely in the OS keychain — never on disk in plaintext. The app needs a first-launch wizard and ongoing settings screen so the user can configure and reconfigure their provider without friction.
 
 ## Goals
 
@@ -50,7 +50,7 @@ Bookit makes AI calls on the user's behalf using the user's own API key. The key
 **SEC-001 / SEC-002 — Secure key storage:**
 - Given I save an API key via settings UI
 - When `keyStore.set(provider, apiKey)` is called
-- Then key is stored in Windows Credential Manager under service name `bookit-v2`
+- Then key is stored in Windows Credential Manager under service name `Leaflet PDF-v2`
 - And no API key ever passes through `electron-store`
 
 **INT-001 — AI client routing:**

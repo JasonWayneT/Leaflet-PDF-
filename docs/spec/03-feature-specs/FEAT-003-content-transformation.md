@@ -1,4 +1,4 @@
-# Feature Spec: FEAT-003 — Content Transformation
+﻿# Feature Spec: FEAT-003 — Content Transformation
 
 ## Metadata
 
@@ -10,7 +10,7 @@
 
 ## Problem statement
 
-The core of Bookit's value is restructuring content using a cognitive science-backed Learning Design Framework. The AI must execute techniques, not decide which ones to apply — that decision is deterministic and rule-based. Without this separation, token usage is unbounded and output structure is unpredictable.
+The core of Leaflet PDF's value is restructuring content using a cognitive science-backed Learning Design Framework. The AI must execute techniques, not decide which ones to apply — that decision is deterministic and rule-based. Without this separation, token usage is unbounded and output structure is unpredictable.
 
 ## Goals
 

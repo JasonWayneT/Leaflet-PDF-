@@ -1,4 +1,4 @@
-# CR-012 — File Import Module (Story 3.2)
+﻿# CR-012 — File Import Module (Story 3.2)
 
 ## Summary
 
@@ -46,7 +46,7 @@ processFileInput(filePath: string): Result<SourceContent>
 - [x] TASK-S32-01: Create CR-012 document
 - [x] TASK-S32-02: Add `processFileInput` to `intake.ts`
 - [x] TASK-S32-03: Extend `intake.test.ts` with file import scenarios
-- [x] TASK-S32-04: Export `processFileInput` from `@bookit/core`
+- [x] TASK-S32-04: Export `processFileInput` from `@leafletpdf/core`
 - [x] TASK-S32-05: Verify `tsc --noEmit` and full workspace build pass
 - [x] TASK-S32-06: Update traceability matrix
 

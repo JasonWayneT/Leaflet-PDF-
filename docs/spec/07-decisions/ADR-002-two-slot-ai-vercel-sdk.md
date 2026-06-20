@@ -1,4 +1,4 @@
-# ADR-002 — Two Model Slots + Vercel AI SDK
+﻿# ADR-002 — Two Model Slots + Vercel AI SDK
 
 ## Status
 
@@ -6,7 +6,7 @@ accepted
 
 ## Context
 
-The pipeline makes AI calls at three points: claim extraction, transformation, and validation. These calls have different quality/cost profiles — transformation is quality-critical; extraction and validation are mechanical. Bookit is also BYOA (bring your own API), which means the provider must be swappable at runtime. The choice of SDK determines how the provider swap is implemented.
+The pipeline makes AI calls at three points: claim extraction, transformation, and validation. These calls have different quality/cost profiles — transformation is quality-critical; extraction and validation are mechanical. Leaflet PDF is also BYOA (bring your own API), which means the provider must be swappable at runtime. The choice of SDK determines how the provider swap is implemented.
 
 ## Decision
 

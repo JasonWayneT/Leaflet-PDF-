@@ -1,4 +1,4 @@
----
+﻿---
 stepsCompleted: [1, 2, 3, 4]
 inputDocuments:
   - docs/PRD.md
@@ -7,10 +7,10 @@ inputDocuments:
   - docs/addendum.md
 status: complete
 completedAt: '2026-06-18'
-project_name: Bookit v2
+project_name: Leaflet PDF
 ---
 
-# Bookit v2 — Epic Breakdown
+# Leaflet PDF — Epic Breakdown
 
 ## Overview
 
@@ -69,13 +69,13 @@ NFR-8: PDF output is portrait, tablet-readable, and opens in the system default 
 ### Additional Requirements (Architecture)
 
 - **Monorepo with npm workspaces:** Three packages — `core` (zero Electron deps), `electron-app`, `mcp-server` (Phase 2 placeholder)
-- **Starter template:** `npm create electron-app@latest bookit-v2 -- --template=vite-typescript` is the Electron bootstrap; add React, Vercel AI SDK, youtube-transcript, Playwright, electron-store, keytar
+- **Starter template:** `npm create electron-app@latest Leaflet PDF-v2 -- --template=vite-typescript` is the Electron bootstrap; add React, Vercel AI SDK, youtube-transcript, Playwright, electron-store, keytar
 - **EventEmitter abstraction:** Orchestrator in `core` emits via Node EventEmitter; `electron-app/main/ipc-bridge.ts` subscribes and bridges to Electron IPC; `core` never imports from Electron
 - **Vercel AI SDK:** `ai` + `@ai-sdk/anthropic` + `@ai-sdk/google` + `@ai-sdk/ollama` for unified `generateText()` interface
 - **Two model slots:** Transformation slot (default: `claude-sonnet-4-6`) + Validation/Utility slot (default: `claude-haiku-4-5`)
 - **Style registry:** Maps style names to spec paths + HTML template paths; new style = new spec + new template + one registry entry
 - **Playwright PDF:** Headless Chromium in main process; A4 portrait, print-background enabled; fonts bundled as static assets
-- **Token log schema:** `.jsonl` in `app.getPath('userData')/bookit-token-log.jsonl`; per-call token counts + build-time cost estimates
+- **Token log schema:** `.jsonl` in `app.getPath('userData')/leafletpdf-token-log.jsonl`; per-call token counts + build-time cost estimates
 - **YouTube caption pre-processing:** `preprocessCaptions()` in Intake — deterministic, strips timestamps/speaker labels/filler before SourceContent is formed
 - **Mental bucket threshold:** 1,500 words config constant in `technique-selector/rules.ts`
 - **Technique audit persistence:** Session-only for v2 (no storage design needed)
@@ -147,7 +147,7 @@ So that all packages share a single build toolchain with correct workspace resol
 **And** each package's `tsconfig.json` extends `../../tsconfig.base.json` at the root
 **And** `tsconfig.base.json` sets `strict: true`, `moduleResolution: bundler`, `target: ES2022`
 **And** `packages/mcp-server/src/index.ts` is a scaffold placeholder (exports nothing, single comment: `// Phase 2 — MCP server`)
-**And** `packages/core/package.json` has name `@bookit/core` and is importable from `electron-app`
+**And** `packages/core/package.json` has name `@leafletpdf/core` and is importable from `electron-app`
 **And** `.gitignore` excludes `node_modules/`, `out/`, `.vite/`, `dist/`
 
 ---
@@ -162,7 +162,7 @@ So that `npm run start` opens an Electron window rendering a blank React page wi
 
 **Given** `packages/electron-app` is initialized via `npm create electron-app@latest` with `--template=vite-typescript`
 **When** `npm run start` is run from the workspace root (or from `packages/electron-app`)
-**Then** an Electron window opens displaying a blank React page (no content required — just `<h1>Bookit v2</h1>`)
+**Then** an Electron window opens displaying a blank React page (no content required — just `<h1>Leaflet PDF</h1>`)
 **And** both main process (`src/main/index.ts`) and renderer process (`src/renderer/index.tsx`) compile without TypeScript errors
 **And** `forge.config.ts`, `vite.main.config.ts`, and `vite.renderer.config.ts` are present and functional
 **And** React and ReactDOM are installed (`react`, `react-dom`, `@types/react`, `@types/react-dom`)
@@ -205,7 +205,7 @@ type StyleName = 'orbital-light' | 'orbital-night'
 type StyleRegistryEntry = { specPath: string; templatePath: string }
 ```
 
-**And** `packages/electron-app` imports these types from `@bookit/core` — no local redefinitions
+**And** `packages/electron-app` imports these types from `@leafletpdf/core` — no local redefinitions
 **And** `packages/core/src/index.ts` re-exports all types from `types/index.ts`
 **And** the file compiles without errors
 
@@ -279,7 +279,7 @@ So that sensitive credentials never appear on disk in plaintext.
 
 **Given** I provide an API key
 **When** `keyStore.set(provider, apiKey)` is called
-**Then** the key is stored via `keytar` to Windows Credential Manager under the service name `bookit-v2`
+**Then** the key is stored via `keytar` to Windows Credential Manager under the service name `Leaflet PDF-v2`
 **And** `keyStore.get(provider)` retrieves the key from Credential Manager
 **And** `keyStore.delete(provider)` removes the key
 
@@ -545,7 +545,7 @@ So that the renderer receives pipeline progress without any coupling to `core`.
 
 As a user,
 I want to see the active pipeline stage update in real time while my content is being processed,
-So that I know Bookit is working and can see where it is in the pipeline.
+So that I know Leaflet PDF is working and can see where it is in the pipeline.
 
 **Acceptance Criteria:**
 
@@ -642,7 +642,7 @@ So that per-call token usage is tracked for analysis and never lost, without any
 **Acceptance Criteria:**
 
 **Given** a pipeline run completes (success, fidelity failure, or error)
-**Then** a JSON object is appended to `{app.getPath('userData')}/bookit-token-log.jsonl` conforming to this schema:
+**Then** a JSON object is appended to `{app.getPath('userData')}/leafletpdf-token-log.jsonl` conforming to this schema:
 
 ```json
 {
@@ -861,7 +861,7 @@ So that all module handoff contracts are exercised in their real execution conte
 **Then** all 5 modules execute in sequence: title derivation → ClaimExtractor → TechniqueSelector → Transformer → Validator → Renderer
 **And** the ProcessingScreen updates stage labels in real time (Extracting → Transforming → Validating → Rendering)
 **And** the SuccessScreen appears and "Open File" opens a valid, visually styled PDF
-**And** `bookit-token-log.jsonl` is written with a correctly structured entry
+**And** `leafletpdf-token-log.jsonl` is written with a correctly structured entry
 **And** no module throws an unhandled exception (all errors route through `Result<T>` to `pipeline:error`)
 
 **And** a fidelity failure scenario is tested: if the Validator mock returns `passed: false` on attempt 1 and `passed: true` on attempt 2, the ProcessingScreen shows the retry label and the pipeline eventually succeeds
@@ -876,7 +876,7 @@ So that all module handoff contracts are exercised in their real execution conte
 
 As a developer,
 I want the app to build into a self-contained Windows `.exe` via electron-builder,
-So that Bookit can be downloaded from GitHub and run on any Windows 11 machine without additional installs.
+So that Leaflet PDF can be downloaded from GitHub and run on any Windows 11 machine without additional installs.
 
 **Acceptance Criteria:**
 
@@ -887,7 +887,7 @@ So that Bookit can be downloaded from GitHub and run on any Windows 11 machine w
 **And** running the `.exe` on a fresh Windows 11 machine with no Node.js installed launches the app successfully
 **And** the first launch triggers the SetupWizard (no pre-existing settings)
 **And** the GitHub Actions `build.yml` adds a `make` job that produces the `.exe` as a workflow artifact
-**And** the artifact is named `bookit-v2-win32-x64.exe` (or equivalent) for GitHub Release use
+**And** the artifact is named `Leaflet PDF-v2-win32-x64.exe` (or equivalent) for GitHub Release use
 
 ---
 
@@ -950,13 +950,13 @@ Epics 1 and 2 are prerequisites for all other epics. Within each epic, stories a
 
 > **Source:** `docs/PRD-MCP-addendum.md`
 > **Architecture:** `docs/ARCHITECTURE.md` §Decision 2 Addendum
-> **Prerequisite:** All Phase 1 epics (1–9) complete. `@bookit/core` is the shared pipeline — no changes to core required.
+> **Prerequisite:** All Phase 1 epics (1–9) complete. `@leafletpdf/core` is the shared pipeline — no changes to core required.
 
 ---
 
 ## Epic 10: MCP Server Foundation
 
-**Goal:** Establish the `packages/mcp-server` package as a real, runnable Node.js MCP server that registers the `bookit_transform` tool and can be connected to by Claude Desktop or Cursor. No pipeline logic lives here — only the shell, configuration, and tool registration.
+**Goal:** Establish the `packages/mcp-server` package as a real, runnable Node.js MCP server that registers the `leafletpdf_transform` tool and can be connected to by Claude Desktop or Cursor. No pipeline logic lives here — only the shell, configuration, and tool registration.
 
 **Covers:** MCP-FR-001 (inputs), MCP-FR-002 (env config), MCP-FR-003 (outputs, structure only)
 
@@ -966,23 +966,23 @@ Epics 1 and 2 are prerequisites for all other epics. Within each epic, stories a
 
 As a developer,
 I want `packages/mcp-server` to be a properly configured TypeScript Node.js package with `@modelcontextprotocol/sdk` installed and a running stdio MCP server,
-So that Claude Desktop and Cursor can connect to it and discover the `bookit_transform` tool.
+So that Claude Desktop and Cursor can connect to it and discover the `leafletpdf_transform` tool.
 
 **Acceptance Criteria:**
 
 **Given** the MCP server package is built and launched via `node dist/index.js`
 **When** Claude Desktop connects using the stdio transport
 **Then** the server responds to the MCP `initialize` handshake successfully
-**And** `tools/list` returns exactly one tool: `bookit_transform` with its full input schema
+**And** `tools/list` returns exactly one tool: `leafletpdf_transform` with its full input schema
 **And** the server process stays alive and does not exit on connection
 
 **And** the `packages/mcp-server/package.json` declares:
-- `"name": "@bookit/mcp-server"`
+- `"name": "@leafletpdf/mcp-server"`
 - `"type": "module"` or `"main"` pointing to compiled output
 - A `"build"` script that compiles TypeScript to `dist/`
 - A `"start"` script: `node dist/index.js`
 - A `"postinstall"` script: `npx playwright install chromium`
-- Dependencies: `@modelcontextprotocol/sdk`, `@bookit/core`
+- Dependencies: `@modelcontextprotocol/sdk`, `@leafletpdf/core`
 - No Electron dependencies
 
 **And** `tsconfig.json` extends `../../tsconfig.base.json` and compiles to `dist/`
@@ -1004,29 +1004,29 @@ So that Claude Desktop and Cursor can connect to it and discover the `bookit_tra
 ### Story 10.2: Environment Variable Configuration
 
 As a developer,
-I want the MCP server to read all AI provider credentials and settings from `BOOKIT_*` environment variables,
+I want the MCP server to read all AI provider credentials and settings from `LEAFLETPDF_*` environment variables,
 So that the server can be configured without touching the Electron keytar store and users can set API keys in their MCP host configuration.
 
 **Acceptance Criteria:**
 
-**Given** the server starts with `BOOKIT_ANTHROPIC_KEY` set in the environment
-**When** `bookit_transform` is invoked
+**Given** the server starts with `LEAFLETPDF_ANTHROPIC_KEY` set in the environment
+**When** `leafletpdf_transform` is invoked
 **Then** it uses the Anthropic provider with the configured key
 
 **And** the following environment variables are supported:
 
 | Variable | Required | Default |
 |---|---|---|
-| `BOOKIT_ANTHROPIC_KEY` | If using Anthropic | — |
-| `BOOKIT_GOOGLE_KEY` | If using Google | — |
-| `BOOKIT_OLLAMA_URL` | If using Ollama | `http://localhost:11434` |
-| `BOOKIT_TRANSFORM_PROVIDER` | No | `anthropic` |
-| `BOOKIT_TRANSFORM_MODEL` | No | `claude-sonnet-4-5` |
-| `BOOKIT_VALIDATE_PROVIDER` | No | same as transform |
-| `BOOKIT_VALIDATE_MODEL` | No | `claude-haiku-4-5` |
-| `BOOKIT_OUTPUT_DIR` | No | `~/Documents/Bookit/` |
+| `LEAFLETPDF_ANTHROPIC_KEY` | If using Anthropic | — |
+| `LEAFLETPDF_GOOGLE_KEY` | If using Google | — |
+| `LEAFLETPDF_OLLAMA_URL` | If using Ollama | `http://localhost:11434` |
+| `LEAFLETPDF_TRANSFORM_PROVIDER` | No | `anthropic` |
+| `LEAFLETPDF_TRANSFORM_MODEL` | No | `claude-sonnet-4-5` |
+| `LEAFLETPDF_VALIDATE_PROVIDER` | No | same as transform |
+| `LEAFLETPDF_VALIDATE_MODEL` | No | `claude-haiku-4-5` |
+| `LEAFLETPDF_OUTPUT_DIR` | No | `~/Documents/LeafletPDF/` |
 
-**And** if the configured provider has no API key set, `bookit_transform` returns an error response with `error.stage: "Configuration"` and `error.cause: "No API key found for provider: anthropic"` — the pipeline does not start
+**And** if the configured provider has no API key set, `leafletpdf_transform` returns an error response with `error.stage: "Configuration"` and `error.cause: "No API key found for provider: anthropic"` — the pipeline does not start
 
 **And** environment variables are read at each tool invocation (not cached at startup)
 
@@ -1036,7 +1036,7 @@ So that the server can be configured without touching the Electron keytar store 
 
 ## Epic 11: Pipeline Integration and Tool Execution
 
-**Goal:** The `bookit_transform` tool invokes the real `PipelineOrchestrator` from `@bookit/core`, subscribes to its events, runs the full pipeline, saves the PDF, and returns a structured result to the MCP host.
+**Goal:** The `leafletpdf_transform` tool invokes the real `PipelineOrchestrator` from `@leafletpdf/core`, subscribes to its events, runs the full pipeline, saves the PDF, and returns a structured result to the MCP host.
 
 **Covers:** MCP-FR-001 (full), MCP-FR-003 (full), MCP-FR-004, MCP-FR-005, MCP-FR-006
 
@@ -1045,26 +1045,26 @@ So that the server can be configured without touching the Electron keytar store 
 ### Story 11.1: Input Validation and Intake
 
 As a developer,
-I want the `bookit_transform` tool to validate its inputs and route content through the correct `@bookit/core` intake function before the pipeline starts,
+I want the `leafletpdf_transform` tool to validate its inputs and route content through the correct `@leafletpdf/core` intake function before the pipeline starts,
 So that bad inputs fail fast with clear errors before any AI calls are made.
 
 **Acceptance Criteria:**
 
-**Given** `bookit_transform` is called with `content: "some text"` and `filePath: "/path/to/file.md"` simultaneously
+**Given** `leafletpdf_transform` is called with `content: "some text"` and `filePath: "/path/to/file.md"` simultaneously
 **When** the tool handler runs
 **Then** it returns `{ error: { stage: "Configuration", cause: "Provide either content or filePath, not both", retryable: false } }` — no pipeline call is made
 
-**Given** `bookit_transform` is called with neither `content` nor `filePath`
+**Given** `leafletpdf_transform` is called with neither `content` nor `filePath`
 **Then** it returns `{ error: { stage: "Configuration", cause: "content or filePath is required", retryable: false } }`
 
-**Given** `bookit_transform` is called with `content: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"`
-**Then** it routes the content through `processYouTubeInput()` from `@bookit/core`
+**Given** `leafletpdf_transform` is called with `content: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"`
+**Then** it routes the content through `processYouTubeInput()` from `@leafletpdf/core`
 
-**Given** `bookit_transform` is called with `content: "some plain text"`
-**Then** it routes through `processTextInput()` from `@bookit/core`
+**Given** `leafletpdf_transform` is called with `content: "some plain text"`
+**Then** it routes through `processTextInput()` from `@leafletpdf/core`
 
-**Given** `bookit_transform` is called with `filePath: "/path/to/doc.md"`
-**Then** it routes through `processFileInput()` from `@bookit/core`
+**Given** `leafletpdf_transform` is called with `filePath: "/path/to/doc.md"`
+**Then** it routes through `processFileInput()` from `@leafletpdf/core`
 
 **And** all intake errors (`Result.ok === false`) are mapped to an MCP tool error response with the stage and cause from the `PipelineError` — the pipeline does not continue
 
@@ -1073,13 +1073,13 @@ So that bad inputs fail fast with clear errors before any AI calls are made.
 ### Story 11.2: Pipeline Orchestration and PDF Save
 
 As a developer,
-I want the `bookit_transform` tool to run the full `PipelineOrchestrator` pipeline from `@bookit/core`, collect its result, save the PDF to the output directory, and return the file path to the caller,
+I want the `leafletpdf_transform` tool to run the full `PipelineOrchestrator` pipeline from `@leafletpdf/core`, collect its result, save the PDF to the output directory, and return the file path to the caller,
 So that a successful tool call always produces a real PDF on disk.
 
 **Acceptance Criteria:**
 
 **Given** a valid source content input and a configured provider
-**When** `bookit_transform` runs the pipeline
+**When** `leafletpdf_transform` runs the pipeline
 **Then** `PipelineOrchestrator.runPipeline()` is called with the correct `PipelineInput`
 **And** the orchestrator subscribes to `pipeline:complete`, `pipeline:error`, and `pipeline:retry` events
 **And** on `pipeline:complete`, the PDF buffer is written to `<outputDir>/<sanitizedTitle>.pdf`
@@ -1087,7 +1087,7 @@ So that a successful tool call always produces a real PDF on disk.
 **And** the tool returns:
 ```json
 {
-  "filePath": "/Users/jason/Documents/Bookit/My Article.pdf",
+  "filePath": "/Users/jason/Documents/LeafletPDF/My Article.pdf",
   "title": "My Article",
   "style": "orbital-light",
   "attempts": 1,
@@ -1115,16 +1115,16 @@ So that a successful tool call always produces a real PDF on disk.
 ### Story 11.3: Verbose Mode and Stage Timing
 
 As a developer,
-I want the `bookit_transform` tool to optionally return per-stage timing information when `verbose: true` is set,
+I want the `leafletpdf_transform` tool to optionally return per-stage timing information when `verbose: true` is set,
 So that the user can see how long each pipeline stage took in the tool response.
 
 **Acceptance Criteria:**
 
-**Given** `bookit_transform` is called with `verbose: false` (or `verbose` not provided)
+**Given** `leafletpdf_transform` is called with `verbose: false` (or `verbose` not provided)
 **When** the pipeline completes
 **Then** the response does not include `stages` timing data
 
-**Given** `bookit_transform` is called with `verbose: true`
+**Given** `leafletpdf_transform` is called with `verbose: true`
 **When** the pipeline completes
 **Then** the response includes:
 ```json
@@ -1144,14 +1144,14 @@ So that the user can see how long each pipeline stage took in the tool response.
 ### Story 11.4: Token Logging
 
 As a developer,
-I want every `bookit_transform` call to append a structured entry to `bookit-token-log.jsonl`,
+I want every `leafletpdf_transform` call to append a structured entry to `leafletpdf-token-log.jsonl`,
 So that all pipeline runs — both Electron and MCP — are tracked in a single log.
 
 **Acceptance Criteria:**
 
-**Given** a `bookit_transform` call completes (success or failure)
+**Given** a `leafletpdf_transform` call completes (success or failure)
 **When** the pipeline finishes
-**Then** a log entry is appended to `~/Documents/Bookit/bookit-token-log.jsonl`
+**Then** a log entry is appended to `~/Documents/LeafletPDF/leafletpdf-token-log.jsonl`
 **And** the entry's `inputType` field is `"mcp"` (not `"paste"` / `"file"` / `"youtube"`) to distinguish MCP runs
 **And** the log schema is otherwise identical to the Electron app's token log format
 **And** if the log write fails, the failure is caught silently — it must never cause the tool to return an error or throw
@@ -1169,8 +1169,8 @@ So that all pipeline runs — both Electron and MCP — are tracked in a single 
 ### Story 12.1: Claude Desktop Configuration
 
 As a user,
-I want a documented, copy-paste Claude Desktop config entry that launches the Bookit MCP server,
-So that I can add Bookit to Claude Desktop without reading source code.
+I want a documented, copy-paste Claude Desktop config entry that launches the Leaflet PDF MCP server,
+So that I can add Leaflet PDF to Claude Desktop without reading source code.
 
 **Acceptance Criteria:**
 
@@ -1179,20 +1179,20 @@ So that I can add Bookit to Claude Desktop without reading source code.
 ```json
 {
   "mcpServers": {
-    "bookit": {
+    "Leaflet PDF": {
       "command": "node",
       "args": ["/absolute/path/to/packages/mcp-server/dist/index.js"],
       "env": {
-        "BOOKIT_ANTHROPIC_KEY": "sk-ant-...",
-        "BOOKIT_OUTPUT_DIR": "C:\\Users\\Jason\\Documents\\Bookit"
+        "LEAFLETPDF_ANTHROPIC_KEY": "sk-ant-...",
+        "LEAFLETPDF_OUTPUT_DIR": "C:\\Users\\Jason\\Documents\\Leaflet PDF"
       }
     }
   }
 }
 ```
-**Then** Claude Desktop connects to the Bookit MCP server on startup
-**And** the `bookit_transform` tool appears in Claude's tool list
-**And** a message like "Transform this article: [text]" causes Claude to invoke `bookit_transform` and return the PDF path
+**Then** Claude Desktop connects to the Leaflet PDF MCP server on startup
+**And** the `leafletpdf_transform` tool appears in Claude's tool list
+**And** a message like "Transform this article: [text]" causes Claude to invoke `leafletpdf_transform` and return the PDF path
 
 **And** the configuration snippet is documented in `docs/MCP-SETUP.md` with path placeholders and inline comments
 
@@ -1201,8 +1201,8 @@ So that I can add Bookit to Claude Desktop without reading source code.
 ### Story 12.2: Cursor Configuration
 
 As a user,
-I want a documented Cursor MCP configuration that launches the Bookit MCP server,
-So that I can call `bookit_transform` from within Cursor without switching to another app.
+I want a documented Cursor MCP configuration that launches the Leaflet PDF MCP server,
+So that I can call `leafletpdf_transform` from within Cursor without switching to another app.
 
 **Acceptance Criteria:**
 
@@ -1211,17 +1211,17 @@ So that I can call `bookit_transform` from within Cursor without switching to an
 ```json
 {
   "mcpServers": {
-    "bookit": {
+    "Leaflet PDF": {
       "command": "node",
       "args": ["/absolute/path/to/packages/mcp-server/dist/index.js"],
       "env": {
-        "BOOKIT_ANTHROPIC_KEY": "sk-ant-..."
+        "LEAFLETPDF_ANTHROPIC_KEY": "sk-ant-..."
       }
     }
   }
 }
 ```
-**Then** Cursor can invoke `bookit_transform` from the assistant panel
+**Then** Cursor can invoke `leafletpdf_transform` from the assistant panel
 **And** the configuration is documented in `docs/MCP-SETUP.md`
 
 ---
@@ -1229,7 +1229,7 @@ So that I can call `bookit_transform` from within Cursor without switching to an
 ### Story 12.3: MCP Setup Documentation
 
 As a user,
-I want a single setup document that explains how to install, configure, and use the Bookit MCP server,
+I want a single setup document that explains how to install, configure, and use the Leaflet PDF MCP server,
 So that setup takes under 10 minutes from a fresh install.
 
 **Acceptance Criteria:**
@@ -1241,9 +1241,9 @@ So that setup takes under 10 minutes from a fresh install.
 3. **Step 2** — Claude Desktop config snippet with all env vars documented
 4. **Step 3** — Cursor config snippet
 5. **Step 4** — Example tool invocations:
-   - "Bookit this YouTube video: https://..."
+   - "Leaflet PDF this YouTube video: https://..."
    - "Transform this file: /path/to/article.md with orbital-night style"
-6. **Environment variable reference** table (all `BOOKIT_*` vars, purpose, required/optional, default)
+6. **Environment variable reference** table (all `LEAFLETPDF_*` vars, purpose, required/optional, default)
 7. **Troubleshooting** — common errors (missing API key, missing Chromium, output dir not writable)
 
 ---
@@ -1253,26 +1253,26 @@ So that setup takes under 10 minutes from a fresh install.
 ### Package Structure
 ```
 packages/mcp-server/
-  package.json           ← @bookit/mcp-server; deps: @modelcontextprotocol/sdk, @bookit/core
+  package.json           ← @leafletpdf/mcp-server; deps: @modelcontextprotocol/sdk, @leafletpdf/core
   tsconfig.json          ← extends ../../tsconfig.base.json; outDir: dist/
   src/
     index.ts             ← server entry: create McpServer, register tools, start stdio transport
     server.ts            ← McpServer construction and tool registration
     config/
-      env-config.ts      ← readConfig(): validates BOOKIT_* env vars, returns McpConfig
+      env-config.ts      ← readConfig(): validates LEAFLETPDF_* env vars, returns McpConfig
     tools/
-      bookit-transform.ts  ← tool handler: validation, intake, pipeline, file write, response
+      leafletpdf-transform.ts  ← tool handler: validation, intake, pipeline, file write, response
 ```
 
 ### Key Constraints
-- **Zero Electron dependencies** — `packages/mcp-server` imports only `@bookit/core`, `@modelcontextprotocol/sdk`, and Node.js builtins
-- **`@bookit/core` is not modified** — the MCP server is a consumer, not a modifier
+- **Zero Electron dependencies** — `packages/mcp-server` imports only `@leafletpdf/core`, `@modelcontextprotocol/sdk`, and Node.js builtins
+- **`@leafletpdf/core` is not modified** — the MCP server is a consumer, not a modifier
 - **Same `Result<T>` contract** — all errors from core modules flow through `Result<T>`, mapped to MCP tool error responses at the shell boundary
 - **No `ipcMain` or `ipcRenderer`** — those live exclusively in `packages/electron-app`
-- **Token log path** — `~/Documents/Bookit/bookit-token-log.jsonl` (uses `os.homedir()`, not Electron's `app.getPath()`)
+- **Token log path** — `~/Documents/LeafletPDF/leafletpdf-token-log.jsonl` (uses `os.homedir()`, not Electron's `app.getPath()`)
 
 ### Naming Conventions
-Same as the rest of the project (from ARCHITECTURE.md). Tool name: `bookit_transform` (snake_case per MCP convention).
+Same as the rest of the project (from ARCHITECTURE.md). Tool name: `leafletpdf_transform` (snake_case per MCP convention).
 
 ### Story Sequencing
 1. Story 10.1 → 10.2 (foundation — package setup, env config)

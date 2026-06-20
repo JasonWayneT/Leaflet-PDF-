@@ -1,4 +1,4 @@
-# Bookit v2 — Session Handoff
+﻿# Leaflet PDF — Session Handoff
 
 **Date:** 2026-06-19
 **Status:** Epic 1 complete; Epic 2 complete; Epic 3 complete; Epic 4 complete; Epic 5 next.
@@ -16,7 +16,7 @@ Before touching anything:
 AGENTS.md governs everything. The short version:
 - Create a CR before writing code
 - Cite requirement IDs in every implementation task
-- Never redefine types locally — import from `@bookit/core/src/types/index.ts`
+- Never redefine types locally — import from `@leafletpdf/core/src/types/index.ts`
 - Never call `ipcMain` outside `packages/electron-app/src/main/ipc-bridge.ts`
 - Never import from `electron` inside `packages/core`
 - Every module returns `Result<T>` — no raw throws across boundaries
@@ -24,7 +24,7 @@ AGENTS.md governs everything. The short version:
 
 ---
 
-## What Bookit v2 Is
+## What Leaflet PDF Is
 
 A Windows desktop application (Electron + TypeScript) that transforms raw non-fiction content — pasted text, .md/.txt files, or YouTube transcripts — into a structured, visually designed PDF (a "Reading Artifact"). The core constraint: **source fidelity is mechanically enforced**. The pipeline never delivers a Reading Artifact that failed validation.
 
@@ -39,8 +39,8 @@ Full product spec: `docs/PRD.md`, `docs/ARCHITECTURE.md`, `docs/epics-stories.md
 ### What Is On Disk Right Now
 
 ```
-bookit-v2/
-├── package.json                        ← workspace root; "start" → @bookit/electron-app
+Leaflet PDF-v2/
+├── package.json                        ← workspace root; "start" → @leafletpdf/electron-app
 ├── tsconfig.base.json                  ← strict: true, moduleResolution: bundler, target: ES2022
 ├── .gitignore                          ← node_modules/, out/, .vite/, dist/
 ├── AGENTS.md
@@ -50,7 +50,7 @@ bookit-v2/
 ├── README.md
 ├── packages/
 │   ├── core/
-│   │   ├── package.json                ← name: @bookit/core
+│   │   ├── package.json                ← name: @leafletpdf/core
 │   │   ├── tsconfig.json               ← extends ../../tsconfig.base.json
 │   │   └── src/
 │   │       ├── index.ts                ← re-exports shared types
@@ -75,7 +75,7 @@ bookit-v2/
 │   │       └── renderer/
 │   │           ├── index.html
 │   │           ├── index.tsx           ← React createRoot
-│   │           └── App.tsx             ← <h1>Bookit v2</h1>
+│   │           └── App.tsx             ← <h1>Leaflet PDF</h1>
 │   └── mcp-server/
 │       ├── package.json
 │       ├── tsconfig.json
@@ -130,7 +130,7 @@ bookit-v2/
 **What was built:**
 - Root `package.json` with `workspaces: ["packages/*"]`
 - `tsconfig.base.json` (strict, moduleResolution: bundler, ES2022)
-- Three workspace packages: `@bookit/core`, `@bookit/electron-app`, `@bookit/mcp-server`
+- Three workspace packages: `@leafletpdf/core`, `@leafletpdf/electron-app`, `@leafletpdf/mcp-server`
 - Each package has its own `package.json` and `tsconfig.json` extending the base
 - `packages/mcp-server/src/index.ts` — single-line placeholder
 - `.gitignore`
@@ -144,8 +144,8 @@ bookit-v2/
 - `forge.config.ts`, `vite.main.config.ts`, `vite.renderer.config.ts`, `vite.preload.config.ts`
 - `src/main/index.ts` — BrowserWindow entry point
 - `src/preload.ts` — empty bridge placeholder
-- `src/renderer/index.html`, `index.tsx`, `App.tsx` (`<h1>Bookit v2</h1>`)
-- Root `package.json` updated: added `"start": "npm run start --workspace=@bookit/electron-app"`
+- `src/renderer/index.html`, `index.tsx`, `App.tsx` (`<h1>Leaflet PDF</h1>`)
+- Root `package.json` updated: added `"start": "npm run start --workspace=@leafletpdf/electron-app"`
 - All runtime dependencies installed and verified
 - **Visual verification (window opens) is NOT done** — no desktop in prior session. Jason can run `npm start` locally to confirm.
 
@@ -157,9 +157,9 @@ bookit-v2/
 **CR:** `docs/spec/05-change-requests/CR-003-shared-type-definitions.md`
 **What was built:**
 - `packages/core/src/types/index.ts` with Story 1.3 shared pipeline handoff contracts
-- `packages/core/src/index.ts` re-exports all shared types from `@bookit/core`
+- `packages/core/src/index.ts` re-exports all shared types from `@leafletpdf/core`
 - `packages/core/src/types/index.test.ts` compile-time type surface check
-- Verified: `npm run build --workspace=@bookit/core` passed; no local redefinitions found outside canonical type file
+- Verified: `npm run build --workspace=@leafletpdf/core` passed; no local redefinitions found outside canonical type file
 
 ### Story 1.4 ✅ — IPC Type Definitions & Bridge Skeleton
 **CR:** `docs/spec/05-change-requests/CR-005-ipc-bridge-skeleton.md`
@@ -168,7 +168,7 @@ bookit-v2/
 - `packages/electron-app/src/main/ipc-bridge.ts` with guarded stub registration
 - `packages/electron-app/src/main/index.ts` now calls `registerIpcBridge()`
 - Compile-time IPC tests in `ipc.test.ts` and `ipc-bridge.test.ts`
-- Verified: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` passed; `npm run build --workspace=@bookit/electron-app` passed; source grep confirms only `ipc-bridge.ts` imports `ipcMain`
+- Verified: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` passed; `npm run build --workspace=@leafletpdf/electron-app` passed; source grep confirms only `ipc-bridge.ts` imports `ipcMain`
 
 ---
 
@@ -198,7 +198,7 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
 ### Story 2.1 ✅ — Secure Settings Storage
 **CR:** `docs/spec/05-change-requests/CR-007-secure-settings-storage.md`
 **What was built:**
-- `packages/electron-app/src/main/key-store.ts` — only file that imports/calls `keytar`; service name `bookit-v2`
+- `packages/electron-app/src/main/key-store.ts` — only file that imports/calls `keytar`; service name `Leaflet PDF-v2`
 - `packages/electron-app/src/main/settings-store.ts` — only file that instantiates `electron-store`; typed non-sensitive settings schema
 - Co-located compile tests: `key-store.test.ts`, `settings-store.test.ts`
 - Verified: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` passed; `npm run build --workspaces --if-present` passed; source greps confirmed storage boundary rules
@@ -212,8 +212,8 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
   - `providers/google.ts` using `@ai-sdk/google`
   - `providers/ollama.ts` using `ollama-ai-provider-v2`
 - Co-located compile tests for client and all provider adapters
-- `@bookit/core` now owns AI SDK runtime dependencies and re-exports the AI client API
-- Verified: `npm run build --workspace=@bookit/core` passed; `npm run build --workspaces --if-present` passed; `rg -n "electron" packages\core` returned no matches; runtime npm audit reported zero vulnerabilities
+- `@leafletpdf/core` now owns AI SDK runtime dependencies and re-exports the AI client API
+- Verified: `npm run build --workspace=@leafletpdf/core` passed; `npm run build --workspaces --if-present` passed; `rg -n "electron" packages\core` returned no matches; runtime npm audit reported zero vulnerabilities
 
 ### Story 2.3 ✅ — First-Launch Setup Wizard
 **CR:** `docs/spec/05-change-requests/CR-009-setup-wizard.md`
@@ -242,7 +242,7 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
 **What was built:**
 - `packages/core/src/modules/intake/intake.ts` — `processTextInput(text): Result<SourceContent>` and `SOURCE_CONTENT_CHAR_LIMIT = 100_000`
 - `packages/core/src/modules/intake/intake.test.ts` — compile-time coverage for valid, empty, oversized, and boundary inputs
-- `packages/core/src/index.ts` — exports `processTextInput` and `SOURCE_CONTENT_CHAR_LIMIT` from `@bookit/core`
+- `packages/core/src/index.ts` — exports `processTextInput` and `SOURCE_CONTENT_CHAR_LIMIT` from `@leafletpdf/core`
 - Verified: `tsc --noEmit` (core) passed; full workspace build passed; no `electron` imports in `packages/core`
 
 ### Story 3.2 ✅ — File Import (.md and .txt)
@@ -256,19 +256,19 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
   - NFR-004: oversized file cap reused from `SOURCE_CONTENT_CHAR_LIMIT`
   - AC-004: valid file → `SourceContent` with `inputType: 'file'`
 - Extended `intake.test.ts` with compile-time coverage for all four file scenarios
-- Exported `processFileInput` from `@bookit/core`
+- Exported `processFileInput` from `@leafletpdf/core`
 - Verified: `tsc --noEmit` (core) passed; full workspace build passed; no `electron` imports
 
 ### Story 3.3 ✅ — YouTube URL Input & Transcript Extraction
 **CR:** `docs/spec/05-change-requests/CR-013-youtube-input.md`
 **What was built:**
-- Added `youtube-transcript` to `@bookit/core` dependencies; workspace deduplication verified
+- Added `youtube-transcript` to `@leafletpdf/core` dependencies; workspace deduplication verified
 - Added to `packages/core/src/modules/intake/intake.ts`:
   - `YOUTUBE_URL_PATTERN` regex: matches `youtube.com/watch?v=` and `youtu.be/` formats
   - `preprocessCaptions(raw: string): string` — pure function: HTML entity decode, bracket annotation removal, timestamp removal, filler word removal, whitespace collapse, sentence capitalisation
   - `processYouTubeInput(url: string): Promise<Result<SourceContent>>` — URL validation (AC-009), `YoutubeTranscript.fetchTranscript()` call, error class mapping (AC-008), caption preprocessing, SourceContent wrap (AC-007)
 - Extended `intake.test.ts` with `preprocessCaptions` and `processYouTubeInput` compile-time type scenarios
-- Exported both functions from `@bookit/core`
+- Exported both functions from `@leafletpdf/core`
 - Verified: `tsc --noEmit` passed; full workspace build passed; zero `electron` imports
 
 ### Story 3.4 ✅ — Document Title (Provided or AI-Derived)
@@ -277,7 +277,7 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
 - Extended `packages/core/src/modules/intake/intake.ts` with `deriveTitle(text: string, aiConfig: ProviderConfig): Promise<Result<string>>`
 - Uses the AI client to generate a max-60-character title from the first 500 characters of the content
 - Extended `intake.test.ts` with type checking for the async resolution shape
-- Exported `deriveTitle` from `@bookit/core`
+- Exported `deriveTitle` from `@leafletpdf/core`
 - Verified: `tsc --noEmit` and full workspace build passed
 
 ### Story 3.5 ✅ — InputScreen UI
@@ -312,7 +312,7 @@ Full record: `docs/spec/09-known-issues/BUG-001-ai-sdk-ollama-package-name.md`
 ### Story 4.3 ✅ — Processing UI
 **CR:** `docs/spec/05-change-requests/CR-018-processing-ui.md`
 **What was built:**
-- `ProcessingScreen.tsx` listens to `window.bookit.pipeline.onStageUpdate` and displays active stages.
+- `ProcessingScreen.tsx` listens to `window.Leaflet PDF.pipeline.onStageUpdate` and displays active stages.
 - `App.tsx` routes between Input, Processing, Error, and Success states.
 - Retries append `(Retry attempt 2 of 3)` text.
 - Full workspace build passed.
@@ -342,7 +342,7 @@ Before every story:
 - [ ] Does any code I'm about to write import from `electron` inside `packages/core`? → STOP. Not allowed.
 - [ ] Does any code import `ipcMain` anywhere other than `ipc-bridge.ts`? → STOP. Not allowed.
 - [ ] Does any module throw exceptions across its boundary instead of returning `Result<T>`? → STOP. Fix it.
-- [ ] Are any types being redefined locally instead of imported from `@bookit/core/src/types/index.ts`? → STOP. Fix it.
+- [ ] Are any types being redefined locally instead of imported from `@leafletpdf/core/src/types/index.ts`? → STOP. Fix it.
 - [ ] Are tests co-located (module.ts / module.test.ts same directory)? → Required for every module.
 - [ ] Are AI prompts in a co-located `prompts.ts`? → Required for every AI-calling module.
 - [ ] Is every requirement ID cited in the implementation? → Required. Use `// Implements FR-xxx`.

@@ -1,5 +1,5 @@
-{
-  "name": "@bookit/mcp-server",
+﻿{
+  "name": "@leafletpdf/mcp-server",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
     "postinstall": "npx playwright install chromium"
   },
   "dependencies": {
-    "@bookit/core": "*",
+    "@leafletpdf/core": "*",
     "@modelcontextprotocol/sdk": "^1.0.1"
   }
 }

@@ -1,4 +1,4 @@
-import * as fs from 'fs'
+﻿import * as fs from 'fs'
 import { getStyleEntry } from './style-registry'
 import type { TransformedContent, StyleName, Result } from '../../types/index'
 
@@ -69,7 +69,7 @@ export async function render(
       </div>
     `).join('')
 
-    html = html.replace('{{TITLE}}', transformedContent.title || 'Bookit Output')
+    html = html.replace('{{TITLE}}', transformedContent.title || 'Leaflet PDF Output')
     html = html.replace('{{BLUF_SECTION}}', blufHtml)
     html = html.replace('{{BODY_SECTIONS}}', bodyHtml)
     html = html.replace('{{CONDITIONAL_SECTIONS}}', conditionalHtml)

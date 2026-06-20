@@ -1,4 +1,4 @@
-# BUG-002 Electron Package Verification Blockers
+﻿# BUG-002 Electron Package Verification Blockers
 
 ## Metadata
 
@@ -20,7 +20,7 @@ Workspace-level verification currently exposes Electron package build blockers t
 
 ## Observed behavior
 
-Before `CR-004`, `npm run build --workspaces --if-present` successfully compiled `@bookit/core`, started the Electron Forge package flow, and completed Vite main/preload/renderer bundle generation. Packaging then failed because Electron Packager could not find `packages/electron-app/.vite/build/main.js`.
+Before `CR-004`, `npm run build --workspaces --if-present` successfully compiled `@leafletpdf/core`, started the Electron Forge package flow, and completed Vite main/preload/renderer bundle generation. Packaging then failed because Electron Packager could not find `packages/electron-app/.vite/build/main.js`.
 
 Direct TypeScript verification with `npx tsc --noEmit --project packages/electron-app/tsconfig.json` also failed before type-checking application code because `forge.config.ts` and Vite config files were included while `rootDir` was `./src`.
 
@@ -52,4 +52,4 @@ npx tsc --noEmit --project packages\electron-app\tsconfig.json
 
 - Result: resolved
 - Last run: 2026-06-19
-- Evidence: `npm run build --workspace=@bookit/electron-app`, `npx tsc --noEmit --project packages\electron-app\tsconfig.json`, and `npm run build --workspaces --if-present` all passed.
+- Evidence: `npm run build --workspace=@leafletpdf/electron-app`, `npx tsc --noEmit --project packages\electron-app\tsconfig.json`, and `npm run build --workspaces --if-present` all passed.

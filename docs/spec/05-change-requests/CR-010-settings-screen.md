@@ -1,4 +1,4 @@
-# CR-010 — Settings Screen (Story 2.4)
+﻿# CR-010 — Settings Screen (Story 2.4)
 
 ## Summary
 
@@ -13,7 +13,7 @@ Feature — new renderer component
 - `UX-DR8`: Settings screen with Providers section (status cards) and Model Slots section
 - `SEC-001`, `SEC-002`: Settings screen must not expose or store API keys through electron-store
 - `INT-004`: Settings interaction routes through existing settings-store and key-store abstractions
-- `ARCH-003`: All IPC calls remain in ipc-bridge.ts; renderer only calls window.bookit.*
+- `ARCH-003`: All IPC calls remain in ipc-bridge.ts; renderer only calls window.Leaflet PDF.*
 
 ## Rationale
 

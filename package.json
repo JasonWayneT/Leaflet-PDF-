@@ -1,15 +1,15 @@
-{
-  "name": "bookit-v2",
+﻿{
+  "name": "leafletpdf",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
-    "start": "npm run start --workspace=@bookit/electron-app",
+    "start": "npm run start --workspace=@leafletpdf/electron-app",
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
-    "make": "npm run make --workspace=@bookit/electron-app"
+    "make": "npm run make --workspace=@leafletpdf/electron-app"
   },
   "devDependencies": {
     "typescript": "^5.4.0"

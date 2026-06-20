@@ -1,4 +1,4 @@
-# Test Spec: TEST-001 — Pipeline Integration
+﻿# Test Spec: TEST-001 — Pipeline Integration
 
 ## Metadata
 
@@ -29,7 +29,7 @@ Verify that all 5 pipeline modules execute in correct sequence, all handoff cont
 - Events emitted in order: `pipeline:stage-update` × 4 (Extracting → Transforming → Validating → Rendering)
 - `pipeline:complete` emitted with `{ pdfBuffer: Buffer, title: string }`
 - PDF buffer is non-empty and begins with `%PDF`
-- `bookit-token-log.jsonl` has one new entry with correct schema
+- `leafletpdf-token-log.jsonl` has one new entry with correct schema
 - No raw exceptions thrown
 
 **Pass criteria:** All events in order; valid PDF buffer; token log written
@@ -96,7 +96,7 @@ Verify that all 5 pipeline modules execute in correct sequence, all handoff cont
 **Setup:** Run TC-001 with mocked AI client that returns known token counts
 
 **Expected:**
-- `bookit-token-log.jsonl` entry has correct `runId` (UUID), `timestamp` (ISO-8601), `inputType`, `sourceChars`
+- `leafletpdf-token-log.jsonl` entry has correct `runId` (UUID), `timestamp` (ISO-8601), `inputType`, `sourceChars`
 - `tokenUsage` has entries for `titleDerive`, `claimExtract`, `transform_1`, `validate_1`
 - `tokenUsage.totals` sums correctly
 - Log write failure does NOT throw or interrupt pipeline

@@ -1,4 +1,4 @@
-# TEST-007 First-Launch Setup Wizard
+﻿# TEST-007 First-Launch Setup Wizard
 
 ## Requirement links
 
@@ -24,7 +24,7 @@ Prove that Story 2.3 adds the first-launch setup wizard flow and wires provider 
 
 ```powershell
 npx tsc --noEmit --project packages\electron-app\tsconfig.json
-npm run build --workspace=@bookit/electron-app
+npm run build --workspace=@leafletpdf/electron-app
 ```
 
 ## Current result

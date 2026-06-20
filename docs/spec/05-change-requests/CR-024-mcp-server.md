@@ -1,4 +1,4 @@
-# CR-024: Phase 2 MCP Server Extension
+﻿# CR-024: Phase 2 MCP Server Extension
 
 ## Overview
 
@@ -6,7 +6,7 @@
 **Status:** Approved
 **Date:** 2026-06-19
 
-Implement Phase 2 of Bookit v2: the `packages/mcp-server` workspace. This will expose the core transformation pipeline as an MCP tool (`bookit_transform`) accessible from Claude Desktop, Cursor, and other MCP hosts. This was planned from project inception (see ADR-001) and requires no modifications to the shared pipeline in `@bookit/core`.
+Implement Phase 2 of Leaflet PDF: the `packages/mcp-server` workspace. This will expose the core transformation pipeline as an MCP tool (`leafletpdf_transform`) accessible from Claude Desktop, Cursor, and other MCP hosts. This was planned from project inception (see ADR-001) and requires no modifications to the shared pipeline in `@leafletpdf/core`.
 
 ## Requirements Impacted
 
@@ -27,7 +27,7 @@ Implement Phase 2 of Bookit v2: the `packages/mcp-server` workspace. This will e
 The work is defined in Epic 10, Epic 11, and Epic 12 (Stories 10.1–12.3):
 1. **TASK-MCP-01:** Scaffold MCP package, configure typescript, install `@modelcontextprotocol/sdk`. (Story 10.1)
 2. **TASK-MCP-02:** Implement environment variable configuration logic for API keys. (Story 10.2)
-3. **TASK-MCP-03:** Build `bookit_transform` tool handler with input validation. (Story 11.1)
+3. **TASK-MCP-03:** Build `leafletpdf_transform` tool handler with input validation. (Story 11.1)
 4. **TASK-MCP-04:** Wire `PipelineOrchestrator`, event listeners, and save PDF. (Story 11.2)
 5. **TASK-MCP-05:** Implement verbose mode timing logic. (Story 11.3)
 6. **TASK-MCP-06:** Implement token logging. (Story 11.4)

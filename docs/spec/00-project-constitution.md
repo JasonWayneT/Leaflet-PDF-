@@ -1,8 +1,8 @@
-# Project Constitution — Bookit v2
+﻿# Project Constitution — Leaflet PDF
 
 ## Project identity
 
-- **Project name:** Bookit v2
+- **Project name:** Leaflet PDF
 - **Product type:** Windows desktop application (personal utility)
 - **Target users:** Jason — single-user personal tool
 - **Primary problem:** Valuable non-fiction content (articles, docs, YouTube transcripts) arrives in formats optimized for platforms, not for focused reading away from a screen
@@ -61,7 +61,7 @@
 ### Non-goals
 
 - `NG-001`: Not a summarization tool — every fact in the source appears in the output
-- `NG-002`: Not a writing tool — Bookit restructures, it does not generate original content
+- `NG-002`: Not a writing tool — Leaflet PDF restructures, it does not generate original content
 - `NG-003`: Not a multi-user platform — no accounts, sharing, or collaboration
 - `NG-004`: Not a content library — no document history or session persistence across restarts
 - `NG-005`: Not a cloud service — runs entirely locally; only Source Content is sent to the AI API

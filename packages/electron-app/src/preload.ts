@@ -1,4 +1,4 @@
-// Implements INT-004: renderer-to-main bridge for setup/settings workflows.
+﻿// Implements INT-004: renderer-to-main bridge for setup/settings workflows.
 import { contextBridge, ipcRenderer } from 'electron'
 import { IPC_CHANNELS } from './renderer/types/ipc'
 import type {
@@ -8,7 +8,7 @@ import type {
   SettingsKey,
   SettingsValue,
 } from './renderer/types/preload-api'
-import type { PipelineInput, StageName } from '@bookit/core'
+import type { PipelineInput, StageName } from '@leafletpdf/core'
 
 const api: RendererApi = {
   settings: {
@@ -54,6 +54,10 @@ const api: RendererApi = {
     openExternal: (filePath: string) => ipcRenderer.invoke(IPC_CHANNELS.OPEN_EXTERNAL, filePath),
     saveFile: () => ipcRenderer.invoke(IPC_CHANNELS.SAVE_FILE),
   },
+  intake: {
+    processText: (text: string) => ipcRenderer.invoke(IPC_CHANNELS.PROCESS_TEXT, text),
+    processYouTube: (url: string) => ipcRenderer.invoke(IPC_CHANNELS.PROCESS_YOUTUBE, url),
+  },
   pipeline: {
     run: (input: PipelineInput) => ipcRenderer.invoke(IPC_CHANNELS.RUN_PIPELINE, input),
     onStageUpdate: (callback) => {
@@ -84,4 +88,4 @@ const api: RendererApi = {
   }
 }
 
-contextBridge.exposeInMainWorld('bookit', api)
+contextBridge.exposeInMainWorld('Leaflet PDF', api)

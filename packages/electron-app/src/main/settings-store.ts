@@ -1,5 +1,5 @@
-// Implements SEC-002: electron-store persists non-sensitive settings only.
-import type { Result } from '@bookit/core'
+﻿// Implements SEC-002: electron-store persists non-sensitive settings only.
+import type { Result } from '@leafletpdf/core'
 import Store from 'electron-store'
 import type { ProviderName } from './key-store'
 
@@ -86,6 +86,6 @@ export function createSettingsStore(driver: SettingsStoreDriver): SettingsStore 
 
 export const settingsStore = createSettingsStore(
   new Store<SettingsSchema>({
-    name: 'bookit-settings',
+    name: 'Leaflet PDF-settings',
   })
 )

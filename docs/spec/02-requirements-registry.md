@@ -1,4 +1,4 @@
-# Requirements Registry — Bookit v2
+﻿# Requirements Registry — Leaflet PDF
 
 Canonical source of truth for all requirement IDs. All feature specs, tasks, tests, and code changes trace back here.
 
@@ -39,12 +39,12 @@ Canonical source of truth for all requirement IDs. All feature specs, tasks, tes
 | `FR-022` | P0 | accepted | Output is a valid PDF, portrait orientation, formatted for tablet reading | `AC-051`, `AC-052` | BMAD-SRC-002 §4.5 |
 | `FR-023` | P0 | implemented | After pipeline success, native Windows save dialog opens; file written only after user confirms | `AC-053`, `AC-054`, `AC-055` | BMAD-SRC-002 §4.6 |
 | `FR-024` | P0 | implemented | User receives save confirmation with path; can open PDF directly from confirmation screen | `AC-056`, `AC-057` | BMAD-SRC-002 §4.6 |
-| `MCP-FR-001` | P0 | accepted | The bookit_transform tool accepts content, filePath, style, title, outputDir, and verbose inputs | `AC-058` | PRD-MCP-addendum §3 |
-| `MCP-FR-002` | P0 | accepted | The MCP server reads AI provider credentials from BOOKIT_* environment variables | `AC-059` | PRD-MCP-addendum §3 |
+| `MCP-FR-001` | P0 | accepted | The leafletpdf_transform tool accepts content, filePath, style, title, outputDir, and verbose inputs | `AC-058` | PRD-MCP-addendum §3 |
+| `MCP-FR-002` | P0 | accepted | The MCP server reads AI provider credentials from LEAFLETPDF_* environment variables | `AC-059` | PRD-MCP-addendum §3 |
 | `MCP-FR-003` | P0 | accepted | On success, tool returns structured response with filePath, title, style, attempts, and tokenSummary. On failure, returns stage, cause, retryable | `AC-060` | PRD-MCP-addendum §3 |
-| `MCP-FR-004` | P0 | accepted | Server writes PDFs to deterministic location (BOOKIT_OUTPUT_DIR or default) without prompting | `AC-061` | PRD-MCP-addendum §3 |
+| `MCP-FR-004` | P0 | accepted | Server writes PDFs to deterministic location (LEAFLETPDF_OUTPUT_DIR or default) without prompting | `AC-061` | PRD-MCP-addendum §3 |
 | `MCP-FR-005` | P1 | accepted | Tool optionally includes stage timing if verbose: true is provided | `AC-062` | PRD-MCP-addendum §3 |
-| `MCP-FR-006` | P1 | accepted | Tool appends run data with inputType="mcp" to bookit-token-log.jsonl | `AC-063` | PRD-MCP-addendum §3 |
+| `MCP-FR-006` | P1 | accepted | Tool appends run data with inputType="mcp" to leafletpdf-token-log.jsonl | `AC-063` | PRD-MCP-addendum §3 |
 
 ---
 

@@ -1,4 +1,4 @@
-# Change Request: CR-005 IPC Bridge Skeleton
+﻿# Change Request: CR-005 IPC Bridge Skeleton
 
 ## Metadata
 
@@ -49,11 +49,11 @@ Implement Story 1.4 by defining typed IPC channel constants and creating the sin
 | Test ID | What it proves | Result |
 |---|---|---|
 | `TEST-003` | IPC channels are typed and exported; bridge boundary compiles | passed |
-| `VERIFY-S14-01` | `npm run build --workspace=@bookit/electron-app` passes | passed |
+| `VERIFY-S14-01` | `npm run build --workspace=@leafletpdf/electron-app` passes | passed |
 | `VERIFY-S14-02` | Grep confirms only `ipc-bridge.ts` imports `ipcMain` | passed |
 
 ## Final notes
 
 - Implementation summary: Added typed `IPC_CHANNELS`, a guarded `registerIpcBridge()` skeleton with `ipcMain.on()` and `ipcMain.handle()` stubs, and registered the bridge from the Electron main process entry point.
-- Tests run: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` failed before implementation with missing modules, then passed after implementation; `npm run build --workspace=@bookit/electron-app` passed; source grep confirmed only `packages/electron-app/src/main/ipc-bridge.ts` imports `ipcMain`.
+- Tests run: `npx tsc --noEmit --project packages\electron-app\tsconfig.json` failed before implementation with missing modules, then passed after implementation; `npm run build --workspace=@leafletpdf/electron-app` passed; source grep confirmed only `packages/electron-app/src/main/ipc-bridge.ts` imports `ipcMain`.
 - Open risks: Real handler logic remains intentionally deferred to later stories.

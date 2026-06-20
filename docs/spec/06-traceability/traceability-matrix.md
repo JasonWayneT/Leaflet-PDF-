@@ -1,4 +1,4 @@
-# Traceability Matrix — Bookit v2
+﻿# Traceability Matrix — Leaflet PDF
 
 ## Matrix
 
@@ -51,7 +51,7 @@
 | `STORY-2.4` | BMAD-SRC-006 Story 2.4 | `FEAT-007` | `UX-DR8` | `CR-010`, `TASK-S24-01`-`TASK-S24-09` | `SettingsScreen.tsx`, `App.tsx` (gear icon), `preload.ts` (deleteKey), `ipc-bridge.ts` (KEY_DELETE), `styles.css` | implemented |
 | `STORY-3.1` | BMAD-SRC-006 Story 3.1 | `FEAT-001` | `AC-001`–`AC-003` | `CR-011`, `TASK-S31-01`-`TASK-S31-06` | `core/modules/intake/intake.ts` (`processTextInput`, `SOURCE_CONTENT_CHAR_LIMIT`) | implemented |
 | `STORY-3.2` | BMAD-SRC-006 Story 3.2 | `FEAT-001` | `AC-004`–`AC-006` | `CR-012`, `TASK-S32-01`-`TASK-S32-06` | `core/modules/intake/intake.ts` (`processFileInput`) | implemented |
-| `STORY-3.3` | BMAD-SRC-006 Story 3.3 | `FEAT-001` | `AC-007`–`AC-009` | `CR-013`, `TASK-S33-01`-`TASK-S33-07` | `core/modules/intake/intake.ts` (`processYouTubeInput`, `preprocessCaptions`); `@bookit/core` +`youtube-transcript` dep | implemented |
+| `STORY-3.3` | BMAD-SRC-006 Story 3.3 | `FEAT-001` | `AC-007`–`AC-009` | `CR-013`, `TASK-S33-01`-`TASK-S33-07` | `core/modules/intake/intake.ts` (`processYouTubeInput`, `preprocessCaptions`); `@leafletpdf/core` +`youtube-transcript` dep | implemented |
 | `STORY-3.4` | BMAD-SRC-006 Story 3.4 | `FEAT-001` | `FR-001`–`FR-003` | `CR-014`, `TASK-S34-01`-`TASK-S34-06` | `core/modules/intake/intake.ts` (`deriveTitle`) | implemented |
 | `STORY-3.5` | BMAD-SRC-006 Story 3.5 | `FEAT-001` | `UX-DR1`, `UX-DR2`, `UX-DR3` | `CR-015`, `TASK-S35-01`-`TASK-S35-06` | `InputScreen.tsx`, `TextInput.tsx`, `FileInput.tsx`, `UrlInput.tsx`, `StyleSelector.tsx` | implemented |
 | `STORY-4.1` | BMAD-SRC-006 Story 4.1 | `FEAT-002` | `FR-017`, `FR-018` | `CR-016`, `TASK-S41-01`-`TASK-S41-05` | `core/orchestrator/pipeline-orchestrator.ts` | implemented |
@@ -73,10 +73,10 @@
 | `STORY-9.2` | BMAD-SRC-006 Story 9.2 | Epic 9 | `NFR-005` | `CR-023` | `forge.config.ts` (MakerSquirrel), `style-registry.ts` (co-located spec paths), `templates/orbital-light.md`, `templates/orbital-night.md`, `build.yml` (make job, main only) | implemented |
 | `STORY-10.1` | PRD-MCP-addendum Story 10.1 | `FEAT-007` | `MCP-FR-001`, `MCP-FR-003` | `CR-024`, `TASK-MCP-01` | `mcp-server/package.json` | implemented |
 | `STORY-10.2` | PRD-MCP-addendum Story 10.2 | `FEAT-007` | `MCP-FR-002` | `CR-024`, `TASK-MCP-02` | `env-config.ts` | implemented |
-| `STORY-11.1` | PRD-MCP-addendum Story 11.1 | `FEAT-007` | `MCP-FR-001` | `CR-024`, `TASK-MCP-03` | `bookit-transform.ts` | implemented |
-| `STORY-11.2` | PRD-MCP-addendum Story 11.2 | `FEAT-007` | `MCP-FR-003`, `MCP-FR-004` | `CR-024`, `TASK-MCP-04` | `bookit-transform.ts`, `server.ts` | implemented |
-| `STORY-11.3` | PRD-MCP-addendum Story 11.3 | `FEAT-007` | `MCP-FR-005` | `CR-024`, `TASK-MCP-05` | `bookit-transform.ts` | implemented |
-| `STORY-11.4` | PRD-MCP-addendum Story 11.4 | `FEAT-007` | `MCP-FR-006` | `CR-024`, `TASK-MCP-06` | `bookit-transform.ts` | implemented |
+| `STORY-11.1` | PRD-MCP-addendum Story 11.1 | `FEAT-007` | `MCP-FR-001` | `CR-024`, `TASK-MCP-03` | `leafletpdf-transform.ts` | implemented |
+| `STORY-11.2` | PRD-MCP-addendum Story 11.2 | `FEAT-007` | `MCP-FR-003`, `MCP-FR-004` | `CR-024`, `TASK-MCP-04` | `leafletpdf-transform.ts`, `server.ts` | implemented |
+| `STORY-11.3` | PRD-MCP-addendum Story 11.3 | `FEAT-007` | `MCP-FR-005` | `CR-024`, `TASK-MCP-05` | `leafletpdf-transform.ts` | implemented |
+| `STORY-11.4` | PRD-MCP-addendum Story 11.4 | `FEAT-007` | `MCP-FR-006` | `CR-024`, `TASK-MCP-06` | `leafletpdf-transform.ts` | implemented |
 | `STORY-12.1` | PRD-MCP-addendum Story 12.1 | `FEAT-007` | `NFR-MCP-001` | `CR-024`, `TASK-MCP-07` | `MCP-SETUP.md` | implemented |
 | `STORY-12.2` | PRD-MCP-addendum Story 12.2 | `FEAT-007` | `NFR-MCP-002` | `CR-024`, `TASK-MCP-07` | `MCP-SETUP.md` | implemented |
 | `STORY-12.3` | PRD-MCP-addendum Story 12.3 | `FEAT-007` | `NFR-MCP-003` | `CR-024`, `TASK-MCP-07` | `MCP-SETUP.md` | implemented |

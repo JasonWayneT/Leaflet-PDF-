@@ -1,4 +1,4 @@
-# Change Request: CR-008 AI Client
+﻿# Change Request: CR-008 AI Client
 
 ## Metadata
 
@@ -51,12 +51,12 @@ Implement Story 2.2 by adding a shared AI client in `packages/core/src/services/
 | Test ID | What it proves | Result |
 |---|---|---|
 | `TEST-006` | AI client provider routing and error wrapping compile | passed |
-| `VERIFY-S22-01` | `npm run build --workspace=@bookit/core` passes | passed |
+| `VERIFY-S22-01` | `npm run build --workspace=@leafletpdf/core` passes | passed |
 | `VERIFY-S22-02` | `npm run build --workspaces --if-present` passes | passed |
 | `VERIFY-S22-03` | Source grep confirms no Electron imports in `packages/core` | passed |
 
 ## Final notes
 
 - Implementation summary: Added a shared AI client in `packages/core/src/services/ai-client/` with typed provider config, normalized text/token usage response, injectable generation dependency for tests, and Anthropic/Google/Ollama provider adapters. Ollama uses `ollama-ai-provider-v2@3.6.0`.
-- Tests run: `npm run build --workspace=@bookit/core` failed before implementation with missing AI client modules, then passed; `npm run build --workspaces --if-present` passed; `npm ls ollama-ai-provider-v2 --workspace=@bookit/core` confirmed the selected provider; `npm ls ollama-ai-provider --workspaces --if-present` returned empty; `rg -n "electron" packages\core` returned no matches; `npm audit --omit=dev --json` reported zero runtime vulnerabilities.
+- Tests run: `npm run build --workspace=@leafletpdf/core` failed before implementation with missing AI client modules, then passed; `npm run build --workspaces --if-present` passed; `npm ls ollama-ai-provider-v2 --workspace=@leafletpdf/core` confirmed the selected provider; `npm ls ollama-ai-provider --workspaces --if-present` returned empty; `rg -n "electron" packages\core` returned no matches; `npm audit --omit=dev --json` reported zero runtime vulnerabilities.
 - Open risks: Runtime calls are covered through compile-time injectable tests until a runtime test runner is added and provider API keys/base URLs are configured.

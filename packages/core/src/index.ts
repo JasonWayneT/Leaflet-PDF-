@@ -1,4 +1,4 @@
-// Implements ARCH-004: downstream packages import shared handoff contracts from @bookit/core.
+﻿// Implements ARCH-004: downstream packages import shared handoff contracts from @leafletpdf/core.
 export type * from './types/index'
 
 export { aiClient, createAiClient } from './services/ai-client/ai-client'

@@ -1,7 +1,7 @@
-// Implements ARCH-003: this is the only file that imports ipcMain from Electron.
+﻿// Implements ARCH-003: this is the only file that imports ipcMain from Electron.
 import { ipcMain, dialog, shell, app } from 'electron'
 import type { WebContents } from 'electron'
-import { aiClient, processFileInput, type ProviderConfig, PipelineOrchestrator, type PipelineInput } from '@bookit/core'
+import { aiClient, processFileInput, processTextInput, processYouTubeInput, type ProviderConfig, PipelineOrchestrator, type PipelineInput } from '@leafletpdf/core'
 import { keyStore } from './key-store'
 import { settingsStore, type SettingsSchema } from './settings-store'
 import { IPC_CHANNELS } from '../renderer/types/ipc'
@@ -87,6 +87,12 @@ export const registerIpcBridge: IpcBridgeRegistration = (orchestrator, webConten
     }
 
     return processFileInput(filePaths[0])
+  })
+  ipcMain.handle(IPC_CHANNELS.PROCESS_TEXT, async (_event, text: string) => {
+    return processTextInput(text)
+  })
+  ipcMain.handle(IPC_CHANNELS.PROCESS_YOUTUBE, async (_event, url: string) => {
+    return processYouTubeInput(url)
   })
   ipcMain.handle(IPC_CHANNELS.OPEN_EXTERNAL, async (_event, filePath: string) => {
     try {

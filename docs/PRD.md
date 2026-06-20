@@ -1,26 +1,26 @@
----
-title: "PRD: Bookit v2"
+﻿---
+title: "PRD: Leaflet PDF"
 created: 2026-06-18
 updated: 2026-06-18
 status: draft
 version: 0.1
 ---
 
-# PRD: Bookit v2
+# PRD: Leaflet PDF
 
 ## 0. Document Purpose
 
-This PRD defines the functional requirements for Bookit v2 — a personal content transformation desktop application. It is written for the developer building the system and for downstream workflow artifacts (architecture, epics, stories). Requirements are grouped by feature; FRs are globally numbered for stable reference. The upstream product context lives in `docs/product-brief.md`. Architecture decisions, roadmap items, and implementation guidance live in `docs/addendum.md`.
+This PRD defines the functional requirements for Leaflet PDF — a personal content transformation desktop application. It is written for the developer building the system and for downstream workflow artifacts (architecture, epics, stories). Requirements are grouped by feature; FRs are globally numbered for stable reference. The upstream product context lives in `docs/product-brief.md`. Architecture decisions, roadmap items, and implementation guidance live in `docs/addendum.md`.
 
 ---
 
 ## 1. Vision
 
-Bookit is a personal content transformation tool. It takes raw non-fiction content — pasted text, markdown files, plain text files, or a YouTube URL — and produces a structured, visually designed PDF built for reading away from a screen.
+Leaflet PDF is a personal content transformation tool. It takes raw non-fiction content — pasted text, markdown files, plain text files, or a YouTube URL — and produces a structured, visually designed PDF built for reading away from a screen.
 
 The problem it solves is environmental. Valuable learning content arrives in formats optimized for platforms, not for readers. Wiki pages, Medium articles, YouTube transcripts, and documentation are written to be indexed and scanned. They are not designed to be taken somewhere — to a tablet, a park bench, a coffee shop — and read with the kind of attention a well-produced publication earns.
 
-Bookit changes where and how you can learn from content you care about. It applies a cognitive science-backed pedagogical framework to reorganize any input for comprehension: surfacing key ideas first, translating jargon in context, pairing facts with their implications, and closing with a summary. It does not rewrite or summarize — it restructures. Every factual claim in the output is validated against the source. Then it renders the result in a chosen Visual Style. The v2 MVP ships with Orbital Light as the default and only style; additional styles are planned for future releases. The output is a Reading Artifact — not a formatted document.
+Leaflet PDF changes where and how you can learn from content you care about. It applies a cognitive science-backed pedagogical framework to reorganize any input for comprehension: surfacing key ideas first, translating jargon in context, pairing facts with their implications, and closing with a summary. It does not rewrite or summarize — it restructures. Every factual claim in the output is validated against the source. Then it renders the result in a chosen Visual Style. The v2 MVP ships with Orbital Light as the default and only style; additional styles are planned for future releases. The output is a Reading Artifact — not a formatted document.
 
 ---
 
@@ -35,7 +35,7 @@ Bookit changes where and how you can learn from content you care about. It appli
 
 ### 2.2 Non-Users (v2 MVP)
 
-Anyone other than the primary user — Bookit v2 is a single-user personal utility tool.
+Anyone other than the primary user — Leaflet PDF is a single-user personal utility tool.
 
 ### 2.3 Key User Journeys
 
@@ -73,7 +73,7 @@ Anyone other than the primary user — Bookit v2 is a single-user personal utili
 
 ### 4.1 Content Intake
 
-**Description:** The entry point for every Bookit session. The user supplies Source Content through one of three methods: pasting text directly, importing a `.md` or `.txt` file, or entering a YouTube URL. The application extracts and prepares the Source Content for the Transformation pipeline. No processing begins until the user explicitly submits. Realizes UJ-1.
+**Description:** The entry point for every Leaflet PDF session. The user supplies Source Content through one of three methods: pasting text directly, importing a `.md` or `.txt` file, or entering a YouTube URL. The application extracts and prepares the Source Content for the Transformation pipeline. No processing begins until the user explicitly submits. Realizes UJ-1.
 
 **Functional Requirements:**
 
@@ -114,7 +114,7 @@ The user can optionally provide a title for the Reading Artifact before submitti
 
 ### 4.2 Processing Pipeline
 
-**Description:** After Source Content is submitted, Bookit runs a four-stage pipeline — Extracting, Transforming, Validating, Rendering — and displays the active stage to the user in real time. Each stage completes before the next begins. If any stage fails, the pipeline halts immediately, names the failed stage, and surfaces an actionable error. No partial output is produced on failure. Realizes UJ-1.
+**Description:** After Source Content is submitted, Leaflet PDF runs a four-stage pipeline — Extracting, Transforming, Validating, Rendering — and displays the active stage to the user in real time. Each stage completes before the next begins. If any stage fails, the pipeline halts immediately, names the failed stage, and surfaces an actionable error. No partial output is produced on failure. Realizes UJ-1.
 
 **Functional Requirements:**
 
@@ -148,7 +148,7 @@ A Reading Artifact is only produced when all four stages complete successfully.
 
 ### 4.3 Content Transformation
 
-**Description:** The core pipeline stage. Bookit applies the Learning Design Framework to restructure Source Content for comprehension. Which techniques are applied is determined by rules evaluated against the Source Content before any AI call is made — the AI does not decide which techniques to use, only how to execute the ones the rules select. This keeps token usage bounded and output structure predictable. Realizes UJ-1.
+**Description:** The core pipeline stage. Leaflet PDF applies the Learning Design Framework to restructure Source Content for comprehension. Which techniques are applied is determined by rules evaluated against the Source Content before any AI call is made — the AI does not decide which techniques to use, only how to execute the ones the rules select. This keeps token usage bounded and output structure predictable. Realizes UJ-1.
 
 **Functional Requirements:**
 
@@ -257,7 +257,7 @@ If all 3 Transformation attempts fail validation, the pipeline halts and surface
 
 ### 4.5 PDF Rendering
 
-**Description:** The final pipeline stage. Bookit applies a Visual Style to the Transformed and validated content to produce a Reading Artifact. For v2 MVP, two Visual Styles ship: Orbital Light (light ground, white base) and Orbital Night (dark ground, Terminal Black base). The rendering system must accommodate additional styles without structural changes — these two styles are the first in a system, not hardcoded output formats. Canonical specifications: `ORBITAL-LIGHT.md` and `ORBITAL-NIGHT.md`.
+**Description:** The final pipeline stage. Leaflet PDF applies a Visual Style to the Transformed and validated content to produce a Reading Artifact. For v2 MVP, two Visual Styles ship: Orbital Light (light ground, white base) and Orbital Night (dark ground, Terminal Black base). The rendering system must accommodate additional styles without structural changes — these two styles are the first in a system, not hardcoded output formats. Canonical specifications: `ORBITAL-LIGHT.md` and `ORBITAL-NIGHT.md`.
 
 **Functional Requirements:**
 
@@ -299,7 +299,7 @@ The rendered Reading Artifact is produced as a valid PDF file.
 
 ### 4.6 Output Delivery
 
-**Description:** When the pipeline completes successfully, Bookit prompts the user to choose where to save the Reading Artifact. No file is written until the user confirms a save location.
+**Description:** When the pipeline completes successfully, Leaflet PDF prompts the user to choose where to save the Reading Artifact. No file is written until the user confirms a save location.
 
 **Functional Requirements:**
 
@@ -325,8 +325,8 @@ The user receives confirmation when the Reading Artifact has been successfully w
 
 ## 5. Non-Goals (Explicit)
 
-- **Not a summarization tool** — Bookit does not compress or condense content; every fact in the source appears in the output
-- **Not a writing tool** — Bookit does not generate original content; it restructures what the user provides
+- **Not a summarization tool** — Leaflet PDF does not compress or condense content; every fact in the source appears in the output
+- **Not a writing tool** — Leaflet PDF does not generate original content; it restructures what the user provides
 - **Not a multi-user platform** — v2 is a single-user personal utility; no accounts, sharing, or collaboration
 - **Not a content library** — no document history, saved sessions, or content management in v2
 - **Not a cloud service** — runs locally on Windows; no server, no hosted processing, no cloud storage
@@ -376,7 +376,7 @@ The user receives confirmation when the Reading Artifact has been successfully w
 
 **Primary**
 
-- **SM-1: Habitual use** — Bookit is used at least once per week for 4 consecutive weeks after launch. This is the primary signal that the tool has earned a place in the workflow. Validates FR-1 through FR-24.
+- **SM-1: Habitual use** — Leaflet PDF is used at least once per week for 4 consecutive weeks after launch. This is the primary signal that the tool has earned a place in the workflow. Validates FR-1 through FR-24.
 - **SM-2: Pipeline success rate** — 90% of submitted documents complete the full pipeline without a terminal error. Validates FR-5 through FR-7, FR-17, FR-18.
 
 **Secondary**
@@ -428,7 +428,7 @@ The user receives confirmation when the Reading Artifact has been successfully w
 - **UI language:** Minimal, functional, and technical in register — consistent with the Orbital Light aesthetic
 - **Error messages:** Direct and specific — name the stage, name the cause. No apologetic language.
 - **Labels:** Short; uppercase where consistent with Orbital Light conventions
-- **Prototype reference:** `C:\Users\Jason\Desktop\Jason\Projects\BookitV2\screen.png` (Google Stitch mockup)
+- **Prototype reference:** `C:\Users\Jason\Desktop\Jason\Projects\Leaflet PDFV2\screen.png` (Google Stitch mockup)
 
 ---
 
